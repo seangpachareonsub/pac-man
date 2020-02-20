@@ -9,14 +9,14 @@ body {
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
   background-color: black;
-  margin: 0;
+  margin: -12px;
+  position: fixed;
 }
 
 main {
   width: 575px;
-  height: 630px;
+  height:100vw;
   display: flex;
   justify-content: center;
 
@@ -34,13 +34,14 @@ img{
 /*  grid */
 
 section {
-  width: 600px;
-  height:620px;
+  width: 580px;
+  height:90vh;
   display: flex;
   flex-wrap: wrap;
   /* y(across), x(down) */
   transform: translate(-1px, 5px);
   z-index: 1;
+  position: relative;
 
 }
 
@@ -48,13 +49,59 @@ section {
   width: 19.4px;
   height:20px;
   background-color: transparent;
-  border:brown 1px solid;
-  color:white;
-  font-size: 10px;
 }
 
-.path {
+.seed {
   width: 19.4px;
   height:20px;
-  background-color: grey;
+  background-image: url('../images/Screenshot\ 2020-02-20\ at\ 11.53.52.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 0;
+
+}
+
+.whiteSpace{
+  width: 19.4px;
+  height:20px;
+  background-color: transparent;
+
+}
+
+.pacman {
+  width: 19.4px;
+  height:20px;
+  background-color:yellow;
+  border-radius: 50%;
+  transition: 1s ;
+
+}
+
+.ghost-1{
+  width: 20px;
+  height:20px;
+  background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.19.46.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.ghost-2{
+  width: 20px;
+  height:20px;
+  background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.19.58.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.ghost-3{
+  width: 20px;
+  height:20px;
+  background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.20.35.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.ghost-4{
+  width: 20px;
+  height:20px;
+  background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.20.44.png);
+  background-repeat: no-repeat;
+  background-size: contain;
 }
