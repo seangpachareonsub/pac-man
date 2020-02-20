@@ -23,6 +23,23 @@ main {
 
 }
 
+#logo {
+  width:190px;
+  height:40px;
+  position: absolute;
+  top:2.8%;
+  left:3.5%
+}
+
+#logo-2 {
+  width:178px;
+  height:35px;
+  position: absolute;
+  top:9.9%;
+  left:4%;
+  opacity: 0.8;
+}
+
 img{
   width:565px;
   height:675px;
@@ -57,15 +74,14 @@ section {
   background-image: url('../images/Screenshot\ 2020-02-20\ at\ 11.53.52.png');
   background-size: contain;
   background-repeat: no-repeat;
-  z-index: 0;
+  z-index: 0
 
 }
 
 .whiteSpace{
   width: 19.4px;
   height:20px;
-  background-color: transparent;
-
+  background-color: transparent
 }
 
 .pacman {
@@ -73,9 +89,49 @@ section {
   height:20px;
   background-color:yellow;
   border-radius: 50%;
-  transition: 1s ;
-
+  position: relative;
 }
+
+/* .pacman2 {
+  width: 19.4px;
+  height:20px;
+  background-color:yellow;
+  border-radius: 50%;
+  position: relative;
+  transform: rotateY(180deg);
+} */
+
+.pacman::before {
+  content: '';
+  display: block;
+  background-color: black;
+  position: absolute;
+  width:2.8px;
+  height:2.8px;
+  top:4px;
+  left:8px;
+  clip-path: circle(50% at 50% 50%);
+  
+}
+
+.pacman::after {
+  content: '';
+  display: block;
+  clip-path: polygon(86% 50%, 65% 90%, 0 50%, 65% 10%);
+  background-color: black;
+  position: absolute;
+  width:15px;
+  top:7.5px;
+  right:-5px;
+  height:15px;
+  animation: mouth 0.23s linear alternate infinite
+}
+
+@keyframes mouth {
+  from{height:15px}
+  to{height:0px}
+}
+
 
 .ghost-1{
   width: 20px;
