@@ -106,6 +106,8 @@ function main() {
   // algorithm for user & pacman
 
   let intervalId
+  let score = 0
+  let scoreBoard = document.getElementById('score-count')
 
   document.addEventListener('keydown', (e) => {
 
@@ -120,6 +122,10 @@ function main() {
           pacman.y -= 1
           maze[pacman.y][pacman.x] = 5
           createWorld()
+          if (maze[pacman.y - 1][pacman.x] === 3) {
+            score += 10
+            scoreBoard.innerText = score
+          }
         }
       }, 130)
 
@@ -134,6 +140,10 @@ function main() {
           pacman.x += 1
           maze[pacman.y][pacman.x] = 5
           createWorld()
+          if (maze[pacman.y][pacman.x + 1] === 3) {
+            score += 10
+            scoreBoard.innerText = score
+          }
         }
       }, 130)
 
@@ -148,6 +158,10 @@ function main() {
           pacman.y += 1
           maze[pacman.y][pacman.x] = 5
           createWorld()
+          if (maze[pacman.y + 1][pacman.x] === 3) {
+            score += 10
+            scoreBoard.innerText = score
+          }
         }
       }, 130)
 
@@ -162,6 +176,10 @@ function main() {
           pacman.x -= 1
           maze[pacman.y][pacman.x] = 5
           createWorld()
+          if (maze[pacman.y][pacman.x - 1] === 3) {
+            score += 10
+            scoreBoard.innerText = score
+          }
         }
       }, 130)
     }

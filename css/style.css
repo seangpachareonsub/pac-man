@@ -27,17 +27,18 @@ main {
   width:190px;
   height:40px;
   position: absolute;
-  top:2.8%;
-  left:3.5%
+  top:3.8%;
+  left:3.5%;
+  opacity: 0.9;
 }
 
 #logo-2 {
   width:178px;
   height:35px;
   position: absolute;
-  top:9.9%;
+  top:11%;
   left:4%;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 img{
@@ -60,6 +61,29 @@ section {
   z-index: 1;
   position: relative;
 
+}
+
+#score {
+  width:145px;
+  height:33px;
+  position: absolute;
+  right:5%;
+  top:3.8%
+}
+
+#score-count {
+  font-family: 'Tomorrow', sans-serif;
+  opacity: 0.75;
+  position: absolute;
+  width:120px;
+  height:40px;
+  right: 6.5%;
+  top:10%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  color: white;
 }
 
 .grid {
@@ -86,8 +110,8 @@ section {
 
 .pacman {
   width: 19.4px;
-  height:20px;
-  background-color:yellow;
+  height:19.5px;
+  background-image: url(../images/noisy-texture-300x300-o12-d10-c-f2cb09-t0.png);
   border-radius: 50%;
   position: relative;
 }
