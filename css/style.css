@@ -30,6 +30,7 @@ main {
   top:3.8%;
   left:3.5%;
   opacity: 0.9;
+  z-index: 1;
 }
 
 #logo-2 {
@@ -39,13 +40,14 @@ main {
   top:11%;
   left:4%;
   opacity: 0.85;
+  z-index: 1;
 }
 
 img{
   width:565px;
   height:675px;
   display: block;
-  z-index: 0;
+  z-index: 1;
   position: absolute;
 }
 
@@ -68,7 +70,8 @@ section {
   height:33px;
   position: absolute;
   right:5%;
-  top:3.8%
+  top:3.8%;
+  z-index: 0;
 }
 
 #score-count {
@@ -102,11 +105,18 @@ section {
 
 }
 
+.intersection {
+  width: 19.4px;
+  height:20px;
+  background-color: orange;
+}
+
 .whiteSpace{
   width: 19.4px;
   height:20px;
   background-color: transparent
 }
+
 
 .pacman {
   width: 19.4px;
@@ -144,15 +154,15 @@ section {
   clip-path: polygon(86% 50%, 65% 90%, 0 50%, 65% 10%);
   background-color: black;
   position: absolute;
-  width:15px;
-  top:7.5px;
-  right:-5px;
+  width:12px;
+  top:6.8px;
+  right:-4px;
   height:15px;
-  animation: mouth 0.23s linear alternate infinite
+  animation: mouth 0.21s linear alternate infinite
 }
 
 @keyframes mouth {
-  from{height:15px}
+  from{height:12px}
   to{height:0px}
 }
 
@@ -164,6 +174,9 @@ section {
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+
+
 .ghost-2{
   width: 20px;
   height:20px;

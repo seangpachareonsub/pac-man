@@ -18,14 +18,14 @@ function main() {
     [0, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1],
     [0, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 3, 3, 1, 1, 3, 3, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1],
-    [0, 1, 3, 3, 3, 3, 1, 1, 3, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 3, 1, 1, 3, 3, 3, 3, 1],
-    [0, 1, 1, 1, 1, 3, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 3, 1, 1, 1, 1],
-    [0, 1, 1, 1, 1, 3, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 3, 1, 1, 1, 1],
-    [0, 1, 3, 1, 1, 3, 1, 1, 1, 1, 0, 1, 0, 6, 0, 0, 7, 0, 1, 0, 1, 1, 1, 1, 3, 1, 1, 3, 1],
-    [0, 1, 3, 1, 1, 3, 3, 3, 3, 0, 0, 1, 0, 9, 0, 0, 8, 0, 1, 0, 0, 3, 3, 3, 3, 1, 1, 3, 1],
-    [0, 1, 3, 1, 1, 3, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 3, 1, 1, 3, 1],
-    [0, 1, 3, 3, 3, 3, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 3, 3, 3, 3, 1],
-    [0, 1, 3, 1, 1, 3, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 3, 1, 1, 3, 1],
+    [0, 1, 3, 3, 3, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 0, 1, 1, 1, 1, 3, 1, 1, 3, 3, 3, 3, 1],
+    [0, 1, 1, 1, 1, 3, 1, 1, 3, 0, 0, 8, 0, 9, 0, 0, 6, 0, 7, 0, 3, 3, 1, 1, 3, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 0, 0, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1],
+    [0, 1, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 0, 0, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 1],
+    [0, 1, 3, 1, 1, 3, 3, 3, 3, 0, 3, 1, 0, 0, 0, 0, 0, 0, 1, 3, 0, 3, 3, 3, 3, 1, 1, 3, 1],
+    [0, 1, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 0, 0, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 1],
+    [0, 1, 3, 3, 3, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 3, 3, 3, 1],
+    [0, 1, 3, 1, 1, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 3, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 1, 1, 3, 1],
@@ -107,7 +107,7 @@ function main() {
 
   let intervalId
   let score = 0
-  let scoreBoard = document.getElementById('score-count')
+  const scoreBoard = document.getElementById('score-count')
 
   document.addEventListener('keydown', (e) => {
 
@@ -127,6 +127,7 @@ function main() {
             scoreBoard.innerText = score
           }
         }
+        // console.log(pacman)
       }, 130)
 
       //move right
@@ -145,6 +146,7 @@ function main() {
             scoreBoard.innerText = score
           }
         }
+        updateDistance()
       }, 130)
 
       //move down
@@ -163,10 +165,12 @@ function main() {
             scoreBoard.innerText = score
           }
         }
+        // console.log(pacman)
       }, 130)
 
       //move left
     } else if (e.key === 'ArrowLeft') {
+
       clearInterval(intervalId)
       intervalId = setInterval(() => {
         if (maze[pacman.y][pacman.x - 1] === 1) {
@@ -181,14 +185,55 @@ function main() {
             scoreBoard.innerText = score
           }
         }
+        updateDistance()
       }, 130)
     }
   })
+
+  // ghost logic & algorithm
+  // const randomMove = []
+
+  const ghostFour = {
+    x: 13,
+    y: 14
+  }
+
+  const distance = {
+    x: 4,
+    y: 13
+  }
+
+
+
+  function updateDistance() {
+    // updating distance with every movement
+    distance.x = pacman.x - ghostFour.x
+    distance.y = pacman.y - ghostFour.y
+
+    // logging as reference 
+    console.log(distance)
+  }
+
+  // const randomYMovement = [-1 , 1]
+
+
+  // // // moving ghost relative to distance updates X AXIS
+  // const ghostFourMovement = setInterval(() => {
+    
+
+  //     createWorld()
+  
+  // }, 120)
+
+  
+
+
 
 
   createWorld()
 
 }
+
 
 
 
