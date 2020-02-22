@@ -19,8 +19,8 @@ function main() {
     [0, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 3, 3, 3, 1, 1, 3, 3, 3, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 1],
     [0, 1, 3, 3, 3, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 0, 1, 1, 1, 1, 3, 1, 1, 3, 3, 3, 3, 1],
-    [0, 1, 1, 1, 1, 3, 1, 1, 3, 0, 0, 8, 0, 9, 0, 0, 6, 0, 7, 0, 3, 3, 1, 1, 3, 1, 1, 1, 1],
-    [0, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 0, 0, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 3, 1, 1, 3, 0, 3, 0, 0, 9, 0, 0, 3, 0, 0, 3, 3, 3, 1, 1, 3, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1],
     [0, 1, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 0, 0, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 3, 3, 3, 3, 0, 3, 1, 0, 0, 0, 0, 0, 0, 1, 3, 0, 3, 3, 3, 3, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 0, 0, 0, 0, 0, 0, 1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 1],
@@ -31,7 +31,7 @@ function main() {
     [0, 1, 3, 1, 1, 3, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 1, 1, 3, 1],
     [0, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1],
     [0, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1],
-    [0, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 5, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
+    [0, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
     [0, 1, 3, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 3, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 1, 3, 1],
     [0, 1, 3, 1, 1, 3, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 1, 3, 1],
@@ -62,6 +62,17 @@ function main() {
           const oneGrid = document.createElement('div')
           oneGrid.className = 'grid'
           section.appendChild(oneGrid)
+
+
+        } else if (maze[i][j] === 2) {
+          // wall / maze border
+          const oneGrid = document.createElement('div')
+          oneGrid.className = 'intersection'
+          oneGrid.innerText = j
+          section.appendChild(oneGrid)
+
+
+
         } else if (maze[i][j] === 3) {
           // food
           const oneGrid = document.createElement('div')
@@ -190,13 +201,6 @@ function main() {
     }
   })
 
-  // ghost logic & algorithm
-  // const randomMove = []
-
-  const ghostFour = {
-    x: 13,
-    y: 14
-  }
 
   const distance = {
     x: 4,
@@ -214,18 +218,152 @@ function main() {
     console.log(distance)
   }
 
-  // const randomYMovement = [-1 , 1]
 
 
-  // // // moving ghost relative to distance updates X AXIS
-  // const ghostFourMovement = setInterval(() => {
+  // ghost logic & algorithm
+  // const ghostFourShadowY = {
+  //   y: 15
+  // }
+
+  // const ghostFourShadowX = {
+  //   x: ghostFour.x + 1
+  // }
+
+
+
+
+
+  const ghostFour = {
+    x: 13,
+    y: 14
+  }
+
+
+  
+
+
+  const LogX = []
+  const LogY = []
+
+
+  setInterval(() => {
+   
+
+    const randomDirections = []
+    console.log(randomDirections)
+
+    if (maze[ghostFour.y][ghostFour.x + 1] !== 1) {
+      randomDirections.push('move right')
+    }
+    if (maze[ghostFour.y][ghostFour.x - 1] !== 1) {
+      randomDirections.push('move left')
+    }
+    if (maze[ghostFour.y + 1][ghostFour.x] !== 1) {
+      randomDirections.push('move down')
+    }
+    if (maze[ghostFour.y - 1][ghostFour.x] !== 1) {
+      randomDirections.push('move up')
+    }
+
+ 
+
+
+
+
+
+
     
 
+
+
+    maze[ghostFour.y][ghostFour.x] = 3
+
+    const directionMove = randomDirections[Math.floor(Math.random() * randomDirections.length)]
+
+    if (directionMove === 'move right') {
+      ghostFour.x += 1
+      LogX.push(ghostFour.x)
+    } else if (directionMove === 'move left') {
+      ghostFour.x -= 1
+      LogX.push(ghostFour.x)
+    } else if (directionMove === 'move down') {
+      ghostFour.y += 1
+      LogY.push(ghostFour.y)
+    } else if (directionMove === 'move up') {
+      ghostFour.y -= 1
+      LogY.push(ghostFour.y)
+
+    }
+
+
+    maze[ghostFour.y][ghostFour.x] = 9
+ 
+
+    createWorld()
+
+  }, 300)
+
+
+
+
+
+
+
+
+
+
+
+  // setInterval(() => {
+  //   if (maze[ghostFour.y][ghostFour.x - 1] === 1 || maze[ghostFour.y][ghostFour.x + 1] === 1) {
+  //     maze[ghostFour.y][ghostFour.x] = 3
+  //     ghostFour.y += randomYMovement[Math.floor(Math.random() * randomYMovement.length)]
+  //     // console.log(ghostFour)
+  //     maze[ghostFour.y][ghostFour.x] = 9
   //     createWorld()
-  
+
+  //   } else if (maze[ghostFour.y + 1][ghostFour.x] === 1 || maze[ghostFour.y - 1][ghostFour.x] === 1) {
+  //     maze[ghostFour.y][ghostFour.x] = 3
+  //     ghostFour.x += randomYMovement[Math.floor(Math.random() * randomYMovement.length)]
+
+  //     // console.log(ghostFour)
+  //     maze[ghostFour.y][ghostFour.x] = 9
+  //     createWorld()
+  //   }
+  // }, 300)
+
+
+
+
+  // const xAxis = setInterval(() => {
+  //   if (distance.x === 0) {
+  //     return
+  //   } else if (distance.x > 0) {
+  //     // move right
+  //     if (maze[ghostFour.y][ghostFour.x + 1] === 1) {
+  //       // move up or down when hitting a wall
+
+
+  //     } else {
+  //       const current = maze[ghostFour.y][ghostFour.x + 1]
+  //       maze[ghostFour.y][ghostFour.x] = current
+  //       ghostFour.x += 1
+  //       maze[ghostFour.y][ghostFour.x] = 9
+  //     }
+  //   } else {
+  //     // move left
+  //     if (maze[ghostFour.y][ghostFour.x - 1] === 1) {
+  //       return
+  //     } else {
+  //       const current = maze[ghostFour.y][ghostFour.x - 1]
+  //       maze[ghostFour.y][ghostFour.x] = current
+  //       ghostFour.x -= 1
+  //       maze[ghostFour.y][ghostFour.x] = 9
+  //     }
+
+  //     createWorld()
+  //   }
   // }, 120)
 
-  
 
 
 

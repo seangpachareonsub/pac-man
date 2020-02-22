@@ -109,6 +109,9 @@ section {
   width: 19.4px;
   height:20px;
   background-color: orange;
+  text-align: center;
+  color:black;
+  font-size: 0.9em;
 }
 
 .whiteSpace{
@@ -121,9 +124,10 @@ section {
 .pacman {
   width: 19.4px;
   height:19.5px;
-  background-image: url(../images/noisy-texture-300x300-o12-d10-c-f2cb09-t0.png);
-  border-radius: 50%;
+  background-image: url(/images/noisy-texture-300x300-o12-d10-c-f2cb09-t0.png);
   position: relative;
+  border-radius: 50%;
+  transform: scale(1.2);
 }
 
 /* .pacman2 {
@@ -158,7 +162,7 @@ section {
   top:6.8px;
   right:-4px;
   height:15px;
-  animation: mouth 0.21s linear alternate infinite
+  animation: mouth 0.3s linear alternate infinite
 }
 
 @keyframes mouth {
@@ -166,13 +170,14 @@ section {
   to{height:0px}
 }
 
-
+ 
 .ghost-1{
   width: 20px;
   height:20px;
   background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.19.46.png);
   background-repeat: no-repeat;
   background-size: contain;
+  transform: scale(1.2);
 }
 
 
@@ -183,6 +188,7 @@ section {
   background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.19.58.png);
   background-repeat: no-repeat;
   background-size: contain;
+  transform: scale(1.2);
 }
 .ghost-3{
   width: 20px;
@@ -190,6 +196,7 @@ section {
   background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.20.35.png);
   background-repeat: no-repeat;
   background-size: contain;
+  transform: scale(1.2);
 }
 .ghost-4{
   width: 20px;
@@ -197,4 +204,7 @@ section {
   background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.20.44.png);
   background-repeat: no-repeat;
   background-size: contain;
-}
+  transform: scale(1.2);
+  z-index: 1;
+} 
+
