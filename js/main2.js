@@ -1,9 +1,9 @@
 function countDown() {
 
-
   let count = 3
 
   setInterval(() => {
+ 
 
     const screen = document.getElementsByClassName('count')[0]
 
@@ -15,54 +15,55 @@ function countDown() {
       screen.innerText = 'START GAME'
     }
   }, 1000)
-}
 
+
+}
 
 window.onLoad = countDown()
 
 
+
 const main = setTimeout(() => {
 
-
-
-  const width = 33
+  const width = 35
   const mazeCount = width * width
   const grid = document.querySelector('.grid')
   const container = document.querySelector('.container')
   const header = document.getElementsByTagName('header')[0]
-  const audio = document.getElementsByTagName('audio')[0]
 
+  const audio = document.getElementsByTagName('audio')[0]
   audio.src = 'audio/8d82b5_Pacman_Opening_Song_Sound_Effect.mp3'
   audio.play()
 
   header.style.display = 'none'
   grid.style.display = 'flex'
   container.style.display = 'flex'
+ 
+
 
   const maze = []
-  let pacman = 783
+  let pacman = 907
 
-  let ghost1 = 394
-  let ghost2 = 397
-  let ghost3 = 400
-  let ghost4 = 402
-
-
+  let ghost1 = 507
+  let ghost2 = 509
+  let ghost3 = 512
+  let ghost4 = 514
 
   const foodPlacements =
     [
-      66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 98, 103, 109, 112, 118, 123,
-      155, 150, 144, 141, 135, 130, 162, 167, 173, 176, 182, 187, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204,
-      205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 226, 231, 234, 243, 246, 251, 283, 278, 275,
-      266, 263, 258, 290, 291, 292, 293, 294, 295, 298, 299, 300, 301, 304, 305, 306, 307, 310, 311, 312, 313, 314, 315, 327,
-      342, 359, 374, 406, 391, 423, 438, 455, 470, 502, 487, 519, 534, 566, 630, 662, 694,
-      726, 758, 790, 822, 854, 886, 487, 519, 551, 583, 615, 647, 679, 711, 743, 775, 807, 839, 871, 674, 675, 676, 677, 678,
-      679, 680, 681, 682, 683, 684, 685, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 770, 771, 772, 775, 776,
-      777, 778, 779, 780, 781, 782, 784, 785, 786, 787, 788, 789, 790, 793, 794, 795, 886, 887, 888, 889, 890, 891, 962,
-      963, 964, 965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986,
-      987, 866, 867, 868, 869, 870, 871, 898, 930, 962, 923, 955, 987, 874, 875, 876, 877, 880, 881, 882, 883, 909, 941, 912,
-      944, 706, 738, 804, 836, 819, 851, 825, 857, 731, 763, 598, 810, 842, 717, 749, 720, 752
+      108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 141, 144, 151, 154, 174, 177, 184, 187, 220, 217, 216,
+      215, 212, 211, 210, 207, 240, 248, 253, 292, 291, 290, 289, 288, 287, 286, 281, 278, 267, 268, 269, 270, 271, 272, 273, 302,
+      309, 310, 311, 312, 313, 314, 315, 316, 323, 356, 335, 366, 367, 368, 369, 370, 371, 372, 375, 382, 385, 386, 387, 388, 389,
+      390, 391, 399, 405, 408, 409, 410, 413, 414, 415, 418, 424, 457, 451, 446, 443, 438, 432, 465, 466, 467, 468, 471,
+      484, 487, 488, 489, 490, 520, 504, 517, 501, 534, 553, 589, 586, 567, 564, 597, 600, 601, 602,
+      603, 616, 617, 618, 619, 622, 655, 652, 633, 630, 663, 664, 665, 666, 685, 686, 687, 688, 721, 702, 715,
+      696, 699, 729, 732, 748, 754, 787, 784, 781, 768, 765, 762, 795, 798, 801, 802, 803, 804, 805, 806, 809, 810, 811, 812, 813,
+      814, 817, 820, 850, 842, 839, 831, 864, 872, 875, 883, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905,
+      909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 952, 949, 930, 927, 960, 963, 993, 996, 1029, 1026, 1059, 1060,
+      1061, 1062, 985, 982, 1015, 1048, 1081, 1082, 1083, 1084, 1051, 1018, 342, 735, 718, 754, 751, 349, 245
+
     ]
+
 
   for (let i = 0; i < mazeCount; i++) {
     const oneGrid = document.createElement('div')
@@ -78,19 +79,15 @@ const main = setTimeout(() => {
     }
     // GHOSTS
     if (i === ghost1) {
-      oneGrid.classList.remove('cell')
       oneGrid.classList.add('ghost-1')
     }
     if (i === ghost2) {
-      oneGrid.classList.remove('cell')
       oneGrid.classList.add('ghost-2')
     }
     if (i === ghost3) {
-      oneGrid.classList.remove('cell')
       oneGrid.classList.add('ghost-3')
     }
     if (i === ghost4) {
-      oneGrid.classList.remove('cell')
       oneGrid.classList.add('ghost-4')
     }
     // CREATING
@@ -100,52 +97,51 @@ const main = setTimeout(() => {
 
 
 
+
   //  DEFINING THE WALLS
   const noUp =
     [
-      66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89,
-      90, 91, 195, 196, 197, 198, 200, 201, 202, 203, 204, 206, 207, 209, 210, 211, 212, 213, 215, 216,
-      217, 218, 291, 292, 293, 294, 299, 300, 301, 304, 305, 306, 311, 312, 313, 314, 394, 395, 398, 399,
-      401, 402, 403, 481, 482, 483, 484, 485, 486, 488, 489, 500, 501, 503, 504, 505, 506, 507, 508, 587,
-      588, 589, 590, 591, 592, 593, 594, 674, 675, 676, 677, 678, 680, 681, 683, 684, 685, 688, 689, 690,
-      692, 693, 695, 696, 697, 698, 699, 771, 772, 776, 777, 778, 779, 780, 782, 783, 785, 786, 787, 788,
-      789, 793, 794, 866, 867, 869, 870, 875, 876, 877, 880, 881, 882, 887, 888, 890, 891, 963, 964, 965,
-      966, 967, 968, 969, 970, 971, 972, 974, 975, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 396,
-      509, 510, 511, 480
+      108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 211, 212, 215, 216, 267, 268, 269,
+      270, 271, 272, 287, 288, 289, 290, 291, 292, 309, 310, 315, 316, 366, 367, 369, 370, 371, 372, 385, 386,
+      387, 388, 390, 391, 413, 414, 409, 410, 413, 414, 487, 488, 489, 466, 467, 468, 564, 589, 615, 616, 617,
+      618, 601, 602, 603, 604, 664, 665, 686, 687, 702, 703, 705, 706, 707, 708, 709, 710, 711, 712, 714, 715,
+      809, 810, 811, 812, 813, 802, 803, 804, 805, 806, 894, 895, 896, 898, 899, 900, 901, 902, 903, 904, 909,
+      910, 911, 912, 913, 914, 915, 917, 918, 919, 1060, 1061, 1082, 1083, 906, 907, 312, 313,
+      505, 506, 507, 508, 510, 511, 513, 514, 515, 516
     ]
 
   const noDown =
     [
-      67, 68, 69, 70, 72, 73, 74, 75, 76, 78, 79, 81, 82, 83, 84, 85, 87, 88, 89, 90, 195, 196, 197, 198,
-      200, 201, 203, 204, 205, 206, 207, 208, 209, 210, 212, 213, 215, 216, 217, 218, 290, 291, 292, 293,
-      294, 296, 297, 298, 299, 300, 302, 303, 305, 306, 307, 308, 309, 311, 312, 313, 314, 315, 395, 396,
-      397, 398, 399, 400, 401, 402, 481, 482, 483, 484, 485, 486, 488, 489, 500, 501, 503, 504, 505, 506,
-      507, 508, 587, 588, 589, 590, 591, 592, 593, 594, 675, 676, 677, 678, 680, 681, 682, 683, 684, 686,
-      687, 689, 690, 691, 692, 693, 695, 696, 697, 698, 771, 776, 777, 779, 780, 781, 782, 783, 784, 785,
-      786, 788, 789, 791, 792, 794, 795, 867, 868, 869, 870, 871, 872, 873, 874, 875, 876, 878, 879, 881,
-      882, 883, 884, 885, 886, 887, 888, 889, 890, 962, 963, 964, 965, 966, 967, 968, 969, 970, 971, 972,
-      973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 770, 509, 510, 511, 480
+      109, 110, 112, 113, 114, 115, 116, 117, 119, 120, 210, 211, 216, 217, 286, 287, 288, 289, 292, 270, 271,
+      272, 273, 267, 268, 310, 311, 312, 313, 314, 315, 367, 368, 369, 370, 386, 387, 388, 389, 390, 465, 466,
+      467, 408, 409, 414, 415, 488, 489, 490, 504, 505, 507, 508, 509, 510, 511, 512, 513, 514, 516, 517, 601,
+      602, 603, 604, 615, 616, 617, 618, 664, 665, 686, 687, 703, 704, 705, 706, 707, 708, 709, 710, 711, 712,
+      713, 714, 795, 801, 802, 803, 804, 805, 810, 811, 812, 813, 814, 820, 895, 896, 898, 899, 900, 901, 902,
+      903, 904, 904, 905, 905, 906, 906, 907, 907, 908, 908, 909, 909, 910, 910, 911, 911, 912, 912, 913, 913,
+      914, 914, 915, 915, 917, 917, 918, 918, 1059, 1059, 1060, 1060, 1061, 1061, 1062, 1062, 1081, 1081, 1082,
+      1082, 1083, 1083, 1084, 371, 291
     ]
 
   const noLeft =
     [
-      66, 98, 130, 162, 194, 226, 258, 290, 103, 135, 167, 231, 263, 327, 359, 391, 423, 455, 519, 551, 583,
-      615, 647, 711, 743, 775, 807, 839, 674, 706, 738, 770, 866, 898, 930, 962, 234, 266, 298, 394, 426, 458,
-      522, 554, 586, 618, 650, 810, 842, 874, 109, 141, 173, 333, 365, 717, 749, 909, 941, 80, 112, 144, 176, 304,
-      336, 368, 688, 720, 752, 880, 912, 944, 243, 275, 435, 467, 499, 531, 563, 627, 659, 819, 851, 118, 150, 182,
-      246, 278, 310, 342, 374, 406, 438, 470, 534, 566, 598, 630, 662, 726, 758, 822, 854, 886, 123, 155, 187, 251,
-      283, 731, 763, 923, 955, 793, 825, 857, 836, 804
+      267, 366, 399, 432, 465, 564, 597, 630, 663, 696, 729, 762, 795, 894, 927, 960, 993, 1026, 1059, 302, 335,
+      501, 534, 567, 600, 633, 699, 732, 765, 798, 831, 864, 930, 963, 996, 1029, 108, 141, 174, 207, 240, 405,
+      438, 471, 504, 702, 735, 768, 801, 539, 572, 638, 671, 144, 177, 210, 309, 342, 375, 408, 245, 278, 443, 476,
+      839, 872, 215, 248, 281, 413, 446, 479, 809, 842, 875, 151, 184, 349, 382, 548, 581, 614, 647, 680, 154, 187,
+      220, 253, 286, 385, 418, 451, 484, 748, 781, 487, 520, 553, 586, 652, 685, 718, 751, 784, 817, 850, 883, 949,
+      982, 1015, 1048, 1081, 323, 356, 424, 457, 589, 622, 655, 721, 754, 787, 820, 952, 985, 1018, 1051
     ]
 
   const noRight =
     [
-      98, 130, 162, 226, 258, 706, 738, 898, 930, 103, 135, 167, 231, 263, 295, 327, 359, 391, 423, 455, 519, 551,
-      583, 615, 647, 711, 743, 807, 839, 871, 234, 266, 426, 458, 490, 522, 554, 618, 650, 810, 842, 77, 109, 141,
-      173, 301, 333, 365, 685, 717, 749, 877, 909, 941, 112, 144, 176, 336, 368, 720, 752, 912, 944, 243, 275, 307,
-      403, 435, 467, 531, 563, 595, 627, 659, 819, 851, 883, 118, 150, 182, 246, 278, 342, 374, 406, 438, 470, 534,
-      566, 598, 630, 662, 726, 758, 790, 822, 854, 91, 123, 155, 187, 219, 251, 283, 315, 699, 731, 763, 795, 891,
-      923, 955, 987, 825, 857, 772, 804, 836
+      399, 432, 564, 597, 630, 696, 729, 762, 795, 927, 960, 993, 1026, 302, 335, 468, 501, 534, 567, 633, 666, 699,
+      732, 765, 798, 831, 864, 930, 963, 996, 1029, 1062, 141, 174, 207, 240, 273, 372, 405, 438, 471, 735, 768, 539,
+      572, 605, 638, 671, 144, 177, 342, 375, 212, 245, 278, 410, 443, 476, 806, 839, 872, 248, 281, 446, 479, 842,
+      875, 151, 184, 217, 316, 349, 382, 415, 548, 581, 647, 680, 121, 154, 187, 220, 253, 418, 451, 484, 517, 715,
+      748, 781, 814, 520, 553, 586, 619, 652, 718, 751, 784, 817, 850, 883, 949, 982, 1015, 1048, 323, 356, 1084,
+      1051, 1018, 985, 952, 919, 820, 787, 754, 721, 688, 655, 622, 589, 490, 457, 424, 391, 292
     ]
+
 
 
   const score = document.querySelector('.score')
@@ -158,16 +154,13 @@ const main = setTimeout(() => {
 
 
 
+
   // USER MOVEMENTS
   document.addEventListener('keydown', pacmanMove)
 
   function pacmanMove() {
 
-
-
     if (scoreCount === 50) {
-     
-
       clearInterval(ghostLogic1)
       clearInterval(ghostLogic2)
       clearInterval(ghostLogic3)
@@ -178,24 +171,19 @@ const main = setTimeout(() => {
       finalScore.innerHTML = scoreCount
       displayWin.style.marginLeft = '30px'
       document.removeEventListener('keydown', pacmanMove)
+      
       setTimeout(() => {
         audio.src = 'audio/zapsplat_multimedia_male_voice_processed_says_you_win_001_21572.mp3'
         audio.play()
       }, 500)
-    }
 
+    }
 
     if (event.key === 'ArrowRight') {
       if (noRight.includes(pacman)) {
         return
       } else {
-        if (pacman === 508) {
-          maze[pacman].classList.remove('pacman')
-          pacman = 481
-          maze[pacman].classList.add('pacman')
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-        } else if (maze[pacman + 1].classList.contains('food')) {
+        if (maze[pacman + 1].classList.contains('food')) {
           maze[pacman].classList.remove('pacman')
           pacman += 1
           maze[pacman].classList.remove('food')
@@ -217,13 +205,7 @@ const main = setTimeout(() => {
       if (noLeft.includes(pacman)) {
         return
       } else {
-        if (pacman === 481) {
-          maze[pacman].classList.remove('pacman')
-          pacman = 508
-          maze[pacman].classList.add('pacman')
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-        } else if (maze[pacman - 1].classList.contains('food')) {
+        if (maze[pacman - 1].classList.contains('food')) {
           maze[pacman].classList.remove('pacman')
           pacman -= 1
           maze[pacman].classList.remove('food')
@@ -244,9 +226,9 @@ const main = setTimeout(() => {
     } else if (event.key === 'ArrowUp') {
       if (noUp.includes(pacman)) {
         return
-      } else if (maze[pacman - (width - 1)].classList.contains('food')) {
+      } else if (maze[pacman - (width - 2)].classList.contains('food')) {
         maze[pacman].classList.remove('pacman')
-        pacman -= (width - 1)
+        pacman -= (width - 2)
         maze[pacman].classList.remove('food')
         maze[pacman].classList.add('pacman')
         scoreCount += 10
@@ -255,7 +237,7 @@ const main = setTimeout(() => {
         audio.play()
       } else {
         maze[pacman].classList.remove('pacman')
-        pacman -= (width - 1)
+        pacman -= (width - 2)
         maze[pacman].classList.add('pacman')
         audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
         audio.play()
@@ -264,9 +246,9 @@ const main = setTimeout(() => {
     } else if (event.key === 'ArrowDown') {
       if (noDown.includes(pacman)) {
         return
-      } else if (maze[pacman + (width - 1)].classList.contains('food')) {
+      } else if (maze[pacman + (width - 2)].classList.contains('food')) {
         maze[pacman].classList.remove('pacman')
-        pacman += (width - 1)
+        pacman += (width - 2)
         maze[pacman].classList.remove('food')
         maze[pacman].classList.add('pacman')
         scoreCount += 10
@@ -275,17 +257,13 @@ const main = setTimeout(() => {
         audio.play()
       } else {
         maze[pacman].classList.remove('pacman')
-        pacman += (width - 1)
+        pacman += (width - 2)
         maze[pacman].classList.add('pacman')
         audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
         audio.play()
       }
     }
   }
-
-
-
-
 
   // GHOST MOVEMENTS 
   // -1 = LEFT, +1 = RIGHT, 
@@ -302,7 +280,6 @@ const main = setTimeout(() => {
   let ghostLogic4
 
   let collisionInterval
-
 
 
 
@@ -324,13 +301,12 @@ const main = setTimeout(() => {
       if (!noLeft.includes(ghost1) && ghost1 - 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
         ghostOneDirections.push(-1)
       }
-      if (!noUp.includes(ghost1) && ghost1 + ((width - 1) * - 1) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
-        ghostOneDirections.push((width - 1) * -1)
+      if (!noUp.includes(ghost1) && ghost1 + ((width - 2) * - 1) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+        ghostOneDirections.push((width - 2) * -1)
       }
-      if (!noDown.includes(ghost1) && ghost1 + (width - 1) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
-        ghostOneDirections.push(width - 1)
+      if (!noDown.includes(ghost1) && ghost1 + (width - 2) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+        ghostOneDirections.push(width - 2)
       }
-
 
 
       //GHOST ONE
@@ -338,23 +314,11 @@ const main = setTimeout(() => {
       const ghostOneMoves = ghostOneDirections[Math.floor(Math.random() * ghostOneDirections.length)]
       const ghostOnePrevious = maze[ghost1 + ghostOneMoves].className
 
-      if (ghost1 === 482 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 508) {
-        maze[ghost1].classList.remove('ghost-1')
-        ghost1 = 508
-        maze[ghost1].classList.add('ghost-1')
-      } else if (ghost1 === 508 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 482) {
-        maze[ghost1].classList.remove('ghost-1')
-        ghost1 = 482
-        maze[ghost1].classList.add('ghost-1')
-      } else {
-        maze[ghost1].classList.remove('ghost-1')
-        ghost1 += ghostOneMoves
-        maze[ghost1].classList.add('ghost-1')
-        maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
-      }
-
-
-    }, 150)
+      maze[ghost1].classList.remove('ghost-1')
+      ghost1 += ghostOneMoves
+      maze[ghost1].classList.add('ghost-1')
+      maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+    }, 1000)
   }
 
   function ghostTwo() {
@@ -371,11 +335,11 @@ const main = setTimeout(() => {
       if (!noLeft.includes(ghost2) && ghost2 - 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
         ghostTwoDirections.push(-1)
       }
-      if (!noUp.includes(ghost2) && ghost2 + ((width - 1) * - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push((width - 1) * -1)
+      if (!noUp.includes(ghost2) && ghost2 + ((width - 2) * - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+        ghostTwoDirections.push((width - 2) * -1)
       }
-      if (!noDown.includes(ghost2) && ghost2 + (width - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push(width - 1)
+      if (!noDown.includes(ghost2) && ghost2 + (width - 2) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+        ghostTwoDirections.push(width - 2)
       }
 
 
@@ -385,23 +349,12 @@ const main = setTimeout(() => {
       const ghostTwoMoves = ghostTwoDirections[Math.floor(Math.random() * ghostTwoDirections.length)]
       const ghostTwoPrevious = maze[ghost2 + ghostTwoMoves].className
 
-      if (ghost2 === 482 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 507) {
-        maze[ghost2].classList.remove('ghost-2')
-        ghost2 = 507
-        maze[ghost2].classList.add('ghost-2')
-      } else if (ghost2 === 508 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 482) {
-        maze[ghost2].classList.remove('ghost-2')
-        ghost2 = 482
-        maze[ghost2].classList.add('ghost-2')
-      } else {
-        maze[ghost2].classList.remove('ghost-2')
-        ghost2 += ghostTwoMoves
-        maze[ghost2].classList.add('ghost-2')
-        maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
-      }
+      maze[ghost2].classList.remove('ghost-2')
+      ghost2 += ghostTwoMoves
+      maze[ghost2].classList.add('ghost-2')
+      maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
 
-
-    }, 150)
+    }, 1000)
   }
 
 
@@ -424,11 +377,11 @@ const main = setTimeout(() => {
       if (!noLeft.includes(ghost3) && ghost3 - 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
         ghostThreeDirections.push(-1)
       }
-      if (!noUp.includes(ghost3) && ghost3 + ((width - 1) * - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push((width - 1) * -1)
+      if (!noUp.includes(ghost3) && ghost3 + ((width - 2) * - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+        ghostThreeDirections.push((width - 2) * -1)
       }
-      if (!noDown.includes(ghost3) && ghost3 + (width - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push(width - 1)
+      if (!noDown.includes(ghost3) && ghost3 + (width - 2) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+        ghostThreeDirections.push(width - 2)
       }
 
 
@@ -439,22 +392,12 @@ const main = setTimeout(() => {
       const ghostThreeMoves = ghostThreeDirections[Math.floor(Math.random() * ghostThreeDirections.length)]
       const ghostThreePrevious = maze[ghost3 + ghostThreeMoves].className
 
-      if (ghost3 === 482 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 507) {
-        maze[ghost3].classList.remove('ghost-3')
-        ghost3 = 507
-        maze[ghost3].classList.add('ghost-3')
-      } else if (ghost3 === 507 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 482) {
-        maze[ghost3].classList.remove('ghost-3')
-        ghost3 = 482
-        maze[ghost3].classList.add('ghost-3')
-      } else {
-        maze[ghost3].classList.remove('ghost-3')
-        ghost3 += ghostThreeMoves
-        maze[ghost3].classList.add('ghost-3')
-        maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
-      }
+      maze[ghost3].classList.remove('ghost-3')
+      ghost3 += ghostThreeMoves
+      maze[ghost3].classList.add('ghost-3')
+      maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
 
-    }, 150)
+    }, 1000)
 
   }
 
@@ -474,11 +417,11 @@ const main = setTimeout(() => {
       if (!noLeft.includes(ghost4) && ghost4 - 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
         ghostFourDirections.push(-1)
       }
-      if (!noUp.includes(ghost4) && ghost4 + ((width - 1) * - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push((width - 1) * -1)
+      if (!noUp.includes(ghost4) && ghost4 + ((width - 2) * - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+        ghostFourDirections.push((width - 2) * -1)
       }
-      if (!noDown.includes(ghost4) && ghost4 + (width - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push(width - 1)
+      if (!noDown.includes(ghost4) && ghost4 + (width - 2) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+        ghostFourDirections.push(width - 2)
       }
 
 
@@ -486,22 +429,11 @@ const main = setTimeout(() => {
       const ghostFourMoves = ghostFourDirections[Math.floor(Math.random() * ghostFourDirections.length)]
       const ghostFourPrevious = maze[ghost4 + ghostFourMoves].className
 
-      if (ghost4 === 482 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 507) {
-        maze[ghost4].classList.remove('ghost-4')
-        ghost4 = 507
-        maze[ghost4].classList.add('ghost-4')
-      } else if (ghost4 === 507 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 482) {
-        maze[ghost4].classList.remove('ghost-4')
-        ghost4 = 482
-        maze[ghost4].classList.add('ghost-4')
-      } else {
-        maze[ghost4].classList.remove('ghost-4')
-        ghost4 += ghostFourMoves
-        maze[ghost4].classList.add('ghost-4')
-        maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
-      }
-
-    }, 150)
+      maze[ghost4].classList.remove('ghost-4')
+      ghost4 += ghostFourMoves
+      maze[ghost4].classList.add('ghost-4')
+      maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+    }, 1000)
 
   }
 
@@ -509,13 +441,6 @@ const main = setTimeout(() => {
   ghostTwo()
   ghostThree()
   ghostFour()
-
-
-
-
-
-
-  //COLLISION LOGIC
 
 
   let lives = 3
@@ -592,19 +517,19 @@ const main = setTimeout(() => {
         maze[ghost4].style.visibility = 'visible'
 
 
-        pacman = 783
+        pacman = 907
         maze[pacman].classList.add('pacman')
-        ghost1 = 394
+        ghost1 = 507
         maze[ghost1].classList.add('ghost-1')
-        ghost2 = 397
+        ghost2 = 509
         maze[ghost2].classList.add('ghost-2')
-        ghost3 = 400
+        ghost3 = 512
         maze[ghost3].classList.add('ghost-3')
-        ghost4 = 402
+        ghost4 = 514
         maze[ghost4].classList.add('ghost-4')
 
       }, 4000)
-
+      
       setTimeout(() => {
         ghostOne()
         ghostTwo()
@@ -670,8 +595,4 @@ const main = setTimeout(() => {
 
 }, 4500)
 
-
-
 window.addEventListener('DOMContentLoaded', main)
-
-

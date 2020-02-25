@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: black;
+  background-color:black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,6 +26,9 @@ h1 {
   width:100vw;
   height:100vh
 
+
+
+
 }
 
 aside {
@@ -35,6 +38,29 @@ aside {
   position: relative;
 }
 
+#score {
+  width: 35px;
+  height: 15px;
+  top:12%;
+  left: 35%;
+  position: absolute;
+}
+
+#ghost {
+  position: absolute;
+  height: 175px;
+  width: 300px;
+  top: 35%;
+  position: absolute;
+}
+
+#info {
+  height: 25px;
+  width: 90px;
+  top:67%;
+  left:53%;
+  position: absolute;
+}
 
 .score {
   color: white;
@@ -71,15 +97,13 @@ aside {
   width:150px;
   height: 50px;
   top:17%;
-  left: 55%;
+  left: 54.5%;
 }
 
 .lives {
   width:25px;
   height:25px;
   position: absolute;
-  color: white;
-  
 }
 
 #life1 {
@@ -103,28 +127,28 @@ main {
   flex-wrap: wrap;
   width: 600px; 
   position: absolute;
-  right:8%;
+  right:10%
+
 }
 
 
 
 img {
-  width:526px;
-  height:617px;
+  width:517px;
+  height:635px;
   position: absolute;
   z-index: 0;
-  top: 2.7%;
-  right: 9.5%
+  top: 3%;
+  right: 8.6%
 
 }
 
 .cell {
-  width:18.5px;
-  height:19.7px;
+  width:17.8px;
+  height:19px;
   z-index: 1;
   color: white;
   font-size: 9.8px;
-  
   /* border: 1px brown solid; */
 }
 
@@ -132,15 +156,15 @@ img {
   background-image: url(../images/Screenshot\ 2020-02-20\ at\ 11.52.04.png);
   background-repeat: no-repeat;
   background-size: contain;
-  width:18.5px;
-  height:19.7px;
+  width:17.8px;
+  height:19px;
   z-index: 0;
 }
 
 .pacman{
 
-  width:18.5px;
-  height:19.7px;
+  width:17.8px;
+  height:19px;
   background-color: yellow;
   z-index: 1;
   border-radius: 50%;
@@ -150,8 +174,8 @@ img {
 
 
 .ghost-1{
-  width:18.5px;
-  height:19.7px;
+  width:17.8px;
+  height:19px;
   transform: scale(1.45);
   background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.19.46.png);
   background-repeat: no-repeat;
@@ -159,8 +183,8 @@ img {
   z-index: 1;
 }
 .ghost-2{
-  width:18.5px;
-  height:19.7px;
+  width:17.8px;
+  height:19px;
   transform: scale(1.45);
   background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.19.58.png);
   background-repeat: no-repeat;
@@ -168,8 +192,8 @@ img {
   z-index: 1;
 }
 .ghost-3{
-  width:18.5px;
-  height:19.7px;
+  width:17.8px;
+  height:19px;
   transform: scale(1.45);
   background-image: url(../images/2469743-orange.png);
   background-repeat: no-repeat;
@@ -177,8 +201,8 @@ img {
   z-index: 1;
 }
 .ghost-4{
-  width:18.5px;
-  height:19.7px;
+  width:17.8px;
+  height:19px;
   transform: scale(1.45);
   background-image: url(../images/Screenshot\ 2020-02-20\ at\ 13.20.44.png);
   background-repeat: no-repeat;
@@ -212,7 +236,7 @@ footer {
 
 .final {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   flex-direction: column;
   font-family: 'Press Start 2P';
   font-size: 11px;
@@ -280,6 +304,7 @@ li {
   cursor: pointer;
   text-decoration: underline;
 }
+
 
 #mapNo {
   margin-left: 11px;
