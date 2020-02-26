@@ -1,13 +1,7 @@
 function countDown() {
-
   let count = 3
-
   setInterval(() => {
- 
-
     const screen = document.getElementsByClassName('count')[0]
-
-
     if (count > 1) {
       count -= 1
       screen.innerText = count
@@ -15,12 +9,8 @@ function countDown() {
       screen.innerText = 'START GAME'
     }
   }, 1000)
-
-
 }
-
 window.onLoad = countDown()
-
 
 
 const main = setTimeout(() => {
@@ -30,8 +20,8 @@ const main = setTimeout(() => {
   const grid = document.querySelector('.grid')
   const container = document.querySelector('.container')
   const header = document.getElementsByTagName('header')[0]
-
   const audio = document.getElementsByTagName('audio')[0]
+
   audio.src = 'audio/8d82b5_Pacman_Opening_Song_Sound_Effect.mp3'
   audio.play()
 
@@ -39,8 +29,6 @@ const main = setTimeout(() => {
   grid.style.display = 'flex'
   container.style.display = 'flex'
  
-
-
   const maze = []
   let pacman = 907
 
@@ -63,7 +51,6 @@ const main = setTimeout(() => {
       1061, 1062, 985, 982, 1015, 1048, 1081, 1082, 1083, 1084, 1051, 1018, 342, 735, 718, 754, 751, 349, 245
 
     ]
-
 
   for (let i = 0; i < mazeCount; i++) {
     const oneGrid = document.createElement('div')
@@ -160,7 +147,7 @@ const main = setTimeout(() => {
 
   function pacmanMove() {
 
-    if (scoreCount === 50) {
+    if (scoreCount === 2270) {
       clearInterval(ghostLogic1)
       clearInterval(ghostLogic2)
       clearInterval(ghostLogic3)
@@ -281,8 +268,6 @@ const main = setTimeout(() => {
 
   let collisionInterval
 
-
-
   function ghostOne() {
 
     collisionInterval = setInterval(() => {
@@ -345,7 +330,6 @@ const main = setTimeout(() => {
 
 
       //GHOST TWO
-
       const ghostTwoMoves = ghostTwoDirections[Math.floor(Math.random() * ghostTwoDirections.length)]
       const ghostTwoPrevious = maze[ghost2 + ghostTwoMoves].className
 
@@ -356,12 +340,6 @@ const main = setTimeout(() => {
 
     }, 1000)
   }
-
-
-
-
-
-
 
 
   function ghostThree() {
@@ -385,10 +363,7 @@ const main = setTimeout(() => {
       }
 
 
-
       // GHOST 3
-
-
       const ghostThreeMoves = ghostThreeDirections[Math.floor(Math.random() * ghostThreeDirections.length)]
       const ghostThreePrevious = maze[ghost3 + ghostThreeMoves].className
 
@@ -400,7 +375,6 @@ const main = setTimeout(() => {
     }, 1000)
 
   }
-
 
 
   function ghostFour() {
@@ -447,6 +421,33 @@ const main = setTimeout(() => {
   const livesIcon = document.getElementsByClassName('lives')
   const gameOver = document.getElementsByTagName('footer')[0]
   const finalScore = document.getElementsByClassName('finalScore')[0]
+  
+  const timer = document.getElementsByClassName('timer')[0]
+  let gameTimer = 45
+  
+  const gameCount = setInterval(() => {
+    if (gameTimer === 0) {
+      clearInterval(gameCount)
+      clearInterval(ghostLogic1)
+      clearInterval(ghostLogic2)
+      clearInterval(ghostLogic3)
+      clearInterval(ghostLogic4)
+      document.removeEventListener('keydown', pacmanMove)
+      container.style.opacity = '0.2'
+      gameOver.style.display = 'flex'
+      finalScore.innerHTML = scoreCount
+      audio.src = 'audio/zapsplat_human_male_voice_says_game_over_001_15726.mp3'
+      audio.play()
+    } else if (gameTimer < 11) {
+      gameTimer -= 1
+      timer.innerHTML = gameTimer
+      timer.style.color = 'red'
+    } else {
+      gameTimer -= 1
+      timer.innerHTML = gameTimer
+    }
+  }, 1000)
+
 
   function collision() {
 

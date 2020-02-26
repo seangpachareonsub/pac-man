@@ -32,91 +32,91 @@ h1 {
 }
 
 aside {
-  height: 100vh;
-  width: 40vw;
-  justify-self: flex-start;
-  position: relative;
-}
-
-#score {
-  width: 35px;
-  height: 15px;
-  top:12%;
-  left: 35%;
-  position: absolute;
-}
-
-#ghost {
-  position: absolute;
-  height: 175px;
-  width: 300px;
-  top: 35%;
-  position: absolute;
-}
-
-#info {
-  height: 25px;
-  width: 90px;
-  top:67%;
-  left:53%;
-  position: absolute;
-}
-
-.score {
-  color: white;
-  position: absolute;
-  top:18%;
-  left: 35%;
-  font-size: 17px;
-  opacity: 0.8;
-  font-family: 'Press Start 2P'
-}
-
-.lives-header, #score{
-  width: 35px;
-  height: 15px;
-  top:12%;
-  left: 70%;
-  position: absolute;
-  color: white;
-  font-size: 12.5px;
-  letter-spacing: 1px;
+  height: 90vh;
+  width: 15vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  color:white;
+  font-family: 'Press Start 2P';
+  font-size: 13px;
   opacity: 0.85;
-  font-family: 'Press Start 2P'
 
 }
 
-#score {
-  left: 35%;
 
+#homepage{
+  color:red;
+  font-family: 'Press Start 2P';
+  font-size: 10px;
+  position: absolute;
+  top:3%;
+  left:2%;
+  width: 30px;
+  height: 20px;
+  text-decoration: none;
 }
 
+#restart {
+  color:red;
+  font-family: 'Press Start 2P';
+  font-size: 10px;
+  position: absolute;
+  bottom: 1%;
+  right:7%;
+  width: 20px;
+  height: 25px;
+  text-decoration: none;
+}
+.scoreCount {
+  width:100%;
+  display:flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 60px;
+  justify-content: space-around;
+}
+
+.lives-header {
+  top: 9%;
+  position: absolute;
+}
 
 .lives-contain {
+  width: 100%;
   position: relative;
-  width:150px;
-  height: 50px;
-  top:17%;
-  left: 54.5%;
+  display:flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 60px;
+  justify-content: space-around;
 }
 
 .lives {
-  width:25px;
-  height:25px;
+  width:22px;
+  height: 22px;
   position: absolute;
+  top: 55%;
+  right: 0%;
 }
 
 #life1 {
-  top:3%;
-  left: 50%;
+  position: absolute;
+  right: 12%;
+}
+#life2 {
+  position: absolute;
+  right: 25%;
 }
 
-#life3 {
-  top:3%;
-  left: 98%;
+.gameCount {
+  width:100%;
+  display:flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 60px
 }
-
-
 
 
 main {
@@ -127,7 +127,9 @@ main {
   flex-wrap: wrap;
   width: 600px; 
   position: absolute;
-  right:10%
+  left: 21.5%;
+  top:-2%
+
 
 }
 
@@ -165,7 +167,7 @@ img {
 
   width:17.8px;
   height:19px;
-  background-color: yellow;
+  background-image: url(../images/noisy-texture-300x300-o7.000000000000001-d10-c-ffd500-t0.png);
   z-index: 1;
   border-radius: 50%;
   position: relative;
@@ -269,11 +271,12 @@ button {
   color: white;
   font-family: 'Press Start 2P';
   font-size: 10px;
-  height: 70%;
-  width: 65%;
-  transform: translate(63%, 35%);
   opacity: 0.85;
+  position: absolute;
+  right: 6%;
+  top: 10%
 }
+
 
 h2 {
   margin-bottom:  23px;
@@ -288,22 +291,6 @@ li {
   opacity: 0.85;
 }
 
-#homepage {
-  color:red;
-  font-family: 'Press Start 2P';
-  font-size: 10px;
-  position: absolute;
-  top:3%;
-  left:5%;
-  width: 30px;
-  height: 20px;
-  text-decoration: none;
-}
-
-#homepage:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
 
 
 #mapNo {

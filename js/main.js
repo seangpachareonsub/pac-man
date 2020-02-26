@@ -1,13 +1,7 @@
 function countDown() {
-
-
   let count = 3
-
   setInterval(() => {
-
     const screen = document.getElementsByClassName('count')[0]
-
-
     if (count > 1) {
       count -= 1
       screen.innerText = count
@@ -16,14 +10,10 @@ function countDown() {
     }
   }, 1000)
 }
-
-
 window.onLoad = countDown()
 
 
 const main = setTimeout(() => {
-
-
 
   const width = 33
   const mazeCount = width * width
@@ -42,12 +32,10 @@ const main = setTimeout(() => {
   const maze = []
   let pacman = 783
 
-  let ghost1 = 394
+  let ghost1 = 395
   let ghost2 = 397
   let ghost3 = 400
   let ghost4 = 402
-
-
 
   const foodPlacements =
     [
@@ -154,7 +142,7 @@ const main = setTimeout(() => {
   const winner = document.querySelector('.gameEnd')
   const displayWin = document.querySelector('.final')
 
-
+  const pacmanMoves = []
 
 
 
@@ -165,9 +153,10 @@ const main = setTimeout(() => {
 
 
 
-    if (scoreCount === 50) {
-     
 
+    // WINNER
+
+    if (scoreCount === 2450) {
       clearInterval(ghostLogic1)
       clearInterval(ghostLogic2)
       clearInterval(ghostLogic3)
@@ -178,6 +167,7 @@ const main = setTimeout(() => {
       finalScore.innerHTML = scoreCount
       displayWin.style.marginLeft = '30px'
       document.removeEventListener('keydown', pacmanMove)
+
       setTimeout(() => {
         audio.src = 'audio/zapsplat_multimedia_male_voice_processed_says_you_win_001_21572.mp3'
         audio.play()
@@ -185,6 +175,7 @@ const main = setTimeout(() => {
     }
 
 
+    // USER
     if (event.key === 'ArrowRight') {
       if (noRight.includes(pacman)) {
         return
@@ -195,6 +186,7 @@ const main = setTimeout(() => {
           maze[pacman].classList.add('pacman')
           audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
           audio.play()
+          pacmanMoves.push(pacman)
         } else if (maze[pacman + 1].classList.contains('food')) {
           maze[pacman].classList.remove('pacman')
           pacman += 1
@@ -204,12 +196,14 @@ const main = setTimeout(() => {
           score.innerHTML = scoreCount
           audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
           audio.play()
+          pacmanMoves.push(pacman)
         } else {
           maze[pacman].classList.remove('pacman')
           pacman += 1
           maze[pacman].classList.add('pacman')
           audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
           audio.play()
+          pacmanMoves.push(pacman)
         }
       }
 
@@ -223,6 +217,7 @@ const main = setTimeout(() => {
           maze[pacman].classList.add('pacman')
           audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
           audio.play()
+          pacmanMoves.push(pacman)
         } else if (maze[pacman - 1].classList.contains('food')) {
           maze[pacman].classList.remove('pacman')
           pacman -= 1
@@ -232,12 +227,14 @@ const main = setTimeout(() => {
           score.innerHTML = scoreCount
           audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
           audio.play()
+          pacmanMoves.push(pacman)
         } else {
           maze[pacman].classList.remove('pacman')
           pacman -= 1
           maze[pacman].classList.add('pacman')
           audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
           audio.play()
+          pacmanMoves.push(pacman)
         }
       }
 
@@ -253,12 +250,14 @@ const main = setTimeout(() => {
         score.innerHTML = scoreCount
         audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
         audio.play()
+        pacmanMoves.push(pacman)
       } else {
         maze[pacman].classList.remove('pacman')
         pacman -= (width - 1)
         maze[pacman].classList.add('pacman')
         audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
         audio.play()
+        pacmanMoves.push(pacman)
       }
 
     } else if (event.key === 'ArrowDown') {
@@ -273,16 +272,18 @@ const main = setTimeout(() => {
         score.innerHTML = scoreCount
         audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
         audio.play()
+        pacmanMoves.push(pacman)
       } else {
         maze[pacman].classList.remove('pacman')
         pacman += (width - 1)
         maze[pacman].classList.add('pacman')
         audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
         audio.play()
+        pacmanMoves.push(pacman)
       }
     }
+    console.log(pacmanMoves)
   }
-
 
 
 
@@ -303,9 +304,6 @@ const main = setTimeout(() => {
 
   let collisionInterval
 
-
-
-
   function ghostOne() {
 
     collisionInterval = setInterval(() => {
@@ -316,6 +314,44 @@ const main = setTimeout(() => {
 
       const ghostOneDirections = []
       ghostOnePositionsLog.push(ghost1)
+
+      // const ghostOnePath1 = []
+
+      // if (pacman > ghost1) {
+      //   if (!noRight.includes(ghost1)) {
+      //     maze[ghost1].classList.remove('ghost-1')
+      //     ghostOnePath1.push(ghost1 + 1)
+      //     ghost1 += 1
+      //     maze[ghost1].classList.add('ghost-1')
+      //   } else if (!noDown.includes(ghost1)) {
+      //     maze[ghost1].classList.remove('ghost-1')
+      //     ghostOnePath1.push(ghost1 + (width - 1))
+      //     ghost1 += (width - 1)
+      //     maze[ghost1].classList.add('ghost-1')
+      //   }
+      // } else if (ghost1 > pacman) {
+      //   if (!noLeft.includes(ghost1)) {
+      //     if (!noUp.includes(ghost1)) {
+      //       maze[ghost1].classList.remove('ghost-1')
+      //       ghostOnePath1.push(ghost1 - (width - 1))
+      //       ghost1 -= (width - 1)
+      //       maze[ghost1].classList.add('ghost-1')
+      //     } else {
+      //       maze[ghost1].classList.remove('ghost-1')
+      //       ghostOnePath1.push(ghost1 - 1)
+      //       ghost1 -= 1
+      //       maze[ghost1].classList.add('ghost-1')
+      //     }
+      //   } else if (!noUp.includes(ghost1)) {
+      //     maze[ghost1].classList.remove('ghost-1')
+      //     ghostOnePath1.push(ghost1 - (width - 1))
+      //     ghost1 -= (width - 1)
+      //     maze[ghost1].classList.add('ghost-1')
+      //   } else {
+      //     return
+      //   }
+      // }
+
 
       // GHOST ONE
       if (!noRight.includes(ghost1) && ghost1 + 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
@@ -332,11 +368,9 @@ const main = setTimeout(() => {
       }
 
 
-
-      //GHOST ONE
-
       const ghostOneMoves = ghostOneDirections[Math.floor(Math.random() * ghostOneDirections.length)]
       const ghostOnePrevious = maze[ghost1 + ghostOneMoves].className
+
 
       if (ghost1 === 482 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 508) {
         maze[ghost1].classList.remove('ghost-1')
@@ -346,14 +380,13 @@ const main = setTimeout(() => {
         maze[ghost1].classList.remove('ghost-1')
         ghost1 = 482
         maze[ghost1].classList.add('ghost-1')
+
       } else {
         maze[ghost1].classList.remove('ghost-1')
         ghost1 += ghostOneMoves
         maze[ghost1].classList.add('ghost-1')
         maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
       }
-
-
     }, 150)
   }
 
@@ -517,11 +550,37 @@ const main = setTimeout(() => {
 
   //COLLISION LOGIC
 
-
   let lives = 3
   const livesIcon = document.getElementsByClassName('lives')
   const gameOver = document.getElementsByTagName('footer')[0]
   const finalScore = document.getElementsByClassName('finalScore')[0]
+
+  const timer = document.getElementsByClassName('timer')[0]
+  let gameTimer = 45
+
+  const gameCount = setInterval(() => {
+    if (gameTimer === 0) {
+      clearInterval(gameCount)
+      clearInterval(ghostLogic1)
+      clearInterval(ghostLogic2)
+      clearInterval(ghostLogic3)
+      clearInterval(ghostLogic4)
+      document.removeEventListener('keydown', pacmanMove)
+      container.style.opacity = '0.2'
+      gameOver.style.display = 'flex'
+      finalScore.innerHTML = scoreCount
+      audio.src = 'audio/zapsplat_human_male_voice_says_game_over_001_15726.mp3'
+      audio.play()
+    } else if (gameTimer < 11) {
+      gameTimer -= 1
+      timer.innerHTML = gameTimer
+      timer.style.color = 'red'
+    } else {
+      gameTimer -= 1
+      timer.innerHTML = gameTimer
+    }
+  }, 1000)
+
 
   function collision() {
 
@@ -570,7 +629,6 @@ const main = setTimeout(() => {
           finalScore.innerHTML = scoreCount
           audio.src = 'audio/zapsplat_human_male_voice_says_game_over_001_15726.mp3'
           audio.play()
-
         } else {
           lives -= 1
           livesIcon[lives].src = ''
@@ -594,7 +652,7 @@ const main = setTimeout(() => {
 
         pacman = 783
         maze[pacman].classList.add('pacman')
-        ghost1 = 394
+        ghost1 = 395
         maze[ghost1].classList.add('ghost-1')
         ghost2 = 397
         maze[ghost2].classList.add('ghost-2')
@@ -663,6 +721,13 @@ const main = setTimeout(() => {
       displayScore()
     })
   }
+
+
+
+
+
+
+
 
   window.onLoad = displayScore()
 
