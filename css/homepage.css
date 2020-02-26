@@ -7,99 +7,91 @@
 body {
  height: 100vh;
  width: 100vw;
-  background-image: url(../images/giphy-2.gif);
-  background-repeat: no-repeat;
-  background-color: black;
-  background-position: center;
+ background-color: black;
+ position: fixed;
 }
 
 main {
   display: flex;
   flex-direction: column;
-  align-items: center;  
   justify-content: space-around;
   height: 100vh;
   width: 100vw;
 }
 
-header {
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 20vh
-}
+
 
 
 .logo {
-  width: 450px
+  width: 230px;
 }
+
+.gif {
+  height:200px;
+  width:550px;
+  position: absolute;
+  bottom:-13%;
+  right:0%
+
+}
+
+h3, h5{
+  color:white;
+  font-family: 'Press Start 2P'
+}
+
+
 
 .container {
   width: 100vw;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   height: 65vh;
 }
 
-button {
-  margin: 0 100px ;
-  padding: 7px 20px;
-  border-radius: 12px;
-  background-color: black;
-  color: white;
-  font-size: 13.5px;
-  font-weight: bolder;
-  border: 2px white solid;
-  outline: none;
-  display: block;
-}
 
-button:hover {
-  transform: scale(1.2);
-  cursor: pointer;
 
-}
-
-.first .second .middle{
+.first .second{
   display: flex;
   flex-direction: column;
-  width: 33vw;
-  height:76vh;
   position:relative;
 
   }
 
+  .instruction {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 70%
+  }
+  
+  .controls {
+    width: 150px;
+    height: 80px
+  }
+
+  button {
+    margin: 10px 0px ;
+    padding: 7px 12px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-size: 13.5px;
+    outline: none;
+    display: block;
+    font-family: 'Press Start 2P'
+  }
+  
+  
+  button:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+    color:yellow
+  }
+  
+  a {
+    text-decoration: none;
+  }
 
 
-.maps {
-  height: 300px;
-  width: 280px;
-  margin-bottom: 50px;
-}
-
-.maps:hover {
-  transform: scale(1.2);
-  cursor: pointer;
-
-}
-
-.middle {
-  margin-top: 51px;
-}
-
-
-
-#ghost {
-
-  height: 135px;
-  width: 260px;
-
-}
-
-#info {
-  height: 23px;
-  width: 87px;
-  display: block;
-  margin: 30px auto
-}

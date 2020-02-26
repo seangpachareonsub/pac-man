@@ -176,7 +176,7 @@ const main = setTimeout(() => {
 
 
     // USER
-    if (event.key === 'ArrowRight') {
+    if (event.key === 'ArrowRight' || event.key === 'd') {
       if (noRight.includes(pacman)) {
         return
       } else {
@@ -207,7 +207,7 @@ const main = setTimeout(() => {
         }
       }
 
-    } else if (event.key === 'ArrowLeft') {
+    } else if (event.key === 'ArrowLeft' || event.key === 'a') {
       if (noLeft.includes(pacman)) {
         return
       } else {
@@ -238,7 +238,7 @@ const main = setTimeout(() => {
         }
       }
 
-    } else if (event.key === 'ArrowUp') {
+    } else if (event.key === 'ArrowUp' || event.key === 'w') {
       if (noUp.includes(pacman)) {
         return
       } else if (maze[pacman - (width - 1)].classList.contains('food')) {
@@ -260,7 +260,7 @@ const main = setTimeout(() => {
         pacmanMoves.push(pacman)
       }
 
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.key === 'ArrowDown' || event.key === 's') {
       if (noDown.includes(pacman)) {
         return
       } else if (maze[pacman + (width - 1)].classList.contains('food')) {

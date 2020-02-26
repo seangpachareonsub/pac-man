@@ -166,7 +166,7 @@ const main = setTimeout(() => {
 
     }
 
-    if (event.key === 'ArrowRight') {
+    if (event.key === 'ArrowRight' || event.key === 'd') {
       if (noRight.includes(pacman)) {
         return
       } else {
@@ -188,7 +188,7 @@ const main = setTimeout(() => {
         }
       }
 
-    } else if (event.key === 'ArrowLeft') {
+    } else if (event.key === 'ArrowLeft' || event.key === 'a') {
       if (noLeft.includes(pacman)) {
         return
       } else {
@@ -210,7 +210,7 @@ const main = setTimeout(() => {
         }
       }
 
-    } else if (event.key === 'ArrowUp') {
+    } else if (event.key === 'ArrowUp' || event.key === 'w') {
       if (noUp.includes(pacman)) {
         return
       } else if (maze[pacman - (width - 2)].classList.contains('food')) {
@@ -230,7 +230,7 @@ const main = setTimeout(() => {
         audio.play()
       }
 
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.key === 'ArrowDown' || event.key === 's') {
       if (noDown.includes(pacman)) {
         return
       } else if (maze[pacman + (width - 2)].classList.contains('food')) {
@@ -303,7 +303,7 @@ const main = setTimeout(() => {
       ghost1 += ghostOneMoves
       maze[ghost1].classList.add('ghost-1')
       maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
-    }, 1000)
+    }, 150)
   }
 
   function ghostTwo() {
@@ -338,7 +338,7 @@ const main = setTimeout(() => {
       maze[ghost2].classList.add('ghost-2')
       maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
 
-    }, 1000)
+    }, 150)
   }
 
 
@@ -372,7 +372,7 @@ const main = setTimeout(() => {
       maze[ghost3].classList.add('ghost-3')
       maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
 
-    }, 1000)
+    }, 150)
 
   }
 
@@ -407,7 +407,7 @@ const main = setTimeout(() => {
       ghost4 += ghostFourMoves
       maze[ghost4].classList.add('ghost-4')
       maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
-    }, 1000)
+    }, 150)
 
   }
 
