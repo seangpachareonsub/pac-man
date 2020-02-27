@@ -164,10 +164,43 @@ img {
   /* animation: move-right linear forwards 0.4s; */
 }
 
-@keyframes move-right {
-  0% {transform: translate(-100%, 0%) scale(1.5)}
-  100% {transform: translate(0%, 0%)scale(1.5)}
+
+.pacman-right {
+  animation: move-right 0.115s linear
 }
+
+@keyframes move-right {
+  0% {transform: translate(-100%, 0%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.pacman-left {
+  animation: move-left 0.115s linear
+}
+
+@keyframes move-left {
+  0% {transform: translate(100%, 0%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.pacman-down {
+  animation: move-down 0.115s linear
+}
+
+@keyframes move-down {
+  0% {transform: translate(0%, -100%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.pacman-up {
+  animation: move-up 0.115s linear
+}
+
+@keyframes move-up {
+  0% {transform: translate(0%, 100%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
 
 .superFood{
   width:18.5px;
@@ -255,6 +288,47 @@ img {
   background-size: contain;
   z-index: 1;
 }
+
+
+.ghost-right {
+  animation: ghost-right 0.12s linear
+}
+
+@keyframes ghost-right {
+  0% {transform: translate(-100%, 0%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.ghost-left {
+  animation: ghost-left 0.12s linear
+}
+
+@keyframes ghost-left {
+  0% {transform: translate(100%, 0%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.ghost-down {
+  animation: ghost-down 0.12s linear
+}
+
+@keyframes ghost-down {
+  0% {transform: translate(0%, -100%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.ghost-up {
+  animation: ghost-up 0.12s linear
+}
+
+@keyframes ghost-up {
+  0% {transform: translate(0%, 100%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+
+
+
 
 
 @keyframes blinking {
@@ -346,3 +420,4 @@ label {
 .gameEnd {
   margin-bottom: 20px;
 }
+

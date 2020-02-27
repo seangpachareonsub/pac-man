@@ -157,11 +157,23 @@ const main = setTimeout(() => {
 
   // USER MOVEMENTS
   document.addEventListener('keydown', pacmanMove)
+  
+
+  let playerMovement
+  let playerInterval
 
   function pacmanMove() {
+   
 
-
-
+    if (event.key === 'ArrowRight' || event.key === 'd') {
+      playerMovement = 2
+    } else if (event.key === 'ArrowLeft' || event.key === 'a') {
+      playerMovement = 4
+    } else if (event.key === 'ArrowUp' || event.key === 'w') {
+      playerMovement = 1
+    } else if (event.key === 'ArrowDown' || event.key === 's') {
+      playerMovement = 3
+    }
 
     // WINNER
 
@@ -175,178 +187,260 @@ const main = setTimeout(() => {
       winner.innerText = 'YOU\'VE WON!'
       finalScore.innerHTML = scoreCount
       displayWin.style.marginLeft = '30px'
-      document.removeEventListener('keydown', pacmanMove)
+      clearInterval(playerInterval)
 
       setTimeout(() => {
         audio.src = 'audio/zapsplat_multimedia_male_voice_processed_says_you_win_001_21572.mp3'
         audio.play()
       }, 500)
     }
-
-
-    // USER
-    if (event.key === 'ArrowRight' || event.key === 'd') {
-      if (noRight.includes(pacman)) {
-        return
-      } else {
-        if (pacman === 508) {
-          maze[pacman].classList.remove('pacman')
-          pacman = 481
-          maze[pacman].classList.add('pacman')
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-          pacmanMoves.push(pacman)
-        } else if (maze[pacman + 1].classList.contains('food')) {
-          maze[pacman].classList.remove('pacman')
-          pacman += 1
-          maze[pacman].classList.remove('food')
-          maze[pacman].classList.add('pacman')
-          scoreCount += 10
-          score.innerHTML = scoreCount
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-          pacmanMoves.push(pacman)
-        } else if (maze[pacman + 1].classList.contains('superFood')) {
-          chase = false
-          setTimeout(() => {
-            chase = true
-          }, 10000)
-          maze[pacman].classList.remove('pacman')
-          pacman += 1
-          maze[pacman].classList.remove('superFood')
-          maze[pacman].classList.add('pacman')
-          scoreCount += 40
-          score.innerHTML = scoreCount
-          audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
-          audio.play()
-        } else {
-          maze[pacman].classList.remove('pacman')
-          pacman += 1
-          maze[pacman].classList.add('pacman')
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-          pacmanMoves.push(pacman)
-        }
-      }
-
-    } else if (event.key === 'ArrowLeft' || event.key === 'a') {
-      if (noLeft.includes(pacman)) {
-        return
-      } else {
-        if (pacman === 481) {
-          maze[pacman].classList.remove('pacman')
-          pacman = 508
-          maze[pacman].classList.add('pacman')
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-          pacmanMoves.push(pacman)
-        } else if (maze[pacman - 1].classList.contains('food')) {
-          maze[pacman].classList.remove('pacman')
-          pacman -= 1
-          maze[pacman].classList.remove('food')
-          maze[pacman].classList.add('pacman')
-          scoreCount += 10
-          score.innerHTML = scoreCount
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-          pacmanMoves.push(pacman)
-        } else if (maze[pacman - 1].classList.contains('superFood')) {
-          chase = false
-          setTimeout(() => {
-            chase = true
-          }, 10000)
-          maze[pacman].classList.remove('pacman')
-          pacman -= 1
-          maze[pacman].classList.remove('superFood')
-          maze[pacman].classList.add('pacman')
-          scoreCount += 40
-          score.innerHTML = scoreCount
-          audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
-          audio.play()
-        } else {
-          maze[pacman].classList.remove('pacman')
-          pacman -= 1
-          maze[pacman].classList.add('pacman')
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-          pacmanMoves.push(pacman)
-        }
-      }
-
-    } else if (event.key === 'ArrowUp' || event.key === 'w') {
-      if (noUp.includes(pacman)) {
-        return
-      } else if (maze[pacman - (width - 1)].classList.contains('food')) {
-        maze[pacman].classList.remove('pacman')
-        pacman -= (width - 1)
-        maze[pacman].classList.remove('food')
-        maze[pacman].classList.add('pacman')
-        scoreCount += 10
-        score.innerHTML = scoreCount
-        audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-        audio.play()
-        pacmanMoves.push(pacman)
-      } else if (maze[pacman - (width - 1)].classList.contains('superFood')) {
-        chase = false
-        setTimeout(() => {
-          chase = true
-        }, 10000)
-        maze[pacman].classList.remove('pacman')
-        pacman -= (width - 1)
-        maze[pacman].classList.remove('superFood')
-        maze[pacman].classList.add('pacman')
-        scoreCount += 40
-        score.innerHTML = scoreCount
-        audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
-        audio.play()
-      } else {
-        maze[pacman].classList.remove('pacman')
-        pacman -= (width - 1)
-        maze[pacman].classList.add('pacman')
-        audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-        audio.play()
-        pacmanMoves.push(pacman)
-      }
-
-    } else if (event.key === 'ArrowDown' || event.key === 's') {
-      if (noDown.includes(pacman)) {
-        return
-      } else if (maze[pacman + (width - 1)].classList.contains('food')) {
-        maze[pacman].classList.remove('pacman')
-        pacman += (width - 1)
-        maze[pacman].classList.remove('food')
-        maze[pacman].classList.add('pacman')
-        scoreCount += 10
-        score.innerHTML = scoreCount
-        audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-        audio.play()
-        pacmanMoves.push(pacman)
-      } else if (maze[pacman + (width - 1)].classList.contains('superFood')) {
-        chase = false
-        setTimeout(() => {
-          chase = true
-        }, 7000)
-        maze[pacman].classList.remove('pacman')
-        pacman += (width - 1)
-        maze[pacman].classList.remove('superFood')
-        maze[pacman].classList.add('pacman')
-        scoreCount += 40
-        score.innerHTML = scoreCount
-        audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
-        audio.play()
-      } else {
-        maze[pacman].classList.remove('pacman')
-        pacman += (width - 1)
-        maze[pacman].classList.add('pacman')
-        audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-        audio.play()
-        pacmanMoves.push(pacman)
-      }
-    }
-    console.log(pacmanMoves)
   }
 
+  function movePacman() {
 
+
+    playerInterval = setInterval(() => {
+
+      // USER
+      // if (event.key === 'ArrowRight' || event.key === 'd') {
+      if (playerMovement === 2) {
+
+        if (noRight.includes(pacman)) {
+          return
+        } else {
+          if (pacman === 508) {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman = 481
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-right')
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+            pacmanMoves.push(pacman)
+          } else if (maze[pacman + 1].classList.contains('food')) {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman += 1
+            maze[pacman].classList.remove('food')
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-right')
+            scoreCount += 10
+            score.innerHTML = scoreCount
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+            pacmanMoves.push(pacman)
+          } else if (maze[pacman + 1].classList.contains('superFood')) {
+            chase = false
+            setTimeout(() => {
+              chase = true
+            }, 10000)
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman += 1
+            maze[pacman].classList.remove('superFood')
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-right')
+            scoreCount += 40
+            score.innerHTML = scoreCount
+            audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
+            audio.play()
+          } else {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman += 1
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-right')
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+            pacmanMoves.push(pacman)
+          }
+        }
+
+        // } else if (event.key === 'ArrowLeft' || event.key === 'a') {
+      } else if (playerMovement === 4) {
+
+        if (noLeft.includes(pacman)) {
+          return
+        } else {
+          if (pacman === 481) {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman = 508
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-left')
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+            pacmanMoves.push(pacman)
+          } else if (maze[pacman - 1].classList.contains('food')) {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman -= 1
+            maze[pacman].classList.remove('food')
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-left')
+            scoreCount += 10
+            score.innerHTML = scoreCount
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+            pacmanMoves.push(pacman)
+          } else if (maze[pacman - 1].classList.contains('superFood')) {
+            chase = false
+            setTimeout(() => {
+              chase = true
+            }, 10000)
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman -= 1
+            maze[pacman].classList.remove('superFood')
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-left')
+            scoreCount += 40
+            score.innerHTML = scoreCount
+            audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
+            audio.play()
+          } else {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman -= 1
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-left')
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+            pacmanMoves.push(pacman)
+          }
+        }
+
+        // } else if (event.key === 'ArrowUp' || event.key === 'w') {
+      } else if (playerMovement === 1) {
+
+        if (noUp.includes(pacman)) {
+          return
+        } else if (maze[pacman - (width - 1)].classList.contains('food')) {
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman -= (width - 1)
+          maze[pacman].classList.remove('food')
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-up')
+          scoreCount += 10
+          score.innerHTML = scoreCount
+          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+          audio.play()
+          pacmanMoves.push(pacman)
+        } else if (maze[pacman - (width - 1)].classList.contains('superFood')) {
+          chase = false
+          setTimeout(() => {
+            chase = true
+          }, 10000)
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman -= (width - 1)
+          maze[pacman].classList.remove('superFood')
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-up')
+          scoreCount += 40
+          score.innerHTML = scoreCount
+          audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
+          audio.play()
+        } else {
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman -= (width - 1)
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-up')
+          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+          audio.play()
+          pacmanMoves.push(pacman)
+        }
+
+        // } else if (event.key === 'ArrowDown' || event.key === 's') {
+      } else if (playerMovement === 3) {
+
+        if (noDown.includes(pacman)) {
+          return
+        } else if (maze[pacman + (width - 1)].classList.contains('food')) {
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman += (width - 1)
+          maze[pacman].classList.remove('food')
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-down')
+          scoreCount += 10
+          score.innerHTML = scoreCount
+          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+          audio.play()
+          pacmanMoves.push(pacman)
+        } else if (maze[pacman + (width - 1)].classList.contains('superFood')) {
+          chase = false
+          setTimeout(() => {
+            chase = true
+          }, 7000)
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman += (width - 1)
+          maze[pacman].classList.remove('superFood')
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-down')
+          scoreCount += 40
+          score.innerHTML = scoreCount
+          audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
+          audio.play()
+        } else {
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman += (width - 1)
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-down')
+          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+          audio.play()
+          pacmanMoves.push(pacman)
+        }
+      }
+    }, 115)
+  }
+  movePacman()
 
 
   // GHOST MOVEMENTS 
@@ -364,8 +458,6 @@ const main = setTimeout(() => {
   let ghostLogic4
 
 
-
-
   // COLLISION LOGIC
   let collisionInterval
 
@@ -373,7 +465,7 @@ const main = setTimeout(() => {
 
     collisionInterval = setInterval(() => {
       collision()
-    }, 75)
+    }, 10)
 
     ghostLogic1 = setInterval(() => {
       const ghostOneDirections = []
@@ -402,17 +494,65 @@ const main = setTimeout(() => {
 
         if (ghost1 === 482 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 508) {
           maze[ghost1].classList.remove('ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
           ghost1 = 508
           maze[ghost1].classList.add('ghost-1')
+          maze[ghost1].classList.add('ghost-right')
         } else if (ghost1 === 508 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 482) {
           maze[ghost1].classList.remove('ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
           ghost1 = 482
           maze[ghost1].classList.add('ghost-1')
+          maze[ghost1].classList.add('ghost-right')
         } else {
-          maze[ghost1].classList.remove('ghost-1')
-          ghost1 += ghostOneMoves
-          maze[ghost1].classList.add('ghost-1')
-          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+
+          if (ghostOneMoves === 1) {
+            maze[ghost1].classList.remove('ghost-1')
+            maze[ghost1].classList.remove('ghost-left')
+            maze[ghost1].classList.remove('ghost-down')
+            maze[ghost1].classList.remove('ghost-up')
+            maze[ghost1].classList.remove('ghost-right')
+            ghost1 += ghostOneMoves
+            maze[ghost1].classList.add('ghost-1')
+            maze[ghost1].classList.add('ghost-right')
+            maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          } else if (ghostOneMoves === -1) {
+            maze[ghost1].classList.remove('ghost-1')
+            maze[ghost1].classList.remove('ghost-left')
+            maze[ghost1].classList.remove('ghost-down')
+            maze[ghost1].classList.remove('ghost-up')
+            maze[ghost1].classList.remove('ghost-right')
+            ghost1 += ghostOneMoves
+            maze[ghost1].classList.add('ghost-1')
+            maze[ghost1].classList.add('ghost-left')
+            maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          } else if (ghostOneMoves === -32) {
+            maze[ghost1].classList.remove('ghost-1')
+            maze[ghost1].classList.remove('ghost-left')
+            maze[ghost1].classList.remove('ghost-down')
+            maze[ghost1].classList.remove('ghost-up')
+            maze[ghost1].classList.remove('ghost-right')
+            ghost1 += ghostOneMoves
+            maze[ghost1].classList.add('ghost-1')
+            maze[ghost1].classList.add('ghost-up')
+            maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          } else if (ghostOneMoves === 32) {
+            maze[ghost1].classList.remove('ghost-1')
+            maze[ghost1].classList.remove('ghost-left')
+            maze[ghost1].classList.remove('ghost-down')
+            maze[ghost1].classList.remove('ghost-up')
+            maze[ghost1].classList.remove('ghost-right')
+            ghost1 += ghostOneMoves
+            maze[ghost1].classList.add('ghost-1')
+            maze[ghost1].classList.add('ghost-down')
+            maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          }
         }
 
         //CHASE IS FALSE
@@ -445,13 +585,50 @@ const main = setTimeout(() => {
           ghost1 = 482
           maze[ghost1].classList.add('scared-ghost-1')
         } else {
-          maze[ghost1].classList.remove('scared-ghost-1')
-          ghost1 += ghostOneMoves
-          maze[ghost1].classList.add('scared-ghost-1')
-          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          if (ghostOneMoves === 1) {
+            maze[ghost1].classList.remove('scared-ghost-1')
+            maze[ghost1].classList.remove('ghost-left')
+            maze[ghost1].classList.remove('ghost-down')
+            maze[ghost1].classList.remove('ghost-up')
+            maze[ghost1].classList.remove('ghost-right')
+            ghost1 += ghostOneMoves
+            maze[ghost1].classList.add('scared-ghost-1')
+            maze[ghost1].classList.add('ghost-right')
+            maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          } else if (ghostOneMoves === -1) {
+            maze[ghost1].classList.remove('scared-ghost-1')
+            maze[ghost1].classList.remove('ghost-left')
+            maze[ghost1].classList.remove('ghost-down')
+            maze[ghost1].classList.remove('ghost-up')
+            maze[ghost1].classList.remove('ghost-right')
+            ghost1 += ghostOneMoves
+            maze[ghost1].classList.add('scared-ghost-1')
+            maze[ghost1].classList.add('ghost-left')
+            maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          } else if (ghostOneMoves === -32) {
+            maze[ghost1].classList.remove('scared-ghost-1')
+            maze[ghost1].classList.remove('ghost-left')
+            maze[ghost1].classList.remove('ghost-down')
+            maze[ghost1].classList.remove('ghost-up')
+            maze[ghost1].classList.remove('ghost-right')
+            ghost1 += ghostOneMoves
+            maze[ghost1].classList.add('scared-ghost-1')
+            maze[ghost1].classList.add('ghost-up')
+            maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          } else if (ghostOneMoves === 32) {
+            maze[ghost1].classList.remove('scared-ghost-1')
+            maze[ghost1].classList.remove('ghost-left')
+            maze[ghost1].classList.remove('ghost-down')
+            maze[ghost1].classList.remove('ghost-up')
+            maze[ghost1].classList.remove('ghost-right')
+            ghost1 += ghostOneMoves
+            maze[ghost1].classList.add('scared-ghost-1')
+            maze[ghost1].classList.add('ghost-down')
+            maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+          }
         }
       }
-    }, 550)
+    }, 120)
   }
 
 
@@ -493,10 +670,48 @@ const main = setTimeout(() => {
           ghost2 = 482
           maze[ghost2].classList.add('ghost-2')
         } else {
-          maze[ghost2].classList.remove('ghost-2')
-          ghost2 += ghostTwoMoves
-          maze[ghost2].classList.add('ghost-2')
-          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+
+          if (ghostTwoMoves === 1) {
+            maze[ghost2].classList.remove('ghost-2')
+            maze[ghost2].classList.remove('ghost-left')
+            maze[ghost2].classList.remove('ghost-down')
+            maze[ghost2].classList.remove('ghost-up')
+            maze[ghost2].classList.remove('ghost-right')
+            ghost2 += ghostTwoMoves
+            maze[ghost2].classList.add('ghost-2')
+            maze[ghost2].classList.add('ghost-right')
+            maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+          } else if (ghostTwoMoves === -1) {
+            maze[ghost2].classList.remove('ghost-2')
+            maze[ghost2].classList.remove('ghost-left')
+            maze[ghost2].classList.remove('ghost-down')
+            maze[ghost2].classList.remove('ghost-up')
+            maze[ghost2].classList.remove('ghost-right')
+            ghost2 += ghostTwoMoves
+            maze[ghost2].classList.add('ghost-2')
+            maze[ghost2].classList.add('ghost-left')
+            maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+          } else if (ghostTwoMoves === -32) {
+            maze[ghost2].classList.remove('ghost-2')
+            maze[ghost2].classList.remove('ghost-left')
+            maze[ghost2].classList.remove('ghost-down')
+            maze[ghost2].classList.remove('ghost-up')
+            maze[ghost2].classList.remove('ghost-right')
+            ghost2 += ghostTwoMoves
+            maze[ghost2].classList.add('ghost-2')
+            maze[ghost2].classList.add('ghost-up')
+            maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+          } else if (ghostTwoMoves === 32) {
+            maze[ghost2].classList.remove('ghost-2')
+            maze[ghost2].classList.remove('ghost-left')
+            maze[ghost2].classList.remove('ghost-down')
+            maze[ghost2].classList.remove('ghost-up')
+            maze[ghost2].classList.remove('ghost-right')
+            ghost2 += ghostTwoMoves
+            maze[ghost2].classList.add('ghost-2')
+            maze[ghost2].classList.add('ghost-down')
+            maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+          }
         }
         // SCARED MODE
       } else if (chase === false) {
@@ -530,13 +745,51 @@ const main = setTimeout(() => {
           ghost2 = 482
           maze[ghost2].classList.add('scared-ghost-2')
         } else {
-          maze[ghost2].classList.remove('scared-ghost-2')
-          ghost2 += ghostTwoMoves
-          maze[ghost2].classList.add('scared-ghost-2')
-          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+
+          if (ghostTwoMoves === 1) {
+            maze[ghost2].classList.remove('scared-ghost-2')
+            maze[ghost2].classList.remove('ghost-left')
+            maze[ghost2].classList.remove('ghost-down')
+            maze[ghost2].classList.remove('ghost-up')
+            maze[ghost2 ].classList.remove('ghost-right')
+            ghost2 += ghostTwoMoves
+            maze[ghost2].classList.add('scared-ghost-2')
+            maze[ghost2].classList.add('ghost-right')
+            maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+          } else if (ghostTwoMoves === -1) {
+            maze[ghost2].classList.remove('scared-ghost-2')
+            maze[ghost2].classList.remove('ghost-left')
+            maze[ghost2].classList.remove('ghost-down')
+            maze[ghost2].classList.remove('ghost-up')
+            maze[ghost2].classList.remove('ghost-right')
+            ghost2 += ghostTwoMoves
+            maze[ghost2].classList.add('scared-ghost-2')
+            maze[ghost2].classList.add('ghost-left')
+            maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+          } else if (ghostTwoMoves === -32) {
+            maze[ghost2].classList.remove('scared-ghost-2')
+            maze[ghost2].classList.remove('ghost-left')
+            maze[ghost2].classList.remove('ghost-down')
+            maze[ghost2].classList.remove('ghost-up')
+            maze[ghost2].classList.remove('ghost-right')
+            ghost2 += ghostTwoMoves
+            maze[ghost2].classList.add('scared-ghost-2')
+            maze[ghost2].classList.add('ghost-up')
+            maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+          } else if (ghostTwoMoves === 32) {
+            maze[ghost2].classList.remove('scared-ghost-2')
+            maze[ghost2].classList.remove('ghost-left')
+            maze[ghost2].classList.remove('ghost-down')
+            maze[ghost2].classList.remove('ghost-up')
+            maze[ghost2].classList.remove('ghost-right')
+            ghost2 += ghostTwoMoves
+            maze[ghost2].classList.add('scared-ghost-2')
+            maze[ghost2].classList.add('ghost-down')
+            maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+          }
         }
       }
-    }, 550)
+    }, 120)
   }
 
 
@@ -581,10 +834,48 @@ const main = setTimeout(() => {
           ghost3 = 482
           maze[ghost3].classList.add('ghost-3')
         } else {
-          maze[ghost3].classList.remove('ghost-3')
-          ghost3 += ghostThreeMoves
-          maze[ghost3].classList.add('ghost-3')
-          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+
+          if (ghostThreeMoves === 1) {
+            maze[ghost3].classList.remove('ghost-3')
+            maze[ghost3].classList.remove('ghost-left')
+            maze[ghost3].classList.remove('ghost-down')
+            maze[ghost3].classList.remove('ghost-up')
+            maze[ghost3].classList.remove('ghost-right')
+            ghost3 += ghostThreeMoves
+            maze[ghost3].classList.add('ghost-3')
+            maze[ghost3].classList.add('ghost-right')
+            maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          } else if (ghostThreeMoves === -1) {
+            maze[ghost3].classList.remove('ghost-3')
+            maze[ghost3].classList.remove('ghost-left')
+            maze[ghost3].classList.remove('ghost-down')
+            maze[ghost3].classList.remove('ghost-up')
+            maze[ghost3 ].classList.remove('ghost-right')
+            ghost3 += ghostThreeMoves
+            maze[ghost3].classList.add('ghost-3')
+            maze[ghost3].classList.add('ghost-left')
+            maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          } else if (ghostThreeMoves === -32) {
+            maze[ghost3].classList.remove('ghost-3')
+            maze[ghost3].classList.remove('ghost-left')
+            maze[ghost3].classList.remove('ghost-down')
+            maze[ghost3].classList.remove('ghost-up')
+            maze[ghost3].classList.remove('ghost-right')
+            ghost3 += ghostThreeMoves
+            maze[ghost3].classList.add('ghost-3')
+            maze[ghost3].classList.add('ghost-up')
+            maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          } else if (ghostThreeMoves === 32) {
+            maze[ghost3].classList.remove('ghost-3')
+            maze[ghost3].classList.remove('ghost-left')
+            maze[ghost3].classList.remove('ghost-down')
+            maze[ghost3].classList.remove('ghost-up')
+            maze[ghost3].classList.remove('ghost-right')
+            ghost3 += ghostThreeMoves
+            maze[ghost3].classList.add('ghost-3')
+            maze[ghost3].classList.add('ghost-down')
+            maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          }
         }
 
         // SCARED MODE
@@ -617,13 +908,50 @@ const main = setTimeout(() => {
           ghost3 = 482
           maze[ghost3].classList.add('scared-ghost-3')
         } else {
-          maze[ghost3].classList.remove('scared-ghost-3')
-          ghost3 += ghostThreeMoves
-          maze[ghost3].classList.add('scared-ghost-3')
-          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          if (ghostThreeMoves === 1) {
+            maze[ghost3].classList.remove('scared-ghost-3')
+            maze[ghost3].classList.remove('ghost-left')
+            maze[ghost3].classList.remove('ghost-down')
+            maze[ghost3].classList.remove('ghost-up')
+            maze[ghost3].classList.remove('ghost-right')
+            ghost3 += ghostThreeMoves
+            maze[ghost3].classList.add('scared-ghost-3')
+            maze[ghost3].classList.add('ghost-right')
+            maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          } else if (ghostThreeMoves === -1) {
+            maze[ghost3].classList.remove('scared-ghost-3')
+            maze[ghost3].classList.remove('ghost-left')
+            maze[ghost3].classList.remove('ghost-down')
+            maze[ghost3].classList.remove('ghost-up')
+            maze[ghost3].classList.remove('ghost-right')
+            ghost3 += ghostThreeMoves
+            maze[ghost3].classList.add('scared-ghost-3')
+            maze[ghost3].classList.add('ghost-left')
+            maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          } else if (ghostThreeMoves === -32) {
+            maze[ghost3].classList.remove('scared-ghost-3')
+            maze[ghost3].classList.remove('ghost-left')
+            maze[ghost3].classList.remove('ghost-down')
+            maze[ghost3].classList.remove('ghost-up')
+            maze[ghost3].classList.remove('ghost-right')
+            ghost3 += ghostThreeMoves
+            maze[ghost3].classList.add('scared-ghost-3')
+            maze[ghost3].classList.add('ghost-up')
+            maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          } else if (ghostThreeMoves === 32) {
+            maze[ghost3].classList.remove('scared-ghost-3')
+            maze[ghost3].classList.remove('ghost-left')
+            maze[ghost3].classList.remove('ghost-down')
+            maze[ghost3].classList.remove('ghost-up')
+            maze[ghost3].classList.remove('ghost-right')
+            ghost3 += ghostThreeMoves
+            maze[ghost3].classList.add('scared-ghost-3')
+            maze[ghost3].classList.add('ghost-down')
+            maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+          }
         }
       }
-    }, 550)
+    }, 120)
   }
 
 
@@ -668,10 +996,47 @@ const main = setTimeout(() => {
           ghost4 = 482
           maze[ghost4].classList.add('ghost-4')
         } else {
-          maze[ghost4].classList.remove('ghost-4')
-          ghost4 += ghostFourMoves
-          maze[ghost4].classList.add('ghost-4')
-          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          if (ghostFourMoves === 1) {
+            maze[ghost4].classList.remove('ghost-4')
+            maze[ghost4].classList.remove('ghost-left')
+            maze[ghost4].classList.remove('ghost-down')
+            maze[ghost4].classList.remove('ghost-up')
+            maze[ghost4].classList.remove('ghost-right')
+            ghost4 += ghostFourMoves
+            maze[ghost4].classList.add('ghost-4')
+            maze[ghost4].classList.add('ghost-right')
+            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          } else if (ghostFourMoves === -1) {
+            maze[ghost4].classList.remove('ghost-4')
+            maze[ghost4].classList.remove('ghost-left')
+            maze[ghost4].classList.remove('ghost-down')
+            maze[ghost4].classList.remove('ghost-up')
+            maze[ghost4].classList.remove('ghost-right')
+            ghost4 += ghostFourMoves
+            maze[ghost4].classList.add('ghost-4')
+            maze[ghost4].classList.add('ghost-left')
+            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          } else if (ghostFourMoves === -32) {
+            maze[ghost4].classList.remove('ghost-4')
+            maze[ghost4].classList.remove('ghost-left')
+            maze[ghost4].classList.remove('ghost-down')
+            maze[ghost4].classList.remove('ghost-up')
+            maze[ghost4].classList.remove('ghost-right')
+            ghost4 += ghostFourMoves
+            maze[ghost4].classList.add('ghost-4')
+            maze[ghost4].classList.add('ghost-up')
+            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          } else if (ghostFourMoves === 32) {
+            maze[ghost4].classList.remove('ghost-4')
+            maze[ghost4].classList.remove('ghost-left')
+            maze[ghost4].classList.remove('ghost-down')
+            maze[ghost4].classList.remove('ghost-up')
+            maze[ghost4].classList.remove('ghost-right')
+            ghost4 += ghostFourMoves
+            maze[ghost4].classList.add('ghost-4')
+            maze[ghost4].classList.add('ghost-down')
+            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          }
         }
 
         // SCARED MODE
@@ -707,13 +1072,50 @@ const main = setTimeout(() => {
           ghost4 = 482
           maze[ghost4].classList.add('scared-ghost-4')
         } else {
-          maze[ghost4].classList.remove('scared-ghost-4')
-          ghost4 += ghostFourMoves
-          maze[ghost4].classList.add('scared-ghost-4')
-          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          if (ghostFourMoves === 1) {
+            maze[ghost4].classList.remove('scared-ghost-4')
+            maze[ghost4].classList.remove('ghost-left')
+            maze[ghost4].classList.remove('ghost-down')
+            maze[ghost4].classList.remove('ghost-up')
+            maze[ghost4].classList.remove('ghost-right')
+            ghost4 += ghostFourMoves
+            maze[ghost4].classList.add('scared-ghost-4')
+            maze[ghost4].classList.add('ghost-right')
+            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          } else if (ghostFourMoves === -1) {
+            maze[ghost4].classList.remove('scared-ghost-4')
+            maze[ghost4].classList.remove('ghost-left')
+            maze[ghost4].classList.remove('ghost-down')
+            maze[ghost4].classList.remove('ghost-up')
+            maze[ghost4].classList.remove('ghost-right')
+            ghost4 += ghostFourMoves
+            maze[ghost4].classList.add('scared-ghost-4')
+            maze[ghost4].classList.add('ghost-left')
+            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          } else if (ghostFourMoves === -32) {
+            maze[ghost4].classList.remove('scared-ghost-4')
+            maze[ghost4].classList.remove('ghost-left')
+            maze[ghost4].classList.remove('ghost-down')
+            maze[ghost4].classList.remove('ghost-up')
+            maze[ghost4].classList.remove('ghost-right')
+            ghost4 += ghostFourMoves
+            maze[ghost4].classList.add('scared-ghost-4')
+            maze[ghost4].classList.add('ghost-up')
+            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          } else if (ghostFourMoves === 32) {
+            maze[ghost4].classList.remove('scared-ghost-4')
+            maze[ghost4].classList.remove('ghost-left')
+            maze[ghost4].classList.remove('ghost-down')
+            maze[ghost4].classList.remove('ghost-up')
+            maze[ghost4].classList.remove('ghost-right')
+            ghost4 += ghostFourMoves
+            maze[ghost4].classList.add('scared-ghost-4')
+            maze[ghost4].classList.add('ghost-down')
+            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+          }
         }
       }
-    }, 550)
+    }, 120)
   }
 
 
@@ -744,7 +1146,9 @@ const main = setTimeout(() => {
       clearInterval(ghostLogic2)
       clearInterval(ghostLogic3)
       clearInterval(ghostLogic4)
-      document.removeEventListener('keydown', pacmanMove)
+
+      clearInterval(playerInterval)
+
       container.style.opacity = '0.2'
       gameOver.style.display = 'flex'
       finalScore.innerHTML = scoreCount
@@ -778,7 +1182,7 @@ const main = setTimeout(() => {
         clearInterval(ghostLogic3)
         clearInterval(ghostLogic4)
 
-        document.removeEventListener('keydown', pacmanMove)
+        clearInterval(playerInterval)
 
         maze[ghost1].style.animation = 'blinking 0.13s alternate 6'
         maze[ghost2].style.animation = 'blinking 0.13s alternate 6'
@@ -803,6 +1207,7 @@ const main = setTimeout(() => {
 
           //  LIVES 
           if (lives === 1) {
+            clearInterval(gameCount)
             container.style.opacity = '0.2'
             gameOver.style.display = 'flex'
             finalScore.innerHTML = scoreCount
@@ -813,7 +1218,8 @@ const main = setTimeout(() => {
             livesIcon[lives].src = ''
           }
 
-          document.addEventListener('keydown', pacmanMove)
+          // document.addEventListener('keydown', pacmanMove)
+
 
           maze[ghost1].classList.add('cell')
           maze[ghost2].classList.add('cell')
@@ -847,6 +1253,7 @@ const main = setTimeout(() => {
           ghostTwo()
           ghostThree()
           ghostFour()
+          movePacman()
         }, 5000)
       }
 
@@ -856,7 +1263,7 @@ const main = setTimeout(() => {
       // PACMAN CHASING GHOSTS
 
       // SCARED GHOST 1
-     // if (maze[pacman].classList.contains('scared-ghost-1')) {
+      if (maze[pacman].classList.contains('scared-ghost-1')) {
         // SCORE AND TIME ADDDED ON
         scoreCount += 80
         score.innerHTML = scoreCount
@@ -986,14 +1393,6 @@ const main = setTimeout(() => {
       }
     }
   }
-
-
-
-
-
-
-
-
 
 
 
