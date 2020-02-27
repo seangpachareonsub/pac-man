@@ -219,10 +219,37 @@ img {
   /* animation:  blinking 0.13s alternate 6; */
 
 }
-.scared-ghost{
+.scared-ghost-1{
   width:18.5px;
   height:19.7px;
-  transform: scale(1.45);
+  transform: scale(1.46);
+  background-image: url(../images/unnamed-2.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+}
+.scared-ghost-2{
+  width:18.5px;
+  height:19.7px;
+  transform: scale(1.46);
+  background-image: url(../images/unnamed-2.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+}
+.scared-ghost-3{
+  width:18.5px;
+  height:19.7px;
+  transform: scale(1.46);
+  background-image: url(../images/unnamed-2.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+}
+.scared-ghost-4{
+  width:18.5px;
+  height:19.7px;
+  transform: scale(1.46);
   background-image: url(../images/unnamed-2.png);
   background-repeat: no-repeat;
   background-size: contain;

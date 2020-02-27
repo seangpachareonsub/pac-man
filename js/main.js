@@ -251,6 +251,10 @@ const main = setTimeout(() => {
           audio.play()
           pacmanMoves.push(pacman)
         } else if (maze[pacman - 1].classList.contains('superFood')) {
+          chase = false
+          setTimeout(() => {
+            chase = true
+          }, 10000)
           maze[pacman].classList.remove('pacman')
           pacman -= 1
           maze[pacman].classList.remove('superFood')
@@ -283,6 +287,10 @@ const main = setTimeout(() => {
         audio.play()
         pacmanMoves.push(pacman)
       } else if (maze[pacman - (width - 1)].classList.contains('superFood')) {
+        chase = false
+        setTimeout(() => {
+          chase = true
+        }, 10000)
         maze[pacman].classList.remove('pacman')
         pacman -= (width - 1)
         maze[pacman].classList.remove('superFood')
@@ -314,6 +322,10 @@ const main = setTimeout(() => {
         audio.play()
         pacmanMoves.push(pacman)
       } else if (maze[pacman + (width - 1)].classList.contains('superFood')) {
+        chase = false
+        setTimeout(() => {
+          chase = true
+        }, 7000)
         maze[pacman].classList.remove('pacman')
         pacman += (width - 1)
         maze[pacman].classList.remove('superFood')
@@ -351,12 +363,13 @@ const main = setTimeout(() => {
   let ghostLogic3
   let ghostLogic4
 
+
+
+
+  // COLLISION LOGIC
   let collisionInterval
 
   function ghostOne() {
-
-
-
 
     collisionInterval = setInterval(() => {
       collision()
@@ -366,8 +379,9 @@ const main = setTimeout(() => {
       const ghostOneDirections = []
       ghostOnePositionsLog.push(ghost1)
 
+      // CHASE IS TRUE 
       if (chase === true) {
-        maze[ghost1].classList.remove('scared-ghost')
+        maze[ghost1].classList.remove('scared-ghost-1')
         maze[ghost1].classList.add('ghost-1')
 
         if (!noRight.includes(ghost1) && ghost1 + 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
@@ -382,11 +396,10 @@ const main = setTimeout(() => {
         if (!noDown.includes(ghost1) && ghost1 + (width - 1) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
           ghostOneDirections.push(width - 1)
         }
-  
-  
+
         const ghostOneMoves = ghostOneDirections[Math.floor(Math.random() * ghostOneDirections.length)]
         const ghostOnePrevious = maze[ghost1 + ghostOneMoves].className
-  
+
         if (ghost1 === 482 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 508) {
           maze[ghost1].classList.remove('ghost-1')
           ghost1 = 508
@@ -395,23 +408,17 @@ const main = setTimeout(() => {
           maze[ghost1].classList.remove('ghost-1')
           ghost1 = 482
           maze[ghost1].classList.add('ghost-1')
-        } 
-        // else if (maze[pacman].classList.contains('superFood')) {
-          // maze[ghost1].classList.remove('ghost-1')
-          // maze[ghost1].classList.add('scared-ghost')
-          // ghost1 += ghostOneMoves
-          // maze[ghost1].classList.add('scared-ghost')
-          // maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
-          // timeOnScared -= 1
-        else {
+        } else {
           maze[ghost1].classList.remove('ghost-1')
           ghost1 += ghostOneMoves
           maze[ghost1].classList.add('ghost-1')
           maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
         }
+
+        //CHASE IS FALSE
       } else if (chase === false) {
         maze[ghost1].classList.remove('ghost-1')
-        maze[ghost1].classList.add('scared-ghost')
+        maze[ghost1].classList.add('scared-ghost-1')
         if (!noRight.includes(ghost1) && ghost1 + 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
           ghostOneDirections.push(1)
         }
@@ -424,29 +431,26 @@ const main = setTimeout(() => {
         if (!noDown.includes(ghost1) && ghost1 + (width - 1) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
           ghostOneDirections.push(width - 1)
         }
-  
-  
+
+
         const ghostOneMoves = ghostOneDirections[Math.floor(Math.random() * ghostOneDirections.length)]
         const ghostOnePrevious = maze[ghost1 + ghostOneMoves].className
-  
+
         if (ghost1 === 482 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 508) {
-          maze[ghost1].classList.remove('scared-ghost')
+          maze[ghost1].classList.remove('scared-ghost-1')
           ghost1 = 508
-          maze[ghost1].classList.add('scared-ghost')
+          maze[ghost1].classList.add('scared-ghost-1')
         } else if (ghost1 === 508 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 482) {
-          maze[ghost1].classList.remove('scared-ghost')
+          maze[ghost1].classList.remove('scared-ghost-1')
           ghost1 = 482
-          maze[ghost1].classList.add('scared-ghost')
+          maze[ghost1].classList.add('scared-ghost-1')
         } else {
-          maze[ghost1].classList.remove('scared-ghost')
+          maze[ghost1].classList.remove('scared-ghost-1')
           ghost1 += ghostOneMoves
-          maze[ghost1].classList.add('scared-ghost')
+          maze[ghost1].classList.add('scared-ghost-1')
           maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
         }
       }
-
-      // GHOST ONE
-      
     }, 550)
   }
 
@@ -458,45 +462,81 @@ const main = setTimeout(() => {
       const ghostTwoDirections = []
       ghostTwoPositionsLog.push(ghost2)
 
-
-      //GHOST TWO
-      if (!noRight.includes(ghost2) && ghost2 + 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push(1)
-      }
-      if (!noLeft.includes(ghost2) && ghost2 - 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push(-1)
-      }
-      if (!noUp.includes(ghost2) && ghost2 + ((width - 1) * - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push((width - 1) * -1)
-      }
-      if (!noDown.includes(ghost2) && ghost2 + (width - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push(width - 1)
-      }
-
-
-
-      //GHOST TWO
-
-      const ghostTwoMoves = ghostTwoDirections[Math.floor(Math.random() * ghostTwoDirections.length)]
-      const ghostTwoPrevious = maze[ghost2 + ghostTwoMoves].className
-
-      if (ghost2 === 482 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 507) {
-        maze[ghost2].classList.remove('ghost-2')
-        ghost2 = 507
+      if (chase === true) {
+        maze[ghost2].classList.remove('scared-ghost-2')
         maze[ghost2].classList.add('ghost-2')
-      } else if (ghost2 === 508 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 482) {
+
+        //GHOST TWO
+        if (!noRight.includes(ghost2) && ghost2 + 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(1)
+        }
+        if (!noLeft.includes(ghost2) && ghost2 - 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(-1)
+        }
+        if (!noUp.includes(ghost2) && ghost2 + ((width - 1) * - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push((width - 1) * -1)
+        }
+        if (!noDown.includes(ghost2) && ghost2 + (width - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(width - 1)
+        }
+
+        //GHOST TWO
+        const ghostTwoMoves = ghostTwoDirections[Math.floor(Math.random() * ghostTwoDirections.length)]
+        const ghostTwoPrevious = maze[ghost2 + ghostTwoMoves].className
+
+        if (ghost2 === 482 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 507) {
+          maze[ghost2].classList.remove('ghost-2')
+          ghost2 = 507
+          maze[ghost2].classList.add('ghost-2')
+        } else if (ghost2 === 508 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 482) {
+          maze[ghost2].classList.remove('ghost-2')
+          ghost2 = 482
+          maze[ghost2].classList.add('ghost-2')
+        } else {
+          maze[ghost2].classList.remove('ghost-2')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('ghost-2')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        }
+        // SCARED MODE
+      } else if (chase === false) {
         maze[ghost2].classList.remove('ghost-2')
-        ghost2 = 482
-        maze[ghost2].classList.add('ghost-2')
-      } else {
-        maze[ghost2].classList.remove('ghost-2')
-        ghost2 += ghostTwoMoves
-        maze[ghost2].classList.add('ghost-2')
-        maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        maze[ghost2].classList.add('scared-ghost-2')
+
+        //GHOST TWO
+        if (!noRight.includes(ghost2) && ghost2 + 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(1)
+        }
+        if (!noLeft.includes(ghost2) && ghost2 - 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(-1)
+        }
+        if (!noUp.includes(ghost2) && ghost2 + ((width - 1) * - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push((width - 1) * -1)
+        }
+        if (!noDown.includes(ghost2) && ghost2 + (width - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(width - 1)
+        }
+
+        //GHOST TWO
+        const ghostTwoMoves = ghostTwoDirections[Math.floor(Math.random() * ghostTwoDirections.length)]
+        const ghostTwoPrevious = maze[ghost2 + ghostTwoMoves].className
+
+        if (ghost2 === 482 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 507) {
+          maze[ghost2].classList.remove('scared-ghost-2')
+          ghost2 = 507
+          maze[ghost2].classList.add('scared-ghost-2')
+        } else if (ghost2 === 508 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 482) {
+          maze[ghost2].classList.remove('scared-ghost-2')
+          ghost2 = 482
+          maze[ghost2].classList.add('scared-ghost-2')
+        } else {
+          maze[ghost2].classList.remove('scared-ghost-2')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('scared-ghost-2')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        }
       }
-
-
-    }, 10050)
+    }, 550)
   }
 
 
@@ -512,45 +552,78 @@ const main = setTimeout(() => {
       const ghostThreeDirections = []
       ghostThreePositionsLog.push(ghost3)
 
-      //GHOST THREE
-      if (!noRight.includes(ghost3) && ghost3 + 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push(1)
-      }
-      if (!noLeft.includes(ghost3) && ghost3 - 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push(-1)
-      }
-      if (!noUp.includes(ghost3) && ghost3 + ((width - 1) * - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push((width - 1) * -1)
-      }
-      if (!noDown.includes(ghost3) && ghost3 + (width - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push(width - 1)
-      }
-
-
-
-      // GHOST 3
-
-
-      const ghostThreeMoves = ghostThreeDirections[Math.floor(Math.random() * ghostThreeDirections.length)]
-      const ghostThreePrevious = maze[ghost3 + ghostThreeMoves].className
-
-      if (ghost3 === 482 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 507) {
-        maze[ghost3].classList.remove('ghost-3')
-        ghost3 = 507
+      if (chase) {
+        maze[ghost3].classList.remove('scared-ghost-3')
         maze[ghost3].classList.add('ghost-3')
-      } else if (ghost3 === 507 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 482) {
+        //GHOST THREE
+        if (!noRight.includes(ghost3) && ghost3 + 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(1)
+        }
+        if (!noLeft.includes(ghost3) && ghost3 - 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(-1)
+        }
+        if (!noUp.includes(ghost3) && ghost3 + ((width - 1) * - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push((width - 1) * -1)
+        }
+        if (!noDown.includes(ghost3) && ghost3 + (width - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(width - 1)
+        }
+
+        const ghostThreeMoves = ghostThreeDirections[Math.floor(Math.random() * ghostThreeDirections.length)]
+        const ghostThreePrevious = maze[ghost3 + ghostThreeMoves].className
+
+        if (ghost3 === 482 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 507) {
+          maze[ghost3].classList.remove('ghost-3')
+          ghost3 = 507
+          maze[ghost3].classList.add('ghost-3')
+        } else if (ghost3 === 507 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 482) {
+          maze[ghost3].classList.remove('ghost-3')
+          ghost3 = 482
+          maze[ghost3].classList.add('ghost-3')
+        } else {
+          maze[ghost3].classList.remove('ghost-3')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('ghost-3')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        }
+
+        // SCARED MODE
+      } else if (!chase) {
         maze[ghost3].classList.remove('ghost-3')
-        ghost3 = 482
-        maze[ghost3].classList.add('ghost-3')
-      } else {
-        maze[ghost3].classList.remove('ghost-3')
-        ghost3 += ghostThreeMoves
-        maze[ghost3].classList.add('ghost-3')
-        maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        maze[ghost3].classList.add('scared-ghost-3')
+
+        if (!noRight.includes(ghost3) && ghost3 + 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(1)
+        }
+        if (!noLeft.includes(ghost3) && ghost3 - 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(-1)
+        }
+        if (!noUp.includes(ghost3) && ghost3 + ((width - 1) * - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push((width - 1) * -1)
+        }
+        if (!noDown.includes(ghost3) && ghost3 + (width - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(width - 1)
+        }
+
+        const ghostThreeMoves = ghostThreeDirections[Math.floor(Math.random() * ghostThreeDirections.length)]
+        const ghostThreePrevious = maze[ghost3 + ghostThreeMoves].className
+
+        if (ghost3 === 482 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 507) {
+          maze[ghost3].classList.remove('scared-ghost-3')
+          ghost3 = 507
+          maze[ghost3].classList.add('scared-ghost-3')
+        } else if (ghost3 === 507 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 482) {
+          maze[ghost3].classList.remove('scared-ghost-3')
+          ghost3 = 482
+          maze[ghost3].classList.add('scared-ghost-3')
+        } else {
+          maze[ghost3].classList.remove('scared-ghost-3')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('scared-ghost-3')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        }
       }
-
-    }, 10050)
-
+    }, 550)
   }
 
 
@@ -562,59 +635,96 @@ const main = setTimeout(() => {
 
       const ghostFourDirections = []
       ghostFourPositionsLog.push(ghost4)
-      //GHOST FOUR
-      if (!noRight.includes(ghost4) && ghost4 + 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push(1)
-      }
-      if (!noLeft.includes(ghost4) && ghost4 - 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push(-1)
-      }
-      if (!noUp.includes(ghost4) && ghost4 + ((width - 1) * - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push((width - 1) * -1)
-      }
-      if (!noDown.includes(ghost4) && ghost4 + (width - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push(width - 1)
-      }
 
-
-      // GHOST 4
-      const ghostFourMoves = ghostFourDirections[Math.floor(Math.random() * ghostFourDirections.length)]
-      const ghostFourPrevious = maze[ghost4 + ghostFourMoves].className
-
-      if (ghost4 === 482 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 507) {
-        maze[ghost4].classList.remove('ghost-4')
-        ghost4 = 507
+      if (chase) {
+        maze[ghost4].classList.remove('scared-ghost-4')
         maze[ghost4].classList.add('ghost-4')
-      } else if (ghost4 === 507 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 482) {
-        maze[ghost4].classList.remove('ghost-4')
-        ghost4 = 482
-        maze[ghost4].classList.add('ghost-4')
-      } else {
-        if (maze[pacman].classList.contains('superFood')) {
-          const tenSeconds = gameTimer - 10
-          if (gameTimer > tenSeconds) {
-            maze[ghost4].classList.remove('ghost-4')
-            maze[ghost4].classList.add('scared-ghost')
-            maze[ghost4].classList.remove('scared-ghost')
-            ghost4 += ghostFourMoves
-            maze[ghost4].classList.add('scared-ghost')
-            maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
-          }
+
+        //GHOST FOUR
+        if (!noRight.includes(ghost4) && ghost4 + 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(1)
+        }
+        if (!noLeft.includes(ghost4) && ghost4 - 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(-1)
+        }
+        if (!noUp.includes(ghost4) && ghost4 + ((width - 1) * - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push((width - 1) * -1)
+        }
+        if (!noDown.includes(ghost4) && ghost4 + (width - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(width - 1)
+        }
+
+
+        // GHOST 4
+        const ghostFourMoves = ghostFourDirections[Math.floor(Math.random() * ghostFourDirections.length)]
+        const ghostFourPrevious = maze[ghost4 + ghostFourMoves].className
+
+        if (ghost4 === 482 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 507) {
+          maze[ghost4].classList.remove('ghost-4')
+          ghost4 = 507
+          maze[ghost4].classList.add('ghost-4')
+        } else if (ghost4 === 507 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 482) {
+          maze[ghost4].classList.remove('ghost-4')
+          ghost4 = 482
+          maze[ghost4].classList.add('ghost-4')
         } else {
           maze[ghost4].classList.remove('ghost-4')
           ghost4 += ghostFourMoves
           maze[ghost4].classList.add('ghost-4')
           maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
         }
-      }
-    }, 10050)
 
+        // SCARED MODE
+      } else if (!chase) {
+        maze[ghost4].classList.remove('ghost-4')
+        maze[ghost4].classList.add('scared-ghost-4')
+
+        //GHOST FOUR
+        if (!noRight.includes(ghost4) && ghost4 + 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(1)
+        }
+        if (!noLeft.includes(ghost4) && ghost4 - 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(-1)
+        }
+        if (!noUp.includes(ghost4) && ghost4 + ((width - 1) * - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push((width - 1) * -1)
+        }
+        if (!noDown.includes(ghost4) && ghost4 + (width - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(width - 1)
+        }
+
+
+        // GHOST 4
+        const ghostFourMoves = ghostFourDirections[Math.floor(Math.random() * ghostFourDirections.length)]
+        const ghostFourPrevious = maze[ghost4 + ghostFourMoves].className
+
+        if (ghost4 === 482 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 507) {
+          maze[ghost4].classList.remove('scared-ghost-4')
+          ghost4 = 507
+          maze[ghost4].classList.add('scared-ghost')
+        } else if (ghost4 === 507 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 482) {
+          maze[ghost4].classList.remove('scared-ghost-4')
+          ghost4 = 482
+          maze[ghost4].classList.add('scared-ghost-4')
+        } else {
+          maze[ghost4].classList.remove('scared-ghost-4')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('scared-ghost-4')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        }
+      }
+    }, 550)
   }
+
 
   ghostOne()
   ghostTwo()
   ghostThree()
   ghostFour()
+
+
+
+
 
 
   //COLLISION LOGIC
@@ -625,7 +735,7 @@ const main = setTimeout(() => {
   const finalScore = document.getElementsByClassName('finalScore')[0]
 
   const timer = document.getElementsByClassName('timer')[0]
-  let gameTimer = 40005
+  let gameTimer = 45
 
   const gameCount = setInterval(() => {
     if (gameTimer === 0) {
@@ -653,99 +763,243 @@ const main = setTimeout(() => {
 
   function collision() {
 
+    if (chase) {
+      if (maze[pacman].classList.contains('ghost-1') ||
+        maze[pacman].classList.contains('ghost-2') ||
+        maze[pacman].classList.contains('ghost-3') ||
+        maze[pacman].classList.contains('ghost-4')) {
 
-    if (maze[pacman].classList.contains('ghost-1') ||
-      maze[pacman].classList.contains('ghost-2') ||
-      maze[pacman].classList.contains('ghost-3') ||
-      maze[pacman].classList.contains('ghost-4')) {
+        audio.src = 'audio/8d82b5_Pacman_Dies_Sound_Effect.mp3'
+        audio.play()
 
-      audio.src = 'audio/8d82b5_Pacman_Dies_Sound_Effect.mp3'
-      audio.play()
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic1)
+        clearInterval(ghostLogic2)
+        clearInterval(ghostLogic3)
+        clearInterval(ghostLogic4)
 
-      clearInterval(collisionInterval)
-      clearInterval(ghostLogic1)
-      clearInterval(ghostLogic2)
-      clearInterval(ghostLogic3)
-      clearInterval(ghostLogic4)
+        document.removeEventListener('keydown', pacmanMove)
 
-      document.removeEventListener('keydown', pacmanMove)
-
-      maze[ghost1].style.animation = 'blinking 0.13s alternate 6'
-      maze[ghost2].style.animation = 'blinking 0.13s alternate 6'
-      maze[ghost3].style.animation = 'blinking 0.13s alternate 6'
-      maze[ghost4].style.animation = 'blinking 0.13s alternate 6'
-
-
-
-      setTimeout(() => {
-        maze[ghost1].classList.remove('ghost-1')
-        maze[ghost2].classList.remove('ghost-2')
-        maze[ghost3].classList.remove('ghost-3')
-        maze[ghost4].classList.remove('ghost-4')
-      }, 2000)
-
-      setTimeout(() => {
-        maze[pacman].style.visibility = 'hidden'
-        maze[pacman].classList.remove('pacman')
-      }, 3000)
-
-      setTimeout(() => {
-
-        //  LIVES 
-        if (lives === 1) {
-          container.style.opacity = '0.2'
-          gameOver.style.display = 'flex'
-          finalScore.innerHTML = scoreCount
-          audio.src = 'audio/zapsplat_human_male_voice_says_game_over_001_15726.mp3'
-          audio.play()
-        } else {
-          lives -= 1
-          livesIcon[lives].src = ''
-        }
-
-        document.addEventListener('keydown', pacmanMove)
-
-        maze[ghost1].classList.add('cell')
-        maze[ghost2].classList.add('cell')
-        maze[ghost3].classList.add('cell')
-        maze[ghost4].classList.add('cell')
-        maze[ghost1].style.animation = ''
-        maze[ghost2].style.animation = ''
-        maze[ghost3].style.animation = ''
-        maze[ghost4].style.animation = ''
-        maze[ghost1].style.visibility = 'visible'
-        maze[ghost2].style.visibility = 'visible'
-        maze[ghost3].style.visibility = 'visible'
-        maze[ghost4].style.visibility = 'visible'
+        maze[ghost1].style.animation = 'blinking 0.13s alternate 6'
+        maze[ghost2].style.animation = 'blinking 0.13s alternate 6'
+        maze[ghost3].style.animation = 'blinking 0.13s alternate 6'
+        maze[ghost4].style.animation = 'blinking 0.13s alternate 6'
 
 
-        pacman = 783
-        maze[pacman].classList.add('pacman')
-        ghost1 = 395
-        maze[ghost1].classList.add('ghost-1')
-        ghost2 = 397
-        maze[ghost2].classList.add('ghost-2')
-        ghost3 = 400
-        maze[ghost3].classList.add('ghost-3')
-        ghost4 = 402
-        maze[ghost4].classList.add('ghost-4')
 
-      }, 4000)
+        setTimeout(() => {
+          maze[ghost1].classList.remove('ghost-1')
+          maze[ghost2].classList.remove('ghost-2')
+          maze[ghost3].classList.remove('ghost-3')
+          maze[ghost4].classList.remove('ghost-4')
+        }, 2000)
 
-      setTimeout(() => {
-        ghostOne()
-        ghostTwo()
-        ghostThree()
-        ghostFour()
-      }, 5000)
+        setTimeout(() => {
+          maze[pacman].style.visibility = 'hidden'
+          maze[pacman].classList.remove('pacman')
+        }, 3000)
+
+        setTimeout(() => {
+
+          //  LIVES 
+          if (lives === 1) {
+            container.style.opacity = '0.2'
+            gameOver.style.display = 'flex'
+            finalScore.innerHTML = scoreCount
+            audio.src = 'audio/zapsplat_human_male_voice_says_game_over_001_15726.mp3'
+            audio.play()
+          } else {
+            lives -= 1
+            livesIcon[lives].src = ''
+          }
+
+          document.addEventListener('keydown', pacmanMove)
+
+          maze[ghost1].classList.add('cell')
+          maze[ghost2].classList.add('cell')
+          maze[ghost3].classList.add('cell')
+          maze[ghost4].classList.add('cell')
+          maze[ghost1].style.animation = ''
+          maze[ghost2].style.animation = ''
+          maze[ghost3].style.animation = ''
+          maze[ghost4].style.animation = ''
+          maze[ghost1].style.visibility = 'visible'
+          maze[ghost2].style.visibility = 'visible'
+          maze[ghost3].style.visibility = 'visible'
+          maze[ghost4].style.visibility = 'visible'
+
+
+          pacman = 783
+          maze[pacman].classList.add('pacman')
+          ghost1 = 395
+          maze[ghost1].classList.add('ghost-1')
+          ghost2 = 397
+          maze[ghost2].classList.add('ghost-2')
+          ghost3 = 400
+          maze[ghost3].classList.add('ghost-3')
+          ghost4 = 402
+          maze[ghost4].classList.add('ghost-4')
+
+        }, 4000)
+
+        setTimeout(() => {
+          ghostOne()
+          ghostTwo()
+          ghostThree()
+          ghostFour()
+        }, 5000)
+      }
+
+
+
+    } else {
+      // PACMAN CHASING GHOSTS
+
+      // SCARED GHOST 1
+     // if (maze[pacman].classList.contains('scared-ghost-1')) {
+        // SCORE AND TIME ADDDED ON
+        scoreCount += 80
+        score.innerHTML = scoreCount
+        gameTimer += 5
+        timer.innerHTML = gameTimer
+        // COLLISION AND EATING LOGIC
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic1)
+        maze[ghost1].style.animation = 'blinking 0.13s alternate 6'
+
+        setTimeout(() => {
+          maze[ghost1].classList.remove('scared-ghost-1')
+        }, 700)
+
+        setTimeout(() => {
+          document.addEventListener('keydown', pacmanMove)
+        }, 900)
+
+        setTimeout(() => {
+          ghost1 = 395
+          maze[ghost1].classList.add('ghost-1')
+        }, 1400)
+
+        setTimeout(() => {
+          ghostOne()
+          collisionInterval = setInterval(() => {
+            collision()
+          }, 75)
+        }, 1600)
+
+        // SCARED GHOST 2
+      } else if (maze[pacman].classList.contains('scared-ghost-2')) {
+        // SCORE AND TIME ADDDED ON
+        scoreCount += 80
+        score.innerHTML = scoreCount
+        gameTimer += 5
+        timer.innerHTML = gameTimer
+        // COLLISION AND EATING LOGIC
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic2)
+        maze[ghost2].style.animation = 'blinking 0.13s alternate 6'
+
+        setTimeout(() => {
+          maze[ghost2].classList.remove('scared-ghost-2')
+        }, 700)
+
+        setTimeout(() => {
+          document.addEventListener('keydown', pacmanMove)
+        }, 900)
+
+        setTimeout(() => {
+          ghost2 = 397
+          maze[ghost2].classList.add('ghost-2')
+        }, 1400)
+
+        setTimeout(() => {
+          ghostTwo()
+          collisionInterval = setInterval(() => {
+            collision()
+          }, 75)
+        }, 1600)
+
+        // SCARED GHOST 3
+      } else if (maze[pacman].classList.contains('scared-ghost-3')) {
+        // SCORE AND TIME ADDDED ON
+        scoreCount += 80
+        score.innerHTML = scoreCount
+        gameTimer += 5
+        timer.innerHTML = gameTimer
+        // COLLISION AND EATING LOGIC
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic3)
+        maze[ghost3].style.animation = 'blinking 0.13s alternate 6'
+
+        setTimeout(() => {
+          maze[ghost3].classList.remove('scared-ghost-3')
+        }, 700)
+
+        setTimeout(() => {
+          document.addEventListener('keydown', pacmanMove)
+        }, 900)
+
+        setTimeout(() => {
+          ghost3 = 400
+          maze[ghost3].classList.add('ghost-3')
+        }, 1400)
+
+        setTimeout(() => {
+          ghostThree()
+          collisionInterval = setInterval(() => {
+            collision()
+          }, 75)
+        }, 1600)
+
+
+        // SCARED GHOST 4
+      } else if (maze[pacman].classList.contains('scared-ghost-4')) {
+        // SCORE AND TIME ADDDED ON
+        scoreCount += 80
+        score.innerHTML = scoreCount
+        gameTimer += 5
+        timer.innerHTML = gameTimer
+        // COLLISION AND EATING LOGIC
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic4)
+        maze[ghost4].style.animation = 'blinking 0.13s alternate 6'
+
+        setTimeout(() => {
+          maze[ghost4].classList.remove('scared-ghost-4')
+        }, 700)
+
+        setTimeout(() => {
+          document.addEventListener('keydown', pacmanMove)
+        }, 900)
+
+        setTimeout(() => {
+          ghost4 = 402
+          maze[ghost4].classList.add('ghost-4')
+        }, 1400)
+
+        setTimeout(() => {
+          ghostFour()
+          collisionInterval = setInterval(() => {
+            collision()
+          }, 75)
+        }, 1600)
+      }
     }
-
-    // if (maze[pacman].classList.contains('ghost-1') ||
-    //   maze[pacman].classList.contains('ghost-2') ||
-    //   maze[pacman].classList.contains('ghost-3') ||
-    //   maze[pacman].classList.contains('ghost-4')) {
-
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // GAME END FOOTER SCREEN
 
   const submitButton = document.querySelector('.submit')
   const name = document.querySelector('input')
@@ -753,63 +1007,40 @@ const main = setTimeout(() => {
 
   submitButton.addEventListener('mousedown', () => {
     submitButton.style.transform = 'scale(0.9)'
-
   })
 
   function displayScore() {
-
     let scores = []
     const scoresList = document.querySelector('ol')
-
     if (localStorage) {
-
       const players = JSON.parse(localStorage.getItem('players'))
       if (players) {
         scores = players
-
         const array = scores.sort((playerA, playerB) => playerB.score - playerA.score).map(player => {
           return `<li> ${player.name} - ${player.score} points - map: ${player.map} </li>`
         })
         scoresList.innerHTML = array.join('')
       }
-
-
     }
 
     submitButton.addEventListener('mouseup', () => {
       submitButton.style.transform = ''
-
       //LEADER BOARD AND SCORING WINNERS
       const player = { name: name.value, score: scoreCount, map: mapNo.value }
-
       scores.push(player)
       console.log(localStorage)
-
       if (localStorage) {
         localStorage.setItem('players', JSON.stringify(scores))
       }
-
       gameOver.style.display = 'none'
       container.style.opacity = '1'
-
       displayScore()
     })
   }
 
 
-
-
-
-
-
-
   window.onLoad = displayScore()
-
-
-
 }, 4500)
-
-
 
 window.addEventListener('DOMContentLoaded', main)
 
