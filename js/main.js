@@ -196,24 +196,36 @@ const main = setTimeout(() => {
     }
   }
 
+  function removePacman() {
+    maze[pacman].classList.remove('pacman')
+    maze[pacman].classList.remove('pacman-right')
+    maze[pacman].classList.remove('pacman-down')
+    maze[pacman].classList.remove('pacman-up')
+    maze[pacman].classList.remove('pacman-left')
+  }
+
+  function removeFood(pacmanSmooth) {
+    maze[pacman].classList.remove('food')
+    maze[pacman].classList.add('pacman')
+    maze[pacman].classList.add(pacmanSmooth)
+    scoreCount += 10
+    score.innerHTML = scoreCount
+    audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+    audio.play()
+    pacmanMoves.push(pacman)
+  }
+
   function movePacman() {
-
-
     playerInterval = setInterval(() => {
 
       // USER
-      // if (event.key === 'ArrowRight' || event.key === 'd') {
       if (playerMovement === 2) {
 
         if (noRight.includes(pacman)) {
           return
         } else {
           if (pacman === 508) {
-            maze[pacman].classList.remove('pacman')
-            maze[pacman].classList.remove('pacman-right')
-            maze[pacman].classList.remove('pacman-down')
-            maze[pacman].classList.remove('pacman-up')
-            maze[pacman].classList.remove('pacman-left')
+            removePacman()
             pacman = 481
             maze[pacman].classList.add('pacman')
             maze[pacman].classList.add('pacman-right')
@@ -221,31 +233,16 @@ const main = setTimeout(() => {
             audio.play()
             pacmanMoves.push(pacman)
           } else if (maze[pacman + 1].classList.contains('food')) {
-            maze[pacman].classList.remove('pacman')
-            maze[pacman].classList.remove('pacman-right')
-            maze[pacman].classList.remove('pacman-down')
-            maze[pacman].classList.remove('pacman-up')
-            maze[pacman].classList.remove('pacman-left')
+            removePacman()
             pacman += 1
-            maze[pacman].classList.remove('food')
-            maze[pacman].classList.add('pacman')
-            maze[pacman].classList.add('pacman-right')
-            scoreCount += 10
-            score.innerHTML = scoreCount
-            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-            audio.play()
-            pacmanMoves.push(pacman)
+            removeFood('pacman-right')
           } else if (maze[pacman + 1].classList.contains('superFood')) {
             chase = true
             chase = false
             setTimeout(() => {
               chase = true
             }, 10000)
-            maze[pacman].classList.remove('pacman')
-            maze[pacman].classList.remove('pacman-right')
-            maze[pacman].classList.remove('pacman-down')
-            maze[pacman].classList.remove('pacman-up')
-            maze[pacman].classList.remove('pacman-left')
+            removePacman()
             pacman += 1
             maze[pacman].classList.remove('superFood')
             maze[pacman].classList.add('pacman')
@@ -255,11 +252,7 @@ const main = setTimeout(() => {
             audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
             audio.play()
           } else {
-            maze[pacman].classList.remove('pacman')
-            maze[pacman].classList.remove('pacman-right')
-            maze[pacman].classList.remove('pacman-down')
-            maze[pacman].classList.remove('pacman-up')
-            maze[pacman].classList.remove('pacman-left')
+            removePacman()
             pacman += 1
             maze[pacman].classList.add('pacman')
             maze[pacman].classList.add('pacman-right')
@@ -269,18 +262,13 @@ const main = setTimeout(() => {
           }
         }
 
-        // } else if (event.key === 'ArrowLeft' || event.key === 'a') {
       } else if (playerMovement === 4) {
 
         if (noLeft.includes(pacman)) {
           return
         } else {
           if (pacman === 481) {
-            maze[pacman].classList.remove('pacman')
-            maze[pacman].classList.remove('pacman-right')
-            maze[pacman].classList.remove('pacman-down')
-            maze[pacman].classList.remove('pacman-up')
-            maze[pacman].classList.remove('pacman-left')
+            removePacman()
             pacman = 508
             maze[pacman].classList.add('pacman')
             maze[pacman].classList.add('pacman-left')
@@ -288,31 +276,16 @@ const main = setTimeout(() => {
             audio.play()
             pacmanMoves.push(pacman)
           } else if (maze[pacman - 1].classList.contains('food')) {
-            maze[pacman].classList.remove('pacman')
-            maze[pacman].classList.remove('pacman-right')
-            maze[pacman].classList.remove('pacman-down')
-            maze[pacman].classList.remove('pacman-up')
-            maze[pacman].classList.remove('pacman-left')
+            removePacman()
             pacman -= 1
-            maze[pacman].classList.remove('food')
-            maze[pacman].classList.add('pacman')
-            maze[pacman].classList.add('pacman-left')
-            scoreCount += 10
-            score.innerHTML = scoreCount
-            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-            audio.play()
-            pacmanMoves.push(pacman)
+            removeFood('pacman-left')
           } else if (maze[pacman - 1].classList.contains('superFood')) {
             chase = true
             chase = false
             setTimeout(() => {
               chase = true
             }, 10000)
-            maze[pacman].classList.remove('pacman')
-            maze[pacman].classList.remove('pacman-right')
-            maze[pacman].classList.remove('pacman-down')
-            maze[pacman].classList.remove('pacman-up')
-            maze[pacman].classList.remove('pacman-left')
+            removePacman()
             pacman -= 1
             maze[pacman].classList.remove('superFood')
             maze[pacman].classList.add('pacman')
@@ -322,11 +295,7 @@ const main = setTimeout(() => {
             audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
             audio.play()
           } else {
-            maze[pacman].classList.remove('pacman')
-            maze[pacman].classList.remove('pacman-right')
-            maze[pacman].classList.remove('pacman-down')
-            maze[pacman].classList.remove('pacman-up')
-            maze[pacman].classList.remove('pacman-left')
+            removePacman()
             pacman -= 1
             maze[pacman].classList.add('pacman')
             maze[pacman].classList.add('pacman-left')
@@ -335,38 +304,22 @@ const main = setTimeout(() => {
             pacmanMoves.push(pacman)
           }
         }
-
-        // } else if (event.key === 'ArrowUp' || event.key === 'w') {
+        
       } else if (playerMovement === 1) {
 
         if (noUp.includes(pacman)) {
           return
         } else if (maze[pacman - (width - 1)].classList.contains('food')) {
-          maze[pacman].classList.remove('pacman')
-          maze[pacman].classList.remove('pacman-right')
-          maze[pacman].classList.remove('pacman-down')
-          maze[pacman].classList.remove('pacman-up')
-          maze[pacman].classList.remove('pacman-left')
+          removePacman()
           pacman -= (width - 1)
-          maze[pacman].classList.remove('food')
-          maze[pacman].classList.add('pacman')
-          maze[pacman].classList.add('pacman-up')
-          scoreCount += 10
-          score.innerHTML = scoreCount
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-          pacmanMoves.push(pacman)
+          removeFood('pacman-up')
         } else if (maze[pacman - (width - 1)].classList.contains('superFood')) {
           chase = true
           chase = false
           setTimeout(() => {
             chase = true
           }, 10000)
-          maze[pacman].classList.remove('pacman')
-          maze[pacman].classList.remove('pacman-right')
-          maze[pacman].classList.remove('pacman-down')
-          maze[pacman].classList.remove('pacman-up')
-          maze[pacman].classList.remove('pacman-left')
+          removePacman()
           pacman -= (width - 1)
           maze[pacman].classList.remove('superFood')
           maze[pacman].classList.add('pacman')
@@ -376,11 +329,7 @@ const main = setTimeout(() => {
           audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
           audio.play()
         } else {
-          maze[pacman].classList.remove('pacman')
-          maze[pacman].classList.remove('pacman-right')
-          maze[pacman].classList.remove('pacman-down')
-          maze[pacman].classList.remove('pacman-up')
-          maze[pacman].classList.remove('pacman-left')
+          removePacman()
           pacman -= (width - 1)
           maze[pacman].classList.add('pacman')
           maze[pacman].classList.add('pacman-up')
@@ -389,37 +338,21 @@ const main = setTimeout(() => {
           pacmanMoves.push(pacman)
         }
 
-        // } else if (event.key === 'ArrowDown' || event.key === 's') {
       } else if (playerMovement === 3) {
 
         if (noDown.includes(pacman)) {
           return
         } else if (maze[pacman + (width - 1)].classList.contains('food')) {
-          maze[pacman].classList.remove('pacman')
-          maze[pacman].classList.remove('pacman-right')
-          maze[pacman].classList.remove('pacman-down')
-          maze[pacman].classList.remove('pacman-up')
-          maze[pacman].classList.remove('pacman-left')
+          removePacman()
           pacman += (width - 1)
-          maze[pacman].classList.remove('food')
-          maze[pacman].classList.add('pacman')
-          maze[pacman].classList.add('pacman-down')
-          scoreCount += 10
-          score.innerHTML = scoreCount
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-          pacmanMoves.push(pacman)
+          removeFood('pacman-down')
         } else if (maze[pacman + (width - 1)].classList.contains('superFood')) {
           chase = true
           chase = false
           setTimeout(() => {
             chase = true
           }, 7000)
-          maze[pacman].classList.remove('pacman')
-          maze[pacman].classList.remove('pacman-right')
-          maze[pacman].classList.remove('pacman-down')
-          maze[pacman].classList.remove('pacman-up')
-          maze[pacman].classList.remove('pacman-left')
+          removePacman()
           pacman += (width - 1)
           maze[pacman].classList.remove('superFood')
           maze[pacman].classList.add('pacman')
@@ -429,11 +362,7 @@ const main = setTimeout(() => {
           audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
           audio.play()
         } else {
-          maze[pacman].classList.remove('pacman')
-          maze[pacman].classList.remove('pacman-right')
-          maze[pacman].classList.remove('pacman-down')
-          maze[pacman].classList.remove('pacman-up')
-          maze[pacman].classList.remove('pacman-left')
+          removePacman()
           pacman += (width - 1)
           maze[pacman].classList.add('pacman')
           maze[pacman].classList.add('pacman-down')
@@ -464,6 +393,14 @@ const main = setTimeout(() => {
 
   // COLLISION LOGIC
   let collisionInterval
+
+  function removeGhosts(ghost, ghostClass) {
+    maze[ghost].classList.remove(ghostClass)
+    maze[ghost].classList.remove('ghost-left')
+    maze[ghost].classList.remove('ghost-down')
+    maze[ghost].classList.remove('ghost-up')
+    maze[ghost].classList.remove('ghost-right')
+  }
 
   function ghostOne() {
 
@@ -497,61 +434,37 @@ const main = setTimeout(() => {
         const ghostOnePrevious = maze[ghost1 + ghostOneMoves].className
 
         if (ghost1 === 482 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 508) {
-          maze[ghost1].classList.remove('ghost-1')
-          maze[ghost1].classList.remove('ghost-left')
-          maze[ghost1].classList.remove('ghost-down')
-          maze[ghost1].classList.remove('ghost-up')
-          maze[ghost1].classList.remove('ghost-right')
-          ghost1 = 508
+          removeGhosts(ghost1, 'ghost-1')
+          ghost1 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost1].classList.add('ghost-1')
           maze[ghost1].classList.add('ghost-right')
         } else if (ghost1 === 508 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 482) {
-          maze[ghost1].classList.remove('ghost-1')
-          maze[ghost1].classList.remove('ghost-left')
-          maze[ghost1].classList.remove('ghost-down')
-          maze[ghost1].classList.remove('ghost-up')
-          maze[ghost1].classList.remove('ghost-right')
-          ghost1 = 482
+          removeGhosts(ghost1, 'ghost-1')
+          ghost1 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost1].classList.add('ghost-1')
           maze[ghost1].classList.add('ghost-right')
         } else {
 
           if (ghostOneMoves === 1) {
-            maze[ghost1].classList.remove('ghost-1')
-            maze[ghost1].classList.remove('ghost-left')
-            maze[ghost1].classList.remove('ghost-down')
-            maze[ghost1].classList.remove('ghost-up')
-            maze[ghost1].classList.remove('ghost-right')
+            removeGhosts(ghost1, 'ghost-1')
             ghost1 += ghostOneMoves
             maze[ghost1].classList.add('ghost-1')
             maze[ghost1].classList.add('ghost-right')
             maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
           } else if (ghostOneMoves === -1) {
-            maze[ghost1].classList.remove('ghost-1')
-            maze[ghost1].classList.remove('ghost-left')
-            maze[ghost1].classList.remove('ghost-down')
-            maze[ghost1].classList.remove('ghost-up')
-            maze[ghost1].classList.remove('ghost-right')
+            removeGhosts(ghost1, 'ghost-1')
             ghost1 += ghostOneMoves
             maze[ghost1].classList.add('ghost-1')
             maze[ghost1].classList.add('ghost-left')
             maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
           } else if (ghostOneMoves === -32) {
-            maze[ghost1].classList.remove('ghost-1')
-            maze[ghost1].classList.remove('ghost-left')
-            maze[ghost1].classList.remove('ghost-down')
-            maze[ghost1].classList.remove('ghost-up')
-            maze[ghost1].classList.remove('ghost-right')
+            removeGhosts(ghost1, 'ghost-1')
             ghost1 += ghostOneMoves
             maze[ghost1].classList.add('ghost-1')
             maze[ghost1].classList.add('ghost-up')
             maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
           } else if (ghostOneMoves === 32) {
-            maze[ghost1].classList.remove('ghost-1')
-            maze[ghost1].classList.remove('ghost-left')
-            maze[ghost1].classList.remove('ghost-down')
-            maze[ghost1].classList.remove('ghost-up')
-            maze[ghost1].classList.remove('ghost-right')
+            removeGhosts(ghost1, 'ghost-1')
             ghost1 += ghostOneMoves
             maze[ghost1].classList.add('ghost-1')
             maze[ghost1].classList.add('ghost-down')
@@ -582,49 +495,33 @@ const main = setTimeout(() => {
 
         if (ghost1 === 482 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 508) {
           maze[ghost1].classList.remove('scared-ghost-1')
-          ghost1 = 508
+          ghost1 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost1].classList.add('scared-ghost-1')
         } else if (ghost1 === 508 && ghostOnePositionsLog[ghostOnePositionsLog.length - 2] !== 482) {
           maze[ghost1].classList.remove('scared-ghost-1')
-          ghost1 = 482
+          ghost1 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost1].classList.add('scared-ghost-1')
         } else {
           if (ghostOneMoves === 1) {
-            maze[ghost1].classList.remove('scared-ghost-1')
-            maze[ghost1].classList.remove('ghost-left')
-            maze[ghost1].classList.remove('ghost-down')
-            maze[ghost1].classList.remove('ghost-up')
-            maze[ghost1].classList.remove('ghost-right')
+            removeGhosts(ghost1, 'scared-ghost-1')
             ghost1 += ghostOneMoves
             maze[ghost1].classList.add('scared-ghost-1')
             maze[ghost1].classList.add('ghost-right')
             maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
           } else if (ghostOneMoves === -1) {
-            maze[ghost1].classList.remove('scared-ghost-1')
-            maze[ghost1].classList.remove('ghost-left')
-            maze[ghost1].classList.remove('ghost-down')
-            maze[ghost1].classList.remove('ghost-up')
-            maze[ghost1].classList.remove('ghost-right')
+            removeGhosts(ghost1, 'scared-ghost-1')
             ghost1 += ghostOneMoves
             maze[ghost1].classList.add('scared-ghost-1')
             maze[ghost1].classList.add('ghost-left')
             maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
           } else if (ghostOneMoves === -32) {
-            maze[ghost1].classList.remove('scared-ghost-1')
-            maze[ghost1].classList.remove('ghost-left')
-            maze[ghost1].classList.remove('ghost-down')
-            maze[ghost1].classList.remove('ghost-up')
-            maze[ghost1].classList.remove('ghost-right')
+            removeGhosts(ghost1, 'scared-ghost-1')
             ghost1 += ghostOneMoves
             maze[ghost1].classList.add('scared-ghost-1')
             maze[ghost1].classList.add('ghost-up')
             maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
           } else if (ghostOneMoves === 32) {
-            maze[ghost1].classList.remove('scared-ghost-1')
-            maze[ghost1].classList.remove('ghost-left')
-            maze[ghost1].classList.remove('ghost-down')
-            maze[ghost1].classList.remove('ghost-up')
-            maze[ghost1].classList.remove('ghost-right')
+            removeGhosts(ghost1, 'scared-ghost-1')
             ghost1 += ghostOneMoves
             maze[ghost1].classList.add('scared-ghost-1')
             maze[ghost1].classList.add('ghost-down')
@@ -634,8 +531,6 @@ const main = setTimeout(() => {
       }
     }, 120)
   }
-
-
 
   function ghostTwo(ghost, ghostPositionsLog, ghostMoves, ghostPrevious, ghostClass) {
     ghostLogic2 = setInterval(() => {
@@ -667,50 +562,34 @@ const main = setTimeout(() => {
 
         if (ghost2 === 482 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 507) {
           maze[ghost2].classList.remove('ghost-2')
-          ghost2 = 507
+          ghost2 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost2].classList.add('ghost-2')
         } else if (ghost2 === 508 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 482) {
           maze[ghost2].classList.remove('ghost-2')
-          ghost2 = 482
+          ghost2 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost2].classList.add('ghost-2')
         } else {
 
           if (ghostTwoMoves === 1) {
-            maze[ghost2].classList.remove('ghost-2')
-            maze[ghost2].classList.remove('ghost-left')
-            maze[ghost2].classList.remove('ghost-down')
-            maze[ghost2].classList.remove('ghost-up')
-            maze[ghost2].classList.remove('ghost-right')
+            removeGhosts(ghost2, 'ghost-2')
             ghost2 += ghostTwoMoves
             maze[ghost2].classList.add('ghost-2')
             maze[ghost2].classList.add('ghost-right')
             maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
           } else if (ghostTwoMoves === -1) {
-            maze[ghost2].classList.remove('ghost-2')
-            maze[ghost2].classList.remove('ghost-left')
-            maze[ghost2].classList.remove('ghost-down')
-            maze[ghost2].classList.remove('ghost-up')
-            maze[ghost2].classList.remove('ghost-right')
+            removeGhosts(ghost2, 'ghost-2')
             ghost2 += ghostTwoMoves
             maze[ghost2].classList.add('ghost-2')
             maze[ghost2].classList.add('ghost-left')
             maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
           } else if (ghostTwoMoves === -32) {
-            maze[ghost2].classList.remove('ghost-2')
-            maze[ghost2].classList.remove('ghost-left')
-            maze[ghost2].classList.remove('ghost-down')
-            maze[ghost2].classList.remove('ghost-up')
-            maze[ghost2].classList.remove('ghost-right')
+            removeGhosts(ghost2, 'ghost-2')
             ghost2 += ghostTwoMoves
             maze[ghost2].classList.add('ghost-2')
             maze[ghost2].classList.add('ghost-up')
             maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
           } else if (ghostTwoMoves === 32) {
-            maze[ghost2].classList.remove('ghost-2')
-            maze[ghost2].classList.remove('ghost-left')
-            maze[ghost2].classList.remove('ghost-down')
-            maze[ghost2].classList.remove('ghost-up')
-            maze[ghost2].classList.remove('ghost-right')
+            removeGhosts(ghost2, 'ghost-2')
             ghost2 += ghostTwoMoves
             maze[ghost2].classList.add('ghost-2')
             maze[ghost2].classList.add('ghost-down')
@@ -742,50 +621,34 @@ const main = setTimeout(() => {
 
         if (ghost2 === 482 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 507) {
           maze[ghost2].classList.remove('scared-ghost-2')
-          ghost2 = 507
+          ghost2 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost2].classList.add('scared-ghost-2')
         } else if (ghost2 === 508 && ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2] !== 482) {
           maze[ghost2].classList.remove('scared-ghost-2')
-          ghost2 = 482
+          ghost2 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost2].classList.add('scared-ghost-2')
         } else {
 
           if (ghostTwoMoves === 1) {
-            maze[ghost2].classList.remove('scared-ghost-2')
-            maze[ghost2].classList.remove('ghost-left')
-            maze[ghost2].classList.remove('ghost-down')
-            maze[ghost2].classList.remove('ghost-up')
-            maze[ghost2 ].classList.remove('ghost-right')
+            removeGhosts(ghost2, 'scared-ghost-2')
             ghost2 += ghostTwoMoves
             maze[ghost2].classList.add('scared-ghost-2')
             maze[ghost2].classList.add('ghost-right')
             maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
           } else if (ghostTwoMoves === -1) {
-            maze[ghost2].classList.remove('scared-ghost-2')
-            maze[ghost2].classList.remove('ghost-left')
-            maze[ghost2].classList.remove('ghost-down')
-            maze[ghost2].classList.remove('ghost-up')
-            maze[ghost2].classList.remove('ghost-right')
+            removeGhosts(ghost2, 'scared-ghost-2')
             ghost2 += ghostTwoMoves
             maze[ghost2].classList.add('scared-ghost-2')
             maze[ghost2].classList.add('ghost-left')
             maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
           } else if (ghostTwoMoves === -32) {
-            maze[ghost2].classList.remove('scared-ghost-2')
-            maze[ghost2].classList.remove('ghost-left')
-            maze[ghost2].classList.remove('ghost-down')
-            maze[ghost2].classList.remove('ghost-up')
-            maze[ghost2].classList.remove('ghost-right')
+            removeGhosts(ghost2, 'scared-ghost-2')
             ghost2 += ghostTwoMoves
             maze[ghost2].classList.add('scared-ghost-2')
             maze[ghost2].classList.add('ghost-up')
             maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
           } else if (ghostTwoMoves === 32) {
-            maze[ghost2].classList.remove('scared-ghost-2')
-            maze[ghost2].classList.remove('ghost-left')
-            maze[ghost2].classList.remove('ghost-down')
-            maze[ghost2].classList.remove('ghost-up')
-            maze[ghost2].classList.remove('ghost-right')
+            removeGhosts(ghost2, 'scared-ghost-2')
             ghost2 += ghostTwoMoves
             maze[ghost2].classList.add('scared-ghost-2')
             maze[ghost2].classList.add('ghost-down')
@@ -795,13 +658,6 @@ const main = setTimeout(() => {
       }
     }, 120)
   }
-
-
-
-
-
-
-
 
   function ghostThree() {
     ghostLogic3 = setInterval(() => {
@@ -831,50 +687,34 @@ const main = setTimeout(() => {
 
         if (ghost3 === 482 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 507) {
           maze[ghost3].classList.remove('ghost-3')
-          ghost3 = 507
+          ghost3 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost3].classList.add('ghost-3')
         } else if (ghost3 === 507 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 482) {
           maze[ghost3].classList.remove('ghost-3')
-          ghost3 = 482
+          ghost3 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost3].classList.add('ghost-3')
         } else {
 
           if (ghostThreeMoves === 1) {
-            maze[ghost3].classList.remove('ghost-3')
-            maze[ghost3].classList.remove('ghost-left')
-            maze[ghost3].classList.remove('ghost-down')
-            maze[ghost3].classList.remove('ghost-up')
-            maze[ghost3].classList.remove('ghost-right')
+            removeGhosts(ghost3, 'ghost-3')
             ghost3 += ghostThreeMoves
             maze[ghost3].classList.add('ghost-3')
             maze[ghost3].classList.add('ghost-right')
             maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
           } else if (ghostThreeMoves === -1) {
-            maze[ghost3].classList.remove('ghost-3')
-            maze[ghost3].classList.remove('ghost-left')
-            maze[ghost3].classList.remove('ghost-down')
-            maze[ghost3].classList.remove('ghost-up')
-            maze[ghost3 ].classList.remove('ghost-right')
+            removeGhosts(ghost3, 'ghost-3')
             ghost3 += ghostThreeMoves
             maze[ghost3].classList.add('ghost-3')
             maze[ghost3].classList.add('ghost-left')
             maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
           } else if (ghostThreeMoves === -32) {
-            maze[ghost3].classList.remove('ghost-3')
-            maze[ghost3].classList.remove('ghost-left')
-            maze[ghost3].classList.remove('ghost-down')
-            maze[ghost3].classList.remove('ghost-up')
-            maze[ghost3].classList.remove('ghost-right')
+            removeGhosts(ghost3, 'ghost-3')
             ghost3 += ghostThreeMoves
             maze[ghost3].classList.add('ghost-3')
             maze[ghost3].classList.add('ghost-up')
             maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
           } else if (ghostThreeMoves === 32) {
-            maze[ghost3].classList.remove('ghost-3')
-            maze[ghost3].classList.remove('ghost-left')
-            maze[ghost3].classList.remove('ghost-down')
-            maze[ghost3].classList.remove('ghost-up')
-            maze[ghost3].classList.remove('ghost-right')
+            removeGhosts(ghost3, 'ghost-3')
             ghost3 += ghostThreeMoves
             maze[ghost3].classList.add('ghost-3')
             maze[ghost3].classList.add('ghost-down')
@@ -905,49 +745,33 @@ const main = setTimeout(() => {
 
         if (ghost3 === 482 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 507) {
           maze[ghost3].classList.remove('scared-ghost-3')
-          ghost3 = 507
+          ghost3 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost3].classList.add('scared-ghost-3')
         } else if (ghost3 === 507 && ghostThreePositionsLog[ghostThreePositionsLog.length - 2] !== 482) {
           maze[ghost3].classList.remove('scared-ghost-3')
-          ghost3 = 482
+          ghost3 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost3].classList.add('scared-ghost-3')
         } else {
           if (ghostThreeMoves === 1) {
-            maze[ghost3].classList.remove('scared-ghost-3')
-            maze[ghost3].classList.remove('ghost-left')
-            maze[ghost3].classList.remove('ghost-down')
-            maze[ghost3].classList.remove('ghost-up')
-            maze[ghost3].classList.remove('ghost-right')
+            removeGhosts(ghost3, 'scared-ghost-3')
             ghost3 += ghostThreeMoves
             maze[ghost3].classList.add('scared-ghost-3')
             maze[ghost3].classList.add('ghost-right')
             maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
           } else if (ghostThreeMoves === -1) {
-            maze[ghost3].classList.remove('scared-ghost-3')
-            maze[ghost3].classList.remove('ghost-left')
-            maze[ghost3].classList.remove('ghost-down')
-            maze[ghost3].classList.remove('ghost-up')
-            maze[ghost3].classList.remove('ghost-right')
+            removeGhosts(ghost3, 'scared-ghost-3')
             ghost3 += ghostThreeMoves
             maze[ghost3].classList.add('scared-ghost-3')
             maze[ghost3].classList.add('ghost-left')
             maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
           } else if (ghostThreeMoves === -32) {
-            maze[ghost3].classList.remove('scared-ghost-3')
-            maze[ghost3].classList.remove('ghost-left')
-            maze[ghost3].classList.remove('ghost-down')
-            maze[ghost3].classList.remove('ghost-up')
-            maze[ghost3].classList.remove('ghost-right')
+            removeGhosts(ghost3, 'scared-ghost-3')
             ghost3 += ghostThreeMoves
             maze[ghost3].classList.add('scared-ghost-3')
             maze[ghost3].classList.add('ghost-up')
             maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
           } else if (ghostThreeMoves === 32) {
-            maze[ghost3].classList.remove('scared-ghost-3')
-            maze[ghost3].classList.remove('ghost-left')
-            maze[ghost3].classList.remove('ghost-down')
-            maze[ghost3].classList.remove('ghost-up')
-            maze[ghost3].classList.remove('ghost-right')
+            removeGhosts(ghost3, 'scared-ghost-3')
             ghost3 += ghostThreeMoves
             maze[ghost3].classList.add('scared-ghost-3')
             maze[ghost3].classList.add('ghost-down')
@@ -958,11 +782,7 @@ const main = setTimeout(() => {
     }, 120)
   }
 
-
-
   function ghostFour() {
-
-
     ghostLogic4 = setInterval(() => {
 
       const ghostFourDirections = []
@@ -986,56 +806,39 @@ const main = setTimeout(() => {
           ghostFourDirections.push(width - 1)
         }
 
-
         // GHOST 4
         const ghostFourMoves = ghostFourDirections[Math.floor(Math.random() * ghostFourDirections.length)]
         const ghostFourPrevious = maze[ghost4 + ghostFourMoves].className
 
         if (ghost4 === 482 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 507) {
           maze[ghost4].classList.remove('ghost-4')
-          ghost4 = 507
+          ghost4 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost4].classList.add('ghost-4')
         } else if (ghost4 === 507 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 482) {
           maze[ghost4].classList.remove('ghost-4')
-          ghost4 = 482
+          ghost4 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost4].classList.add('ghost-4')
         } else {
           if (ghostFourMoves === 1) {
-            maze[ghost4].classList.remove('ghost-4')
-            maze[ghost4].classList.remove('ghost-left')
-            maze[ghost4].classList.remove('ghost-down')
-            maze[ghost4].classList.remove('ghost-up')
-            maze[ghost4].classList.remove('ghost-right')
+            removeGhosts(ghost4, 'ghost-4')
             ghost4 += ghostFourMoves
             maze[ghost4].classList.add('ghost-4')
             maze[ghost4].classList.add('ghost-right')
             maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
           } else if (ghostFourMoves === -1) {
-            maze[ghost4].classList.remove('ghost-4')
-            maze[ghost4].classList.remove('ghost-left')
-            maze[ghost4].classList.remove('ghost-down')
-            maze[ghost4].classList.remove('ghost-up')
-            maze[ghost4].classList.remove('ghost-right')
+            removeGhosts(ghost4, 'ghost-4')
             ghost4 += ghostFourMoves
             maze[ghost4].classList.add('ghost-4')
             maze[ghost4].classList.add('ghost-left')
             maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
           } else if (ghostFourMoves === -32) {
-            maze[ghost4].classList.remove('ghost-4')
-            maze[ghost4].classList.remove('ghost-left')
-            maze[ghost4].classList.remove('ghost-down')
-            maze[ghost4].classList.remove('ghost-up')
-            maze[ghost4].classList.remove('ghost-right')
+            removeGhosts(ghost4, 'ghost-4')
             ghost4 += ghostFourMoves
             maze[ghost4].classList.add('ghost-4')
             maze[ghost4].classList.add('ghost-up')
             maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
           } else if (ghostFourMoves === 32) {
-            maze[ghost4].classList.remove('ghost-4')
-            maze[ghost4].classList.remove('ghost-left')
-            maze[ghost4].classList.remove('ghost-down')
-            maze[ghost4].classList.remove('ghost-up')
-            maze[ghost4].classList.remove('ghost-right')
+            removeGhosts(ghost4, 'ghost-4')
             ghost4 += ghostFourMoves
             maze[ghost4].classList.add('ghost-4')
             maze[ghost4].classList.add('ghost-down')
@@ -1069,49 +872,33 @@ const main = setTimeout(() => {
 
         if (ghost4 === 482 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 507) {
           maze[ghost4].classList.remove('scared-ghost-4')
-          ghost4 = 507
+          ghost4 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost4].classList.add('scared-ghost')
         } else if (ghost4 === 507 && ghostFourPositionsLog[ghostFourPositionsLog.length - 2] !== 482) {
           maze[ghost4].classList.remove('scared-ghost-4')
-          ghost4 = 482
+          ghost4 = foodPlacements[Math.floor(Math.random() * foodPlacements.length)]
           maze[ghost4].classList.add('scared-ghost-4')
         } else {
           if (ghostFourMoves === 1) {
-            maze[ghost4].classList.remove('scared-ghost-4')
-            maze[ghost4].classList.remove('ghost-left')
-            maze[ghost4].classList.remove('ghost-down')
-            maze[ghost4].classList.remove('ghost-up')
-            maze[ghost4].classList.remove('ghost-right')
+            removeGhosts(ghost4, 'scared-ghost-4')
             ghost4 += ghostFourMoves
             maze[ghost4].classList.add('scared-ghost-4')
             maze[ghost4].classList.add('ghost-right')
             maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
           } else if (ghostFourMoves === -1) {
-            maze[ghost4].classList.remove('scared-ghost-4')
-            maze[ghost4].classList.remove('ghost-left')
-            maze[ghost4].classList.remove('ghost-down')
-            maze[ghost4].classList.remove('ghost-up')
-            maze[ghost4].classList.remove('ghost-right')
+            removeGhosts(ghost4, 'scared-ghost-4')
             ghost4 += ghostFourMoves
             maze[ghost4].classList.add('scared-ghost-4')
             maze[ghost4].classList.add('ghost-left')
             maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
           } else if (ghostFourMoves === -32) {
-            maze[ghost4].classList.remove('scared-ghost-4')
-            maze[ghost4].classList.remove('ghost-left')
-            maze[ghost4].classList.remove('ghost-down')
-            maze[ghost4].classList.remove('ghost-up')
-            maze[ghost4].classList.remove('ghost-right')
+            removeGhosts(ghost4, 'scared-ghost-4')
             ghost4 += ghostFourMoves
             maze[ghost4].classList.add('scared-ghost-4')
             maze[ghost4].classList.add('ghost-up')
             maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
           } else if (ghostFourMoves === 32) {
-            maze[ghost4].classList.remove('scared-ghost-4')
-            maze[ghost4].classList.remove('ghost-left')
-            maze[ghost4].classList.remove('ghost-down')
-            maze[ghost4].classList.remove('ghost-up')
-            maze[ghost4].classList.remove('ghost-right')
+            removeGhosts(ghost4, 'scared-ghost-4')
             ghost4 += ghostFourMoves
             maze[ghost4].classList.add('scared-ghost-4')
             maze[ghost4].classList.add('ghost-down')
@@ -1121,16 +908,10 @@ const main = setTimeout(() => {
       }
     }, 120)
   }
-
-
   ghostOne()
   ghostTwo()
   ghostThree()
   ghostFour()
-
-
-
-
 
 
   //COLLISION LOGIC
@@ -1399,10 +1180,6 @@ const main = setTimeout(() => {
     }
   }
 
-
-
-
-
   // GAME END FOOTER SCREEN
 
   const submitButton = document.querySelector('.submit')
@@ -1441,8 +1218,6 @@ const main = setTimeout(() => {
       displayScore()
     })
   }
-
-
   window.onLoad = displayScore()
 }, 4500)
 

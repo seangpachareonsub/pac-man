@@ -1074,6 +1074,7 @@ const main = setTimeout(() => {
           maze[pacman].classList.remove('pacman')
         }, 3000)
 
+
         setTimeout(() => {
 
           //  LIVES 
@@ -1084,6 +1085,7 @@ const main = setTimeout(() => {
             finalScore.innerHTML = scoreCount
             audio.src = 'audio/zapsplat_human_male_voice_says_game_over_001_15726.mp3'
             audio.play()
+            return
           } else {
             lives -= 1
             livesIcon[lives].src = ''
