@@ -175,6 +175,54 @@ img {
 }
 
 
+.pacman-right {
+  animation: move-right 0.115s linear
+}
+
+@keyframes move-right {
+  0% {transform: translate(-100%, 0%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.pacman-left {
+  animation: move-left 0.115s linear
+}
+
+@keyframes move-left {
+  0% {transform: translate(100%, 0%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.pacman-down {
+  animation: move-down 0.115s linear
+}
+
+@keyframes move-down {
+  0% {transform: translate(0%, -100%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.pacman-up {
+  animation: move-up 0.115s linear
+}
+
+@keyframes move-up {
+  0% {transform: translate(0%, 100%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.superFood{
+  width:18.5px;
+  height:19.7px;
+  background-color: teal;
+  border-radius: 50%;
+  transform: scale(0.8);
+  z-index: 1;
+  
+  /* animation: move-right linear forwards 0.4s; */
+}
+
+
 .ghost-1{
   width:17.8px;
   height:19px;
@@ -214,9 +262,88 @@ img {
 
 }
 
+.scared-ghost-1{
+  width:17.8px;
+  height:19px;
+  transform: scale(1.4);
+  background-image: url(../images/unnamed-2.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+}
+.scared-ghost-2{
+  width:17.8px;
+  height:19px;
+  transform: scale(1.4);
+  background-image: url(../images/unnamed-2.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+}
+.scared-ghost-3{
+  width:17.8px;
+  height:19px;
+  transform: scale(1.4);
+  background-image: url(../images/unnamed-2.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+}
+.scared-ghost-4{
+  width:17.8px;
+  height:19px;
+  transform: scale(1.4);
+  background-image: url(../images/unnamed-2.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 1;
+}
+
+
+.ghost-right {
+  animation: ghost-right 0.12s linear
+}
+
+@keyframes ghost-right {
+  0% {transform: translate(-100%, 0%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.ghost-left {
+  animation: ghost-left 0.12s linear
+}
+
+@keyframes ghost-left {
+  0% {transform: translate(100%, 0%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.ghost-down {
+  animation: ghost-down 0.12s linear
+}
+
+@keyframes ghost-down {
+  0% {transform: translate(0%, -100%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
+.ghost-up {
+  animation: ghost-up 0.12s linear
+}
+
+@keyframes ghost-up {
+  0% {transform: translate(0%, 100%) scale(1.45)}
+  100% {transform: translate(0%, 0%)scale(1.45)}
+}
+
 @keyframes blinking {
   from{opacity: 1;}
   to{opacity: 0;}
+}
+
+@keyframes pulsing {
+  from{transform: scale(1);}
+  to{transform: scale(1.5);}
 }
 
 footer {

@@ -201,6 +201,11 @@ img {
   100% {transform: translate(0%, 0%)scale(1.45)}
 }
 
+@keyframes pulsing {
+  from{transform: scale(1);}
+  to{transform: scale(1.5);}
+}
+
 
 .superFood{
   width:18.5px;

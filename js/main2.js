@@ -28,7 +28,7 @@ const main = setTimeout(() => {
   header.style.display = 'none'
   grid.style.display = 'flex'
   container.style.display = 'flex'
- 
+
   const maze = []
   let pacman = 907
 
@@ -37,20 +37,24 @@ const main = setTimeout(() => {
   let ghost3 = 512
   let ghost4 = 514
 
+  let chase = true
+
   const foodPlacements =
     [
       108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 141, 144, 151, 154, 174, 177, 184, 187, 220, 217, 216,
-      215, 212, 211, 210, 207, 240, 248, 253, 292, 291, 290, 289, 288, 287, 286, 281, 278, 267, 268, 269, 270, 271, 272, 273, 302,
+      215, 212, 211, 210, 207, 240, 248, 253, 291, 290, 289, 288, 287, 281, 278, 268, 269, 270, 271, 272, 302,
       309, 310, 311, 312, 313, 314, 315, 316, 323, 356, 335, 366, 367, 368, 369, 370, 371, 372, 375, 382, 385, 386, 387, 388, 389,
       390, 391, 399, 405, 408, 409, 410, 413, 414, 415, 418, 424, 457, 451, 446, 443, 438, 432, 465, 466, 467, 468, 471,
       484, 487, 488, 489, 490, 520, 504, 517, 501, 534, 553, 589, 586, 567, 564, 597, 600, 601, 602,
       603, 616, 617, 618, 619, 622, 655, 652, 633, 630, 663, 664, 665, 666, 685, 686, 687, 688, 721, 702, 715,
-      696, 699, 729, 732, 748, 754, 787, 784, 781, 768, 765, 762, 795, 798, 801, 802, 803, 804, 805, 806, 809, 810, 811, 812, 813,
-      814, 817, 820, 850, 842, 839, 831, 864, 872, 875, 883, 894, 895, 896, 897, 898, 899, 900, 901, 902, 903, 904, 905,
-      909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 952, 949, 930, 927, 960, 963, 993, 996, 1029, 1026, 1059, 1060,
-      1061, 1062, 985, 982, 1015, 1048, 1081, 1082, 1083, 1084, 1051, 1018, 342, 735, 718, 754, 751, 349, 245
+      696, 699, 729, 732, 748, 754, 787, 784, 781, 768, 765, 762, 795, 798, 802, 803, 804, 805, 806, 809, 810, 811, 812, 813,
+      817, 820, 850, 842, 839, 831, 864, 872, 875, 883, 894, 895, 896, 898, 899, 900, 901, 902, 903, 904, 905,
+      909, 910, 911, 912, 913, 914, 915, 917, 918, 919, 952, 949, 930, 927, 960, 963, 993, 996, 1029, 1026, 1059, 1060,
+      1061, 1062, 985, 982, 1015, 1048, 1081, 1082, 1083, 1084, 1051, 1018, 342, 735, 718, 754, 751, 349, 245, 897, 916, 292, 267
 
     ]
+
+  const superFood = [273, 286, 814, 801]
 
   for (let i = 0; i < mazeCount; i++) {
     const oneGrid = document.createElement('div')
@@ -63,6 +67,10 @@ const main = setTimeout(() => {
     // FOOD
     if (foodPlacements.includes(i)) {
       oneGrid.classList.add('food')
+    }
+    // SUPER FOOD
+    if (superFood.includes(i)) {
+      oneGrid.classList.add('superFood')
     }
     // GHOSTS
     if (i === ghost1) {
@@ -138,14 +146,24 @@ const main = setTimeout(() => {
   const displayWin = document.querySelector('.final')
 
 
-
-
-
-
-  // USER MOVEMENTS
+  //USER MOVEMENTS
   document.addEventListener('keydown', pacmanMove)
 
+  let playerMovement
+  let playerInterval
+
   function pacmanMove() {
+
+    if ((event.key === 'ArrowRight' || event.key === 'd') && !noRight.includes(pacman)) {
+      playerMovement = 2
+    } else if ((event.key === 'ArrowLeft' || event.key === 'a') && !noLeft.includes(pacman)) {
+      playerMovement = 4
+    } else if ((event.key === 'ArrowUp' || event.key === 'w') && !noUp.includes(pacman) ) {
+      playerMovement = 1
+    } else if ((event.key === 'ArrowDown' || event.key === 's') && !noDown.includes(pacman)) {
+      playerMovement = 3
+    }
+
 
     if (scoreCount === 2270) {
       clearInterval(ghostLogic1)
@@ -158,99 +176,234 @@ const main = setTimeout(() => {
       finalScore.innerHTML = scoreCount
       displayWin.style.marginLeft = '30px'
       document.removeEventListener('keydown', pacmanMove)
-      
+
       setTimeout(() => {
         audio.src = 'audio/zapsplat_multimedia_male_voice_processed_says_you_win_001_21572.mp3'
         audio.play()
       }, 500)
-
-    }
-
-    if (event.key === 'ArrowRight' || event.key === 'd') {
-      if (noRight.includes(pacman)) {
-        return
-      } else {
-        if (maze[pacman + 1].classList.contains('food')) {
-          maze[pacman].classList.remove('pacman')
-          pacman += 1
-          maze[pacman].classList.remove('food')
-          maze[pacman].classList.add('pacman')
-          scoreCount += 10
-          score.innerHTML = scoreCount
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-        } else {
-          maze[pacman].classList.remove('pacman')
-          pacman += 1
-          maze[pacman].classList.add('pacman')
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-        }
-      }
-
-    } else if (event.key === 'ArrowLeft' || event.key === 'a') {
-      if (noLeft.includes(pacman)) {
-        return
-      } else {
-        if (maze[pacman - 1].classList.contains('food')) {
-          maze[pacman].classList.remove('pacman')
-          pacman -= 1
-          maze[pacman].classList.remove('food')
-          maze[pacman].classList.add('pacman')
-          scoreCount += 10
-          score.innerHTML = scoreCount
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-        } else {
-          maze[pacman].classList.remove('pacman')
-          pacman -= 1
-          maze[pacman].classList.add('pacman')
-          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-          audio.play()
-        }
-      }
-
-    } else if (event.key === 'ArrowUp' || event.key === 'w') {
-      if (noUp.includes(pacman)) {
-        return
-      } else if (maze[pacman - (width - 2)].classList.contains('food')) {
-        maze[pacman].classList.remove('pacman')
-        pacman -= (width - 2)
-        maze[pacman].classList.remove('food')
-        maze[pacman].classList.add('pacman')
-        scoreCount += 10
-        score.innerHTML = scoreCount
-        audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-        audio.play()
-      } else {
-        maze[pacman].classList.remove('pacman')
-        pacman -= (width - 2)
-        maze[pacman].classList.add('pacman')
-        audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-        audio.play()
-      }
-
-    } else if (event.key === 'ArrowDown' || event.key === 's') {
-      if (noDown.includes(pacman)) {
-        return
-      } else if (maze[pacman + (width - 2)].classList.contains('food')) {
-        maze[pacman].classList.remove('pacman')
-        pacman += (width - 2)
-        maze[pacman].classList.remove('food')
-        maze[pacman].classList.add('pacman')
-        scoreCount += 10
-        score.innerHTML = scoreCount
-        audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-        audio.play()
-      } else {
-        maze[pacman].classList.remove('pacman')
-        pacman += (width - 2)
-        maze[pacman].classList.add('pacman')
-        audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
-        audio.play()
-      }
     }
   }
+
+  function movePacman() {
+
+    playerInterval = setInterval(() => {
+
+      // if (event.key === 'ArrowRight' || event.key === 'd') {
+      if (playerMovement === 2) {
+        if (noRight.includes(pacman)) {
+          return
+        } else {
+          if (maze[pacman + 1].classList.contains('food')) {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman += 1
+            maze[pacman].classList.remove('food')
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-right')
+            scoreCount += 10
+            score.innerHTML = scoreCount
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+          } else if (maze[pacman + 1].classList.contains('superFood')) {
+            chase = true
+            chase = false
+            setTimeout(() => {
+              chase = true
+            }, 10000)
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman += 1
+            maze[pacman].classList.remove('superFood')
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-right')
+            scoreCount += 40
+            score.innerHTML = scoreCount
+            audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
+            audio.play()
+          } else {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman += 1
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-right')
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+          }
+        }
+
+
+        // MOVE LEFT 
+
+        // } else if (event.key === 'ArrowLeft' || event.key === 'a') {
+      } else if (playerMovement === 4) {
+        if (noLeft.includes(pacman)) {
+          return
+        } else {
+          if (maze[pacman - 1].classList.contains('food')) {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman -= 1
+            maze[pacman].classList.remove('food')
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-left')
+            scoreCount += 10
+            score.innerHTML = scoreCount
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+          } else if (maze[pacman - 1].classList.contains('superFood')) {
+            chase = true
+            chase = false
+            setTimeout(() => {
+              chase = true
+            }, 10000)
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman -= 1
+            maze[pacman].classList.remove('superFood')
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-left')
+            scoreCount += 40
+            score.innerHTML = scoreCount
+            audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
+            audio.play()
+          } else {
+            maze[pacman].classList.remove('pacman')
+            maze[pacman].classList.remove('pacman-right')
+            maze[pacman].classList.remove('pacman-down')
+            maze[pacman].classList.remove('pacman-up')
+            maze[pacman].classList.remove('pacman-left')
+            pacman -= 1
+            maze[pacman].classList.add('pacman')
+            maze[pacman].classList.add('pacman-left')
+            audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+            audio.play()
+          }
+        }
+
+
+        // MOVE UP
+
+        // } else if (event.key === 'ArrowUp' || event.key === 'w') {
+      } else if (playerMovement === 1) {
+        if (noUp.includes(pacman)) {
+          return
+        } else if (maze[pacman - (width - 2)].classList.contains('food')) {
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman -= (width - 2)
+          maze[pacman].classList.remove('food')
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-up')
+          scoreCount += 10
+          score.innerHTML = scoreCount
+          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+          audio.play()
+        } else if (maze[pacman - (width - 2)].classList.contains('superFood')) {
+          chase = true
+          chase = false
+          setTimeout(() => {
+            chase = true
+          }, 10000)
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman -= (width - 2)
+          maze[pacman].classList.remove('superFood')
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-up')
+          scoreCount += 40
+          score.innerHTML = scoreCount
+          audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
+          audio.play()
+        } else {
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman -= (width - 2)
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-up')
+          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+          audio.play()
+        }
+
+        //  MOVE DOWN
+
+        // } else if (event.key === 'ArrowDown' || event.key === 's') {
+      } else if (playerMovement === 3) {
+        if (noDown.includes(pacman)) {
+          return
+        } else if (maze[pacman + (width - 2)].classList.contains('food')) {
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman += (width - 2)
+          maze[pacman].classList.remove('food')
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-down')
+          scoreCount += 10
+          score.innerHTML = scoreCount
+          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+          audio.play()
+        } else if (maze[pacman + (width - 2)].classList.contains('superFood')) {
+          chase = true
+          chase = false
+          setTimeout(() => {
+            chase = true
+          }, 7000)
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman += (width - 2)
+          maze[pacman].classList.remove('superFood')
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-down')
+          scoreCount += 40
+          score.innerHTML = scoreCount
+          audio.src = 'audio/8d82b5_Pacman_Eating_Cherry_Sound_Effect.mp3'
+          audio.play()
+        } else {
+          maze[pacman].classList.remove('pacman')
+          maze[pacman].classList.remove('pacman-right')
+          maze[pacman].classList.remove('pacman-down')
+          maze[pacman].classList.remove('pacman-up')
+          maze[pacman].classList.remove('pacman-left')
+          pacman += (width - 2)
+          maze[pacman].classList.add('pacman')
+          maze[pacman].classList.add('pacman-down')
+          audio.src = 'audio/8d82b5_Pacman_Waka_Waka_Sound_Effect.mp3'
+          audio.play()
+        }
+      }
+    }, 115)
+  }
+  movePacman()
+
 
   // GHOST MOVEMENTS 
   // -1 = LEFT, +1 = RIGHT, 
@@ -268,43 +421,155 @@ const main = setTimeout(() => {
 
   let collisionInterval
 
+  //  GHOST ONE 
+
   function ghostOne() {
 
     collisionInterval = setInterval(() => {
       collision()
-    }, 75)
+    }, 10)
 
     ghostLogic1 = setInterval(() => {
-
       const ghostOneDirections = []
       ghostOnePositionsLog.push(ghost1)
 
-      // GHOST ONE
-      if (!noRight.includes(ghost1) && ghost1 + 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
-        ghostOneDirections.push(1)
-      }
-      if (!noLeft.includes(ghost1) && ghost1 - 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
-        ghostOneDirections.push(-1)
-      }
-      if (!noUp.includes(ghost1) && ghost1 + ((width - 2) * - 1) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
-        ghostOneDirections.push((width - 2) * -1)
-      }
-      if (!noDown.includes(ghost1) && ghost1 + (width - 2) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
-        ghostOneDirections.push(width - 2)
-      }
+      //  CHASE IS TRUE
+      if (chase) {
+        maze[ghost1].classList.remove('scared-ghost-1')
+        maze[ghost1].classList.add('ghost-1')
+
+        if (!noRight.includes(ghost1) && ghost1 + 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+          ghostOneDirections.push(1)
+        }
+        if (!noLeft.includes(ghost1) && ghost1 - 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+          ghostOneDirections.push(-1)
+        }
+        if (!noUp.includes(ghost1) && ghost1 + ((width - 2) * - 1) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+          ghostOneDirections.push((width - 2) * -1)
+        }
+        if (!noDown.includes(ghost1) && ghost1 + (width - 2) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+          ghostOneDirections.push(width - 2)
+        }
+
+        const ghostOneMoves = ghostOneDirections[Math.floor(Math.random() * ghostOneDirections.length)]
+        const ghostOnePrevious = maze[ghost1 + ghostOneMoves].className
 
 
-      //GHOST ONE
+        if (ghostOneMoves === 1) {
+          maze[ghost1].classList.remove('ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
+          ghost1 += ghostOneMoves
+          maze[ghost1].classList.add('ghost-1')
+          maze[ghost1].classList.add('ghost-right')
+          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+        } else if (ghostOneMoves === -1) {
+          maze[ghost1].classList.remove('ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
+          ghost1 += ghostOneMoves
+          maze[ghost1].classList.add('ghost-1')
+          maze[ghost1].classList.add('ghost-left')
+          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+        } else if (ghostOneMoves === -33) {
+          maze[ghost1].classList.remove('ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
+          ghost1 += ghostOneMoves
+          maze[ghost1].classList.add('ghost-1')
+          maze[ghost1].classList.add('ghost-up')
+          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+        } else if (ghostOneMoves === 33) {
+          maze[ghost1].classList.remove('ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
+          ghost1 += ghostOneMoves
+          maze[ghost1].classList.add('ghost-1')
+          maze[ghost1].classList.add('ghost-down')
+          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+        }
 
-      const ghostOneMoves = ghostOneDirections[Math.floor(Math.random() * ghostOneDirections.length)]
-      const ghostOnePrevious = maze[ghost1 + ghostOneMoves].className
+        //  CHASE IS FALSE
+      } else if (!chase) {
 
-      maze[ghost1].classList.remove('ghost-1')
-      ghost1 += ghostOneMoves
-      maze[ghost1].classList.add('ghost-1')
-      maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
-    }, 150)
+        maze[ghost1].classList.remove('ghost-1')
+        maze[ghost1].classList.add('scared-ghost-1')
+
+        if (!noRight.includes(ghost1) && ghost1 + 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+          ghostOneDirections.push(1)
+        }
+        if (!noLeft.includes(ghost1) && ghost1 - 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+          ghostOneDirections.push(-1)
+        }
+        if (!noUp.includes(ghost1) && ghost1 + ((width - 2) * - 1) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+          ghostOneDirections.push((width - 2) * -1)
+        }
+        if (!noDown.includes(ghost1) && ghost1 + (width - 2) !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
+          ghostOneDirections.push(width - 2)
+        }
+
+        const ghostOneMoves = ghostOneDirections[Math.floor(Math.random() * ghostOneDirections.length)]
+        const ghostOnePrevious = maze[ghost1 + ghostOneMoves].className
+
+        if (ghostOneMoves === 1) {
+          maze[ghost1].classList.remove('scared-ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
+          ghost1 += ghostOneMoves
+          maze[ghost1].classList.add('scared-ghost-1')
+          maze[ghost1].classList.add('ghost-right')
+          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+        } else if (ghostOneMoves === -1) {
+          maze[ghost1].classList.remove('scared-ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
+          ghost1 += ghostOneMoves
+          maze[ghost1].classList.add('scared-ghost-1')
+          maze[ghost1].classList.add('ghost-left')
+          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+        } else if (ghostOneMoves === -33) {
+          maze[ghost1].classList.remove('scared-ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
+          ghost1 += ghostOneMoves
+          maze[ghost1].classList.add('scared-ghost-1')
+          maze[ghost1].classList.add('ghost-up')
+          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+        } else if (ghostOneMoves === 33) {
+          maze[ghost1].classList.remove('scared-ghost-1')
+          maze[ghost1].classList.remove('ghost-left')
+          maze[ghost1].classList.remove('ghost-down')
+          maze[ghost1].classList.remove('ghost-up')
+          maze[ghost1].classList.remove('ghost-right')
+          ghost1 += ghostOneMoves
+          maze[ghost1].classList.add('scared-ghost-1')
+          maze[ghost1].classList.add('ghost-down')
+          maze[ghost1 - ghostOneMoves].classList.add(ghostOnePrevious)
+        }
+      }
+    }, 120)
   }
+
+
+
+
+
+
+
 
   function ghostTwo() {
     ghostLogic2 = setInterval(() => {
@@ -312,34 +577,143 @@ const main = setTimeout(() => {
       const ghostTwoDirections = []
       ghostTwoPositionsLog.push(ghost2)
 
+      if (chase) {
 
-      //GHOST TWO
-      if (!noRight.includes(ghost2) && ghost2 + 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push(1)
+        maze[ghost2].classList.remove('scared-ghost-2')
+        maze[ghost2].classList.add('ghost-2')
+
+        if (!noRight.includes(ghost2) && ghost2 + 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(1)
+        }
+        if (!noLeft.includes(ghost2) && ghost2 - 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(-1)
+        }
+        if (!noUp.includes(ghost2) && ghost2 + ((width - 2) * - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push((width - 2) * -1)
+        }
+        if (!noDown.includes(ghost2) && ghost2 + (width - 2) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(width - 2)
+        }
+
+        //GHOST TWO
+        const ghostTwoMoves = ghostTwoDirections[Math.floor(Math.random() * ghostTwoDirections.length)]
+        const ghostTwoPrevious = maze[ghost2 + ghostTwoMoves].className
+
+        if (ghostTwoMoves === 1) {
+          maze[ghost2].classList.remove('ghost-2')
+          maze[ghost2].classList.remove('ghost-left')
+          maze[ghost2].classList.remove('ghost-down')
+          maze[ghost2].classList.remove('ghost-up')
+          maze[ghost2].classList.remove('ghost-right')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('ghost-2')
+          maze[ghost2].classList.add('ghost-right')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        } else if (ghostTwoMoves === -1) {
+          maze[ghost2].classList.remove('ghost-2')
+          maze[ghost2].classList.remove('ghost-left')
+          maze[ghost2].classList.remove('ghost-down')
+          maze[ghost2].classList.remove('ghost-up')
+          maze[ghost2].classList.remove('ghost-right')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('ghost-2')
+          maze[ghost2].classList.add('ghost-left')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        } else if (ghostTwoMoves === -33) {
+          maze[ghost2].classList.remove('ghost-2')
+          maze[ghost2].classList.remove('ghost-left')
+          maze[ghost2].classList.remove('ghost-down')
+          maze[ghost2].classList.remove('ghost-up')
+          maze[ghost2].classList.remove('ghost-right')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('ghost-2')
+          maze[ghost2].classList.add('ghost-up')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        } else if (ghostTwoMoves === 33) {
+          maze[ghost2].classList.remove('ghost-2')
+          maze[ghost2].classList.remove('ghost-left')
+          maze[ghost2].classList.remove('ghost-down')
+          maze[ghost2].classList.remove('ghost-up')
+          maze[ghost2].classList.remove('ghost-right')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('ghost-2')
+          maze[ghost2].classList.add('ghost-down')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        }
+      } else if (!chase) {
+
+        maze[ghost2].classList.remove('ghost-2')
+        maze[ghost2].classList.add('scared-ghost-2')
+
+        if (!noRight.includes(ghost2) && ghost2 + 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(1)
+        }
+        if (!noLeft.includes(ghost2) && ghost2 - 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(-1)
+        }
+        if (!noUp.includes(ghost2) && ghost2 + ((width - 2) * - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push((width - 2) * -1)
+        }
+        if (!noDown.includes(ghost2) && ghost2 + (width - 2) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
+          ghostTwoDirections.push(width - 2)
+        }
+
+        //GHOST TWO
+        const ghostTwoMoves = ghostTwoDirections[Math.floor(Math.random() * ghostTwoDirections.length)]
+        const ghostTwoPrevious = maze[ghost2 + ghostTwoMoves].className
+
+        if (ghostTwoMoves === 1) {
+          maze[ghost2].classList.remove('scared-ghost-2')
+          maze[ghost2].classList.remove('ghost-left')
+          maze[ghost2].classList.remove('ghost-down')
+          maze[ghost2].classList.remove('ghost-up')
+          maze[ghost2].classList.remove('ghost-right')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('scared-ghost-2')
+          maze[ghost2].classList.add('ghost-right')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        } else if (ghostTwoMoves === -1) {
+          maze[ghost2].classList.remove('scared-ghost-2')
+          maze[ghost2].classList.remove('ghost-left')
+          maze[ghost2].classList.remove('ghost-down')
+          maze[ghost2].classList.remove('ghost-up')
+          maze[ghost2].classList.remove('ghost-right')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('scared-ghost-2')
+          maze[ghost2].classList.add('ghost-left')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        } else if (ghostTwoMoves === -33) {
+          maze[ghost2].classList.remove('scared-ghost-2')
+          maze[ghost2].classList.remove('ghost-left')
+          maze[ghost2].classList.remove('ghost-down')
+          maze[ghost2].classList.remove('ghost-up')
+          maze[ghost2].classList.remove('ghost-right')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('scared-ghost-2')
+          maze[ghost2].classList.add('ghost-up')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        } else if (ghostTwoMoves === 33) {
+          maze[ghost2].classList.remove('scared-ghost-2')
+          maze[ghost2].classList.remove('ghost-left')
+          maze[ghost2].classList.remove('ghost-down')
+          maze[ghost2].classList.remove('ghost-up')
+          maze[ghost2].classList.remove('ghost-right')
+          ghost2 += ghostTwoMoves
+          maze[ghost2].classList.add('scared-ghost-2')
+          maze[ghost2].classList.add('ghost-down')
+          maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
+        }
       }
-      if (!noLeft.includes(ghost2) && ghost2 - 1 !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push(-1)
-      }
-      if (!noUp.includes(ghost2) && ghost2 + ((width - 2) * - 1) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push((width - 2) * -1)
-      }
-      if (!noDown.includes(ghost2) && ghost2 + (width - 2) !== ghostTwoPositionsLog[ghostTwoPositionsLog.length - 2]) {
-        ghostTwoDirections.push(width - 2)
-      }
-
-
-
-      //GHOST TWO
-      const ghostTwoMoves = ghostTwoDirections[Math.floor(Math.random() * ghostTwoDirections.length)]
-      const ghostTwoPrevious = maze[ghost2 + ghostTwoMoves].className
-
-      maze[ghost2].classList.remove('ghost-2')
-      ghost2 += ghostTwoMoves
-      maze[ghost2].classList.add('ghost-2')
-      maze[ghost2 - ghostTwoMoves].classList.add(ghostTwoPrevious)
-
-    }, 150)
+    }, 120)
   }
+
+
+
+
+
+
+
+
 
 
   function ghostThree() {
@@ -348,32 +722,130 @@ const main = setTimeout(() => {
       const ghostThreeDirections = []
       ghostThreePositionsLog.push(ghost3)
 
-      //GHOST THREE
-      if (!noRight.includes(ghost3) && ghost3 + 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push(1)
+      if (chase) {
+        maze[ghost3].classList.remove('scared-ghost-3')
+        maze[ghost3].classList.add('ghost-3')
+
+        if (!noRight.includes(ghost3) && ghost3 + 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(1)
+        }
+        if (!noLeft.includes(ghost3) && ghost3 - 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(-1)
+        }
+        if (!noUp.includes(ghost3) && ghost3 + ((width - 2) * - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push((width - 2) * -1)
+        }
+        if (!noDown.includes(ghost3) && ghost3 + (width - 2) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(width - 2)
+        }
+
+        const ghostThreeMoves = ghostThreeDirections[Math.floor(Math.random() * ghostThreeDirections.length)]
+        const ghostThreePrevious = maze[ghost3 + ghostThreeMoves].className
+
+        if (ghostThreeMoves === 1) {
+          maze[ghost3].classList.remove('ghost-3')
+          maze[ghost3].classList.remove('ghost-left')
+          maze[ghost3].classList.remove('ghost-down')
+          maze[ghost3].classList.remove('ghost-up')
+          maze[ghost3].classList.remove('ghost-right')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('ghost-3')
+          maze[ghost3].classList.add('ghost-right')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        } else if (ghostThreeMoves === -1) {
+          maze[ghost3].classList.remove('ghost-3')
+          maze[ghost3].classList.remove('ghost-left')
+          maze[ghost3].classList.remove('ghost-down')
+          maze[ghost3].classList.remove('ghost-up')
+          maze[ghost3].classList.remove('ghost-right')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('ghost-3')
+          maze[ghost3].classList.add('ghost-left')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        } else if (ghostThreeMoves === -33) {
+          maze[ghost3].classList.remove('ghost-3')
+          maze[ghost3].classList.remove('ghost-left')
+          maze[ghost3].classList.remove('ghost-down')
+          maze[ghost3].classList.remove('ghost-up')
+          maze[ghost3].classList.remove('ghost-right')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('ghost-3')
+          maze[ghost3].classList.add('ghost-up')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        } else if (ghostThreeMoves === 33) {
+          maze[ghost3].classList.remove('ghost-3')
+          maze[ghost3].classList.remove('ghost-left')
+          maze[ghost3].classList.remove('ghost-down')
+          maze[ghost3].classList.remove('ghost-up')
+          maze[ghost3].classList.remove('ghost-right')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('ghost-3')
+          maze[ghost3].classList.add('ghost-down')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        }
+      } else if (!chase) {
+        maze[ghost3].classList.remove('ghost-3')
+        maze[ghost3].classList.add('scared-ghost-3')
+
+        if (!noRight.includes(ghost3) && ghost3 + 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(1)
+        }
+        if (!noLeft.includes(ghost3) && ghost3 - 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(-1)
+        }
+        if (!noUp.includes(ghost3) && ghost3 + ((width - 2) * - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push((width - 2) * -1)
+        }
+        if (!noDown.includes(ghost3) && ghost3 + (width - 2) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
+          ghostThreeDirections.push(width - 2)
+        }
+
+        const ghostThreeMoves = ghostThreeDirections[Math.floor(Math.random() * ghostThreeDirections.length)]
+        const ghostThreePrevious = maze[ghost3 + ghostThreeMoves].className
+
+        if (ghostThreeMoves === 1) {
+          maze[ghost3].classList.remove('scared-ghost-3')
+          maze[ghost3].classList.remove('ghost-left')
+          maze[ghost3].classList.remove('ghost-down')
+          maze[ghost3].classList.remove('ghost-up')
+          maze[ghost3].classList.remove('ghost-right')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('scared-ghost-3')
+          maze[ghost3].classList.add('ghost-right')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        } else if (ghostThreeMoves === -1) {
+          maze[ghost3].classList.remove('scared-ghost-3')
+          maze[ghost3].classList.remove('ghost-left')
+          maze[ghost3].classList.remove('ghost-down')
+          maze[ghost3].classList.remove('ghost-up')
+          maze[ghost3].classList.remove('ghost-right')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('scared-ghost-3')
+          maze[ghost3].classList.add('ghost-left')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        } else if (ghostThreeMoves === -33) {
+          maze[ghost3].classList.remove('scared-ghost-3')
+          maze[ghost3].classList.remove('ghost-left')
+          maze[ghost3].classList.remove('ghost-down')
+          maze[ghost3].classList.remove('ghost-up')
+          maze[ghost3].classList.remove('ghost-right')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('scared-ghost-3')
+          maze[ghost3].classList.add('ghost-up')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        } else if (ghostThreeMoves === 33) {
+          maze[ghost3].classList.remove('scared-ghost-3')
+          maze[ghost3].classList.remove('ghost-left')
+          maze[ghost3].classList.remove('ghost-down')
+          maze[ghost3].classList.remove('ghost-up')
+          maze[ghost3].classList.remove('ghost-right')
+          ghost3 += ghostThreeMoves
+          maze[ghost3].classList.add('scared-ghost-3')
+          maze[ghost3].classList.add('ghost-down')
+          maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
+        }
       }
-      if (!noLeft.includes(ghost3) && ghost3 - 1 !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push(-1)
-      }
-      if (!noUp.includes(ghost3) && ghost3 + ((width - 2) * - 1) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push((width - 2) * -1)
-      }
-      if (!noDown.includes(ghost3) && ghost3 + (width - 2) !== ghostThreePositionsLog[ghostThreePositionsLog.length - 2]) {
-        ghostThreeDirections.push(width - 2)
-      }
-
-
-      // GHOST 3
-      const ghostThreeMoves = ghostThreeDirections[Math.floor(Math.random() * ghostThreeDirections.length)]
-      const ghostThreePrevious = maze[ghost3 + ghostThreeMoves].className
-
-      maze[ghost3].classList.remove('ghost-3')
-      ghost3 += ghostThreeMoves
-      maze[ghost3].classList.add('ghost-3')
-      maze[ghost3 - ghostThreeMoves].classList.add(ghostThreePrevious)
-
-    }, 150)
-
+    }, 120)
   }
 
 
@@ -384,31 +856,135 @@ const main = setTimeout(() => {
 
       const ghostFourDirections = []
       ghostFourPositionsLog.push(ghost4)
-      //GHOST FOUR
-      if (!noRight.includes(ghost4) && ghost4 + 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push(1)
-      }
-      if (!noLeft.includes(ghost4) && ghost4 - 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push(-1)
-      }
-      if (!noUp.includes(ghost4) && ghost4 + ((width - 2) * - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push((width - 2) * -1)
-      }
-      if (!noDown.includes(ghost4) && ghost4 + (width - 2) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
-        ghostFourDirections.push(width - 2)
-      }
 
+      if (chase) {
+        maze[ghost4].classList.remove('scared-ghost-4')
+        maze[ghost4].classList.add('ghost-4')
 
-      // GHOST 4
-      const ghostFourMoves = ghostFourDirections[Math.floor(Math.random() * ghostFourDirections.length)]
-      const ghostFourPrevious = maze[ghost4 + ghostFourMoves].className
+        //GHOST FOUR
+        if (!noRight.includes(ghost4) && ghost4 + 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(1)
+        }
+        if (!noLeft.includes(ghost4) && ghost4 - 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(-1)
+        }
+        if (!noUp.includes(ghost4) && ghost4 + ((width - 2) * - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push((width - 2) * -1)
+        }
+        if (!noDown.includes(ghost4) && ghost4 + (width - 2) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(width - 2)
+        }
 
-      maze[ghost4].classList.remove('ghost-4')
-      ghost4 += ghostFourMoves
-      maze[ghost4].classList.add('ghost-4')
-      maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
-    }, 150)
+        // GHOST 4
+        const ghostFourMoves = ghostFourDirections[Math.floor(Math.random() * ghostFourDirections.length)]
+        const ghostFourPrevious = maze[ghost4 + ghostFourMoves].className
 
+        if (ghostFourMoves === 1) {
+          maze[ghost4].classList.remove('ghost-4')
+          maze[ghost4].classList.remove('ghost-left')
+          maze[ghost4].classList.remove('ghost-down')
+          maze[ghost4].classList.remove('ghost-up')
+          maze[ghost4].classList.remove('ghost-right')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('ghost-4')
+          maze[ghost4].classList.add('ghost-right')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        } else if (ghostFourMoves === -1) {
+          maze[ghost4].classList.remove('ghost-4')
+          maze[ghost4].classList.remove('ghost-left')
+          maze[ghost4].classList.remove('ghost-down')
+          maze[ghost4].classList.remove('ghost-up')
+          maze[ghost4].classList.remove('ghost-right')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('ghost-4')
+          maze[ghost4].classList.add('ghost-left')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        } else if (ghostFourMoves === -33) {
+          maze[ghost4].classList.remove('ghost-4')
+          maze[ghost4].classList.remove('ghost-left')
+          maze[ghost4].classList.remove('ghost-down')
+          maze[ghost4].classList.remove('ghost-up')
+          maze[ghost4].classList.remove('ghost-right')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('ghost-4')
+          maze[ghost4].classList.add('ghost-up')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        } else if (ghostFourMoves === 33) {
+          maze[ghost4].classList.remove('ghost-4')
+          maze[ghost4].classList.remove('ghost-left')
+          maze[ghost4].classList.remove('ghost-down')
+          maze[ghost4].classList.remove('ghost-up')
+          maze[ghost4].classList.remove('ghost-right')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('ghost-4')
+          maze[ghost4].classList.add('ghost-down')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        }
+      } else if (!chase) {
+        maze[ghost4].classList.remove('ghost-4')
+        maze[ghost4].classList.add('scared-ghost-4')
+
+        //GHOST FOUR
+        if (!noRight.includes(ghost4) && ghost4 + 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(1)
+        }
+        if (!noLeft.includes(ghost4) && ghost4 - 1 !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(-1)
+        }
+        if (!noUp.includes(ghost4) && ghost4 + ((width - 2) * - 1) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push((width - 2) * -1)
+        }
+        if (!noDown.includes(ghost4) && ghost4 + (width - 2) !== ghostFourPositionsLog[ghostFourPositionsLog.length - 2]) {
+          ghostFourDirections.push(width - 2)
+        }
+
+        // GHOST 4
+        const ghostFourMoves = ghostFourDirections[Math.floor(Math.random() * ghostFourDirections.length)]
+        const ghostFourPrevious = maze[ghost4 + ghostFourMoves].className
+
+        if (ghostFourMoves === 1) {
+          maze[ghost4].classList.remove('scared-ghost-4')
+          maze[ghost4].classList.remove('ghost-left')
+          maze[ghost4].classList.remove('ghost-down')
+          maze[ghost4].classList.remove('ghost-up')
+          maze[ghost4].classList.remove('ghost-right')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('scared-ghost-4')
+          maze[ghost4].classList.add('ghost-right')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        } else if (ghostFourMoves === -1) {
+          maze[ghost4].classList.remove('scared-ghost-4')
+          maze[ghost4].classList.remove('ghost-left')
+          maze[ghost4].classList.remove('ghost-down')
+          maze[ghost4].classList.remove('ghost-up')
+          maze[ghost4].classList.remove('ghost-right')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('scared-ghost-4')
+          maze[ghost4].classList.add('ghost-left')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        } else if (ghostFourMoves === -33) {
+          maze[ghost4].classList.remove('scared-ghost-4')
+          maze[ghost4].classList.remove('ghost-left')
+          maze[ghost4].classList.remove('ghost-down')
+          maze[ghost4].classList.remove('ghost-up')
+          maze[ghost4].classList.remove('ghost-right')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('scared-ghost-4')
+          maze[ghost4].classList.add('ghost-up')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        } else if (ghostFourMoves === 33) {
+          maze[ghost4].classList.remove('scared-ghost-4')
+          maze[ghost4].classList.remove('ghost-left')
+          maze[ghost4].classList.remove('ghost-down')
+          maze[ghost4].classList.remove('ghost-up')
+          maze[ghost4].classList.remove('ghost-right')
+          ghost4 += ghostFourMoves
+          maze[ghost4].classList.add('scared-ghost-4')
+          maze[ghost4].classList.add('ghost-down')
+          maze[ghost4 - ghostFourMoves].classList.add(ghostFourPrevious)
+        }
+      }
+    }, 120)
   }
 
   ghostOne()
@@ -417,14 +993,20 @@ const main = setTimeout(() => {
   ghostFour()
 
 
+
+
+
+
+
+
   let lives = 3
   const livesIcon = document.getElementsByClassName('lives')
   const gameOver = document.getElementsByTagName('footer')[0]
   const finalScore = document.getElementsByClassName('finalScore')[0]
-  
+
   const timer = document.getElementsByClassName('timer')[0]
   let gameTimer = 45
-  
+
   const gameCount = setInterval(() => {
     if (gameTimer === 0) {
       clearInterval(gameCount)
@@ -432,7 +1014,8 @@ const main = setTimeout(() => {
       clearInterval(ghostLogic2)
       clearInterval(ghostLogic3)
       clearInterval(ghostLogic4)
-      document.removeEventListener('keydown', pacmanMove)
+
+      clearInterval(playerInterval)
       container.style.opacity = '0.2'
       gameOver.style.display = 'flex'
       finalScore.innerHTML = scoreCount
@@ -442,6 +1025,7 @@ const main = setTimeout(() => {
       gameTimer -= 1
       timer.innerHTML = gameTimer
       timer.style.color = 'red'
+      timer.style.animation = 'pulsing 0.5s linear alternate 20'
     } else {
       gameTimer -= 1
       timer.innerHTML = gameTimer
@@ -449,97 +1033,240 @@ const main = setTimeout(() => {
   }, 1000)
 
 
+
+
+
+
   function collision() {
 
+    if (chase) {
+      if (maze[pacman].classList.contains('ghost-1') ||
+        maze[pacman].classList.contains('ghost-2') ||
+        maze[pacman].classList.contains('ghost-3') ||
+        maze[pacman].classList.contains('ghost-4')) {
 
-    if (maze[pacman].classList.contains('ghost-1') ||
-      maze[pacman].classList.contains('ghost-2') ||
-      maze[pacman].classList.contains('ghost-3') ||
-      maze[pacman].classList.contains('ghost-4')) {
+        audio.src = 'audio/8d82b5_Pacman_Dies_Sound_Effect.mp3'
+        audio.play()
 
-      audio.src = 'audio/8d82b5_Pacman_Dies_Sound_Effect.mp3'
-      audio.play()
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic1)
+        clearInterval(ghostLogic2)
+        clearInterval(ghostLogic3)
+        clearInterval(ghostLogic4)
 
-      clearInterval(collisionInterval)
-      clearInterval(ghostLogic1)
-      clearInterval(ghostLogic2)
-      clearInterval(ghostLogic3)
-      clearInterval(ghostLogic4)
+        clearInterval(playerInterval)
 
-      document.removeEventListener('keydown', pacmanMove)
-
-      maze[ghost1].style.animation = 'blinking 0.13s alternate 6'
-      maze[ghost2].style.animation = 'blinking 0.13s alternate 6'
-      maze[ghost3].style.animation = 'blinking 0.13s alternate 6'
-      maze[ghost4].style.animation = 'blinking 0.13s alternate 6'
-
-
-
-      setTimeout(() => {
-        maze[ghost1].classList.remove('ghost-1')
-        maze[ghost2].classList.remove('ghost-2')
-        maze[ghost3].classList.remove('ghost-3')
-        maze[ghost4].classList.remove('ghost-4')
-      }, 2000)
-
-      setTimeout(() => {
-        maze[pacman].style.visibility = 'hidden'
-        maze[pacman].classList.remove('pacman')
-      }, 3000)
-
-      setTimeout(() => {
-
-        //  LIVES 
-        if (lives === 1) {
-          container.style.opacity = '0.2'
-          gameOver.style.display = 'flex'
-          finalScore.innerHTML = scoreCount
-          audio.src = 'audio/zapsplat_human_male_voice_says_game_over_001_15726.mp3'
-          audio.play()
-
-        } else {
-          lives -= 1
-          livesIcon[lives].src = ''
-        }
-
-        document.addEventListener('keydown', pacmanMove)
-
-        maze[ghost1].classList.add('cell')
-        maze[ghost2].classList.add('cell')
-        maze[ghost3].classList.add('cell')
-        maze[ghost4].classList.add('cell')
-        maze[ghost1].style.animation = ''
-        maze[ghost2].style.animation = ''
-        maze[ghost3].style.animation = ''
-        maze[ghost4].style.animation = ''
-        maze[ghost1].style.visibility = 'visible'
-        maze[ghost2].style.visibility = 'visible'
-        maze[ghost3].style.visibility = 'visible'
-        maze[ghost4].style.visibility = 'visible'
+        maze[ghost1].style.animation = 'blinking 0.13s alternate 6'
+        maze[ghost2].style.animation = 'blinking 0.13s alternate 6'
+        maze[ghost3].style.animation = 'blinking 0.13s alternate 6'
+        maze[ghost4].style.animation = 'blinking 0.13s alternate 6'
 
 
-        pacman = 907
-        maze[pacman].classList.add('pacman')
-        ghost1 = 507
-        maze[ghost1].classList.add('ghost-1')
-        ghost2 = 509
-        maze[ghost2].classList.add('ghost-2')
-        ghost3 = 512
-        maze[ghost3].classList.add('ghost-3')
-        ghost4 = 514
-        maze[ghost4].classList.add('ghost-4')
 
-      }, 4000)
-      
-      setTimeout(() => {
-        ghostOne()
-        ghostTwo()
-        ghostThree()
-        ghostFour()
-      }, 5000)
+        setTimeout(() => {
+          maze[ghost1].classList.remove('ghost-1')
+          maze[ghost2].classList.remove('ghost-2')
+          maze[ghost3].classList.remove('ghost-3')
+          maze[ghost4].classList.remove('ghost-4')
+        }, 2000)
+
+        setTimeout(() => {
+          maze[pacman].classList.remove('pacman')
+        }, 3000)
+
+        setTimeout(() => {
+
+          //  LIVES 
+          if (lives === 1) {
+            clearInterval(gameCount)
+            container.style.opacity = '0.2'
+            gameOver.style.display = 'flex'
+            finalScore.innerHTML = scoreCount
+            audio.src = 'audio/zapsplat_human_male_voice_says_game_over_001_15726.mp3'
+            audio.play()
+          } else {
+            lives -= 1
+            livesIcon[lives].src = ''
+          }
+
+          // document.addEventListener('keydown', pacmanMove)
+
+          maze[ghost1].classList.add('cell')
+          maze[ghost2].classList.add('cell')
+          maze[ghost3].classList.add('cell')
+          maze[ghost4].classList.add('cell')
+          maze[ghost1].style.animation = ''
+          maze[ghost2].style.animation = ''
+          maze[ghost3].style.animation = ''
+          maze[ghost4].style.animation = ''
+          maze[ghost1].style.visibility = 'visible'
+          maze[ghost2].style.visibility = 'visible'
+          maze[ghost3].style.visibility = 'visible'
+          maze[ghost4].style.visibility = 'visible'
+
+
+          pacman = 907
+          maze[pacman].classList.add('pacman')
+          ghost1 = 507
+          maze[ghost1].classList.add('ghost-1')
+          ghost2 = 509
+          maze[ghost2].classList.add('ghost-2')
+          ghost3 = 512
+          maze[ghost3].classList.add('ghost-3')
+          ghost4 = 514
+          maze[ghost4].classList.add('ghost-4')
+
+        }, 4000)
+
+        setTimeout(() => {
+          ghostOne()
+          ghostTwo()
+          ghostThree()
+          ghostFour()
+          movePacman()
+        }, 5000)
+      }
+
+    } else {
+      // PACMAN CHASING GHOSTS
+
+      // SCARED GHOST 1
+      if (maze[pacman].classList.contains('scared-ghost-1')) {
+        // SCORE AND TIME ADDDED ON
+        scoreCount += 80
+        score.innerHTML = scoreCount
+        gameTimer += 5
+        timer.innerHTML = gameTimer
+        // COLLISION AND EATING LOGIC
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic1)
+        clearInterval(playerInterval)
+        maze[ghost1].style.animation = 'blinking 0.13s alternate 6'
+
+        setTimeout(() => {
+          maze[ghost1].classList.remove('scared-ghost-1')
+        }, 700)
+
+        setTimeout(() => {
+          movePacman()
+        }, 900)
+
+        setTimeout(() => {
+          ghost1 = 507
+          maze[ghost1].classList.add('ghost-1')
+        }, 1400)
+
+        setTimeout(() => {
+          ghostOne()
+          collisionInterval = setInterval(() => {
+            collision()
+          }, 75)
+        }, 1600)
+
+        // SCARED GHOST 2
+      } else if (maze[pacman].classList.contains('scared-ghost-2')) {
+        // SCORE AND TIME ADDDED ON
+        scoreCount += 80
+        score.innerHTML = scoreCount
+        gameTimer += 5
+        timer.innerHTML = gameTimer
+        // COLLISION AND EATING LOGIC
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic2)
+        maze[ghost2].style.animation = 'blinking 0.13s alternate 6'
+
+        setTimeout(() => {
+          maze[ghost2].classList.remove('scared-ghost-2')
+        }, 700)
+
+        setTimeout(() => {
+          document.addEventListener('keydown', pacmanMove)
+        }, 900)
+
+        setTimeout(() => {
+          ghost2 = 509
+          maze[ghost2].classList.add('ghost-2')
+        }, 1400)
+
+        setTimeout(() => {
+          ghostTwo()
+          collisionInterval = setInterval(() => {
+            collision()
+          }, 75)
+        }, 1600)
+
+        // SCARED GHOST 3
+      } else if (maze[pacman].classList.contains('scared-ghost-3')) {
+        // SCORE AND TIME ADDDED ON
+        scoreCount += 80
+        score.innerHTML = scoreCount
+        gameTimer += 5
+        timer.innerHTML = gameTimer
+        // COLLISION AND EATING LOGIC
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic3)
+        maze[ghost3].style.animation = 'blinking 0.13s alternate 6'
+
+        setTimeout(() => {
+          maze[ghost3].classList.remove('scared-ghost-3')
+        }, 700)
+
+        setTimeout(() => {
+          document.addEventListener('keydown', pacmanMove)
+        }, 900)
+
+        setTimeout(() => {
+          ghost3 = 512
+          maze[ghost3].classList.add('ghost-3')
+        }, 1400)
+
+        setTimeout(() => {
+          ghostThree()
+          collisionInterval = setInterval(() => {
+            collision()
+          }, 75)
+        }, 1600)
+
+
+        // SCARED GHOST 4
+      } else if (maze[pacman].classList.contains('scared-ghost-4')) {
+        // SCORE AND TIME ADDDED ON
+        scoreCount += 80
+        score.innerHTML = scoreCount
+        gameTimer += 5
+        timer.innerHTML = gameTimer
+        // COLLISION AND EATING LOGIC
+        clearInterval(collisionInterval)
+        clearInterval(ghostLogic4)
+        maze[ghost4].style.animation = 'blinking 0.13s alternate 6'
+
+        setTimeout(() => {
+          maze[ghost4].classList.remove('scared-ghost-4')
+        }, 700)
+
+        setTimeout(() => {
+          document.addEventListener('keydown', pacmanMove)
+        }, 900)
+
+        setTimeout(() => {
+          ghost4 = 514
+          maze[ghost4].classList.add('ghost-4')
+        }, 1400)
+
+        setTimeout(() => {
+          ghostFour()
+          collisionInterval = setInterval(() => {
+            collision()
+          }, 75)
+        }, 1600)
+      }
     }
-
   }
+
+
+
+
+
 
   const submitButton = document.querySelector('.submit')
   const name = document.querySelector('input')

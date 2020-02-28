@@ -165,13 +165,13 @@ const main = setTimeout(() => {
   function pacmanMove() {
    
 
-    if (event.key === 'ArrowRight' || event.key === 'd') {
+    if ((event.key === 'ArrowRight' || event.key === 'd') && !noRight.includes(pacman)) {
       playerMovement = 2
-    } else if (event.key === 'ArrowLeft' || event.key === 'a') {
+    } else if ((event.key === 'ArrowLeft' || event.key === 'a') && !noLeft.includes(pacman)) {
       playerMovement = 4
-    } else if (event.key === 'ArrowUp' || event.key === 'w') {
+    } else if ((event.key === 'ArrowUp' || event.key === 'w') && !noUp.includes(pacman) ) {
       playerMovement = 1
-    } else if (event.key === 'ArrowDown' || event.key === 's') {
+    } else if ((event.key === 'ArrowDown' || event.key === 's') && !noDown.includes(pacman)) {
       playerMovement = 3
     }
 
@@ -236,6 +236,7 @@ const main = setTimeout(() => {
             audio.play()
             pacmanMoves.push(pacman)
           } else if (maze[pacman + 1].classList.contains('superFood')) {
+            chase = true
             chase = false
             setTimeout(() => {
               chase = true
@@ -302,6 +303,7 @@ const main = setTimeout(() => {
             audio.play()
             pacmanMoves.push(pacman)
           } else if (maze[pacman - 1].classList.contains('superFood')) {
+            chase = true
             chase = false
             setTimeout(() => {
               chase = true
@@ -355,6 +357,7 @@ const main = setTimeout(() => {
           audio.play()
           pacmanMoves.push(pacman)
         } else if (maze[pacman - (width - 1)].classList.contains('superFood')) {
+          chase = true
           chase = false
           setTimeout(() => {
             chase = true
@@ -407,6 +410,7 @@ const main = setTimeout(() => {
           audio.play()
           pacmanMoves.push(pacman)
         } else if (maze[pacman + (width - 1)].classList.contains('superFood')) {
+          chase = true
           chase = false
           setTimeout(() => {
             chase = true
@@ -472,7 +476,7 @@ const main = setTimeout(() => {
       ghostOnePositionsLog.push(ghost1)
 
       // CHASE IS TRUE 
-      if (chase === true) {
+      if (chase) {
         maze[ghost1].classList.remove('scared-ghost-1')
         maze[ghost1].classList.add('ghost-1')
 
@@ -556,7 +560,7 @@ const main = setTimeout(() => {
         }
 
         //CHASE IS FALSE
-      } else if (chase === false) {
+      } else if (!chase) {
         maze[ghost1].classList.remove('ghost-1')
         maze[ghost1].classList.add('scared-ghost-1')
         if (!noRight.includes(ghost1) && ghost1 + 1 !== ghostOnePositionsLog[ghostOnePositionsLog.length - 2]) {
@@ -639,7 +643,7 @@ const main = setTimeout(() => {
       const ghostTwoDirections = []
       ghostTwoPositionsLog.push(ghost2)
 
-      if (chase === true) {
+      if (chase) {
         maze[ghost2].classList.remove('scared-ghost-2')
         maze[ghost2].classList.add('ghost-2')
 
@@ -714,7 +718,7 @@ const main = setTimeout(() => {
           }
         }
         // SCARED MODE
-      } else if (chase === false) {
+      } else if (!chase) {
         maze[ghost2].classList.remove('ghost-2')
         maze[ghost2].classList.add('scared-ghost-2')
 
@@ -1158,6 +1162,7 @@ const main = setTimeout(() => {
       gameTimer -= 1
       timer.innerHTML = gameTimer
       timer.style.color = 'red'
+      timer.style.animation = 'pulsing 0.5s linear alternate 20'
     } else {
       gameTimer -= 1
       timer.innerHTML = gameTimer
@@ -1220,7 +1225,7 @@ const main = setTimeout(() => {
 
           // document.addEventListener('keydown', pacmanMove)
 
-
+  
           maze[ghost1].classList.add('cell')
           maze[ghost2].classList.add('cell')
           maze[ghost3].classList.add('cell')
