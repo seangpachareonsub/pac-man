@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/style2.css">
+  <link href="https://fonts.googleapis.com/css?family=Changa|Press+Start+2P&display=swap" rel="stylesheet">
+  <script src="./js/map2.js"></script>
+  <title>Document</title>
+</head>
+<body>
+
+
+ <!-- START GAME COUNTDOWN -->
+ <header>
+  <h1 class="count">3</h1>
+</header>
+
+<audio src=""></audio>
+
+<div class="container">
+
+  <!-- LEFT SIDE OF PAGE -->
+  <div class="board-container">
+
+
+   <h4 id='score-header'> 1UP <span class='score'> 0 </span> </h4>
+      
+
+    <!-- GRID BOARD -->
+    <main class='grid'>
+      <img id='map' src="../media/images/map2.png" alt="">
+    </main>
+
+
+    <!-- LIVES AND TIMER SECTION -->
+    <section>
+      <!-- LIVES -->
+      <div class='lives-contain'>
+        <img id='life1' class='lives' alt='' src="../media/images/pixel-smile-icons-pac-man-character-vector-15777689.png">
+        <img id='life2' class='lives' alt='' src="../media/images/pixel-smile-icons-pac-man-character-vector-15777689.png">
+        <img id='life3' class='lives' alt='' src="../media/images/pixel-smile-icons-pac-man-character-vector-15777689.png">
+      </div>
+
+      <!-- COUNTER -->
+        <h4 id='timer-header'>TIME <span class='timer'> 45 </span> </h4>
+
+    </section>
+  </div>
+
+
+  <!-- RIGHT SIDE OF PAGE -->
+  <aside>
+    <!-- NAVABR -->
+    <nav>
+      <a href='homepage.html' id='homepage'> HOMEPAGE </a>
+      <a href='map1.html' id='homepage'> MAP ONE </a>
+      <a href='map2.html' id='restart'> RESTART</a>  
+    </nav>
+   
+
+    <!-- SCOREBOARD -->
+    <div class='score-board'>
+      <h2>SCORE LEADERBOARD</h2>
+      <ol></ol>
+    </div>
+  </aside>
+</div>
+
+
+
+<!-- GAMEOVER FOOTER MODAL-->
+<footer>
+  <h1 class="gameEnd"> GAME OVER </h1>
+
+  <div class='final'>
+    <label for=""> NAME: <input type="name"> </input> </label>
+    <label for=""> FINAL SCORE: <h3 class='finalScore'> 0 </h3> </label>
+  </div>
+
+  <button class='submit' type="submit"> SUBMIT SCORE </button>
+
+</footer>
+
+
+  
+</body>
+</html>
