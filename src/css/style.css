@@ -169,16 +169,14 @@ li {
   z-index: 0;
 }
 
-.pacman{
+.pacman {
   width:18.5px;
   height:19.7px;
   background-image: url(../../media/images/noisy-texture-300x300-o7.000000000000001-d10-c-ffd500-t0.png);
   z-index: 1;
   border-radius: 50%;
-  transform:scale(1.45)
-  /* animation: move-right linear forwards 0.4s; */
+  transform:scale(1.45);
 }
-
 
 .pacman-right {
   animation: move-right 0.115s linear
@@ -186,7 +184,7 @@ li {
 
 @keyframes move-right {
   0% {transform: translate(-100%, 0%) scale(1.45)}
-  100% {transform: translate(0%, 0%)scale(1.45)}
+  100% {transform: translate(0%, 0%) scale(1.45)}
 }
 
 .pacman-left {
@@ -217,22 +215,19 @@ li {
 }
 
 @keyframes pulsing {
-  from{transform: scale(1);}
-  to{transform: scale(1.5);}
+  from {transform: scale(1)}
+  to {transform: scale(1.5)}
 }
 
 
-.superFood{
+.superFood {
   width:18.5px;
   height:19.7px;
   background-color: teal;
   border-radius: 50%;
   transform: scale(0.8);
   z-index: 1;
-  
-  /* animation: move-right linear forwards 0.4s; */
 }
-
 
 .ghost-1{
   width:18.5px;
@@ -261,7 +256,8 @@ li {
   background-size: contain;
   z-index: 1;
 }
-.ghost-4{
+
+.ghost-4 {
   width:18.5px;
   height:19.7px;
   transform: scale(1.45);
@@ -269,9 +265,9 @@ li {
   background-repeat: no-repeat;
   background-size: contain;
   z-index: 1;
-  /* animation:  blinking 0.13s alternate 6; */
-
 }
+
+
 .scared-ghost-1{
   width:18.5px;
   height:19.7px;
@@ -427,4 +423,4 @@ button:hover {
     display: none
   }
 }
-
+ 

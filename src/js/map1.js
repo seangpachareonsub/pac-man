@@ -30,8 +30,8 @@ const main = setTimeout(() => {
   container.style.display = 'flex'
 
   const maze = []
-  let pacman = 783
 
+  let pacman = 783
   let ghost1 = 395
   let ghost2 = 397
   let ghost3 = 400
@@ -221,7 +221,7 @@ const main = setTimeout(() => {
       // USER
       if (playerMovement === 2) {
 
-        if (noRight.includes(pacman)) {
+        if (noRight.includes(pacman + 1)) {
           return
         } else {
           if (pacman === 508) {
@@ -908,10 +908,10 @@ const main = setTimeout(() => {
       }
     }, 120)
   }
-  ghostOne()
-  ghostTwo()
-  ghostThree()
-  ghostFour()
+  // ghostOne()
+  // ghostTwo()
+  // ghostThree()
+  // ghostFour()
 
 
   //COLLISION LOGIC
@@ -1059,7 +1059,7 @@ const main = setTimeout(() => {
 
       if (maze[pacman].classList.contains('scared-ghost-1')) {
     
-        scaredGhostCollision('scared-ghost-1', ghostLogic1, ghost1)
+        scaredGhostCollision(ghostLogic1, ghost1)
 
         setTimeout(() => {
           maze[ghost1].classList.remove('ghost-left')
@@ -1089,7 +1089,7 @@ const main = setTimeout(() => {
         // SCARED GHOST 2
       } else if (maze[pacman].classList.contains('scared-ghost-2')) {
   
-        scaredGhostCollision('scared-ghost-2', ghostLogic2, ghost2)
+        scaredGhostCollision(ghostLogic2, ghost2)
 
         setTimeout(() => {
           maze[ghost2].classList.remove('ghost-left')
@@ -1146,7 +1146,7 @@ const main = setTimeout(() => {
 
         // SCARED GHOST 4
       } else if (maze[pacman].classList.contains('scared-ghost-4')) {
-        scaredGhostCollision('scared-ghost-4', ghostLogic4, ghost4)
+        scaredGhostCollision(ghostLogic4, ghost4)
 
         setTimeout(() => {
           maze[ghost4].classList.remove('ghost-left')
@@ -1191,7 +1191,7 @@ const main = setTimeout(() => {
       const players = JSON.parse(localStorage.getItem('mapOne'))
       if (players) {
         scores = players
-        const array = scores.sort((playerA, playerB) => playerB.score - playerA.score).map((player, i) => {
+        const array = scores.sort((a, b) => b.score - a.score).map((player, i) => {
           return `<li> ${i + 1}. ${player.name}: ${player.score} points </li>`
         })
         scoresList.innerHTML = array.join('')
@@ -1203,9 +1203,7 @@ const main = setTimeout(() => {
       //LEADER BOARD AND SCORING WINNERS
       const player = { name: name.value, score: scoreCount }
       scores.push(player)
-      if (localStorage) {
-        localStorage.setItem('mapOne', JSON.stringify(scores))
-      }
+      localStorage ? localStorage.setItem('mapOne', JSON.stringify(scores)) : null
       gameOver.style.display = 'none'
       container.style.opacity = '1'
       displayScore()
