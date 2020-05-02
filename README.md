@@ -11,7 +11,7 @@ My first project of the Software Engineering bootcamp at GA London. Given a list
 
 You can launch the game on [GitHub pages](https://seangpachareonsub.github.io/pac-man/src/index.html), or find the [GitHub repository](https://github.com/seangpachareonsub/pac-man).
 
-### Technical Requirements:
+#### Technical Requirements:
 * Render a game in the browser
 * Design logic for winning 
 * Include separate HTML / CSS / JavaScript files
@@ -20,14 +20,14 @@ You can launch the game on [GitHub pages](https://seangpachareonsub.github.io/pa
 * Deploy your game online, where the rest of the world can access it
 * Use semantic markup for HTML and CSS (adhere to best practices)
 
-### Technologies Used:
+#### Technologies Used:
 * HTML5
 * CSS3
 * JavaScript (ES6)
 * Git and GitHub
 * Google Fonts
 
-### Approach
+## Approach
 
 ### Grid and Character Design
 
