@@ -221,7 +221,7 @@ const main = setTimeout(() => {
       // USER
       if (playerMovement === 2) {
 
-        if (noRight.includes(pacman + 1)) {
+        if (noRight.includes(pacman)) {
           return
         } else {
           if (pacman === 508) {

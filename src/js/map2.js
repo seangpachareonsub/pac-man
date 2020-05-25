@@ -797,10 +797,10 @@ const main = setTimeout(() => {
       }
     }, 120)
   }
-  // ghostOne()
-  // ghostTwo()
-  // ghostThree()
-  // ghostFour()
+  ghostOne()
+  ghostTwo()
+  ghostThree()
+  ghostFour()
 
 
   let lives = 3
